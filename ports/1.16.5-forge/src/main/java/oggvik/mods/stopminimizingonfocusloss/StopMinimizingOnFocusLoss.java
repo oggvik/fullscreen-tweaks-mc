@@ -9,6 +9,7 @@ import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
+import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(StopMinimizingOnFocusLoss.MOD_ID)
 public final class StopMinimizingOnFocusLoss {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
+    public static final String MOD_NAME = "Stop Minimizing on Focus Loss";
     private static final Logger LOGGER = LogManager.getLogger();
 
     public StopMinimizingOnFocusLoss() {
@@ -28,5 +30,6 @@ public final class StopMinimizingOnFocusLoss {
         );
 
         LOGGER.info("Preventing fullscreen auto-minimize on focus loss");
+        SettingsManager.initialize();
     }
 }

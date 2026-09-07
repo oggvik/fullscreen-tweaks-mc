@@ -4,6 +4,7 @@
   "minVersion": "0.8",
   "__mixin_refmap_placeholder__": "",
   "client": [
+    "__settings_mixin_placeholder__": "",
     "WindowMixin"
   ],
   "mixins": [

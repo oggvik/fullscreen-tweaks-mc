@@ -5,6 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "stop_minimizing_on_focus_loss.refmap.json",
   "client": [
+    "OptionsScreenMixin",
+    "ScreenLayoutMixin",
+    "WidgetBoundsAccessor",
     "WindowMixin"
   ],
   "mixins": [

@@ -3,13 +3,14 @@
 
 modLoader = "javafml"
 loaderVersion = "[36,)"
-issueTrackerURL = "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc/issues"
+issueTrackerURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/issues"
 license = "AGPL-3.0-or-later"
 
 [[mods]]
 modId = "stop_minimizing_on_focus_loss"
 version = "${file.jarVersion}"
 displayName = "Stop Minimizing on Focus Loss"
+displayURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc"
 authors = "Oggvik"
 logoFile = "icon.png"
 description = '''

@@ -18,7 +18,7 @@ This port exists because Forge 1.16.5 uses `net.minecraft.client.MainWindow` ins
 The release jar is written to:
 
 ```text
-build/libs/stop_minimizing_on_focus_loss-0.1.1+1.16.5-forge.jar
+build/libs/stop_minimizing_on_focus_loss-1.0.0+1.16.5-forge.jar
 ```
 
 Run the client:

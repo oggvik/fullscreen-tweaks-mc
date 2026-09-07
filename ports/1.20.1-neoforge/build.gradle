@@ -6,7 +6,7 @@ plugins {
     id 'net.neoforged.moddev.legacyforge' version '2.0.141'
 }
 
-version = '0.1.1+1.20.1-neoforge'
+version = '1.0.0+1.20.1-neoforge'
 group = 'oggvik.mods.stopminimizingonfocusloss'
 
 base {

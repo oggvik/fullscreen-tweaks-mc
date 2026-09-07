@@ -26,7 +26,7 @@ while IFS= read -r -d '' jar; do
 
     if [[ ! "$name" =~ -([0-9]+[.][0-9]+[.][0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)([+][^/]+)?[.]jar$ ]]; then
         echo "Unable to determine mod version from jar name: $name" >&2
-        echo "Expected a name like modid-0.1.1+target.jar" >&2
+        echo "Expected a name like modid-1.0.0+target.jar" >&2
         exit 1
     fi
 
