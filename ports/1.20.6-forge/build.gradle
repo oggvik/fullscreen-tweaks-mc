@@ -1,0 +1,82 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+}
+
+version = '0.1.1+1.20.6-forge'
+group = 'oggvik.mods.stopminimizingonfocusloss'
+
+def modId = 'stop_minimizing_on_focus_loss'
+
+base {
+    archivesName = modId
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.20.6'
+    copyIdeResources = true
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                stop_minimizing_on_focus_loss {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+mixin {
+    add sourceSets.main, "${modId}.refmap.json"
+    config "${modId}.mixins.json"
+}
+
+repositories {
+    maven {
+        name = 'Sponge'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.6-50.2.8'
+
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+jar {
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes([
+                'Specification-Title'     : modId,
+                'Specification-Vendor'    : 'Oggvik',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : "${version}",
+                'Implementation-Vendor'   : 'Oggvik',
+                'MixinConfigs'            : "${modId}.mixins.json",
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}

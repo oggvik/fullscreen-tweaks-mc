@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 Oggvik
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+modLoader = "javafml"
+loaderVersion = "[36,)"
+issueTrackerURL = "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc/issues"
+license = "AGPL-3.0-or-later"
+
+[[mods]]
+modId = "stop_minimizing_on_focus_loss"
+version = "${file.jarVersion}"
+displayName = "Stop Minimizing on Focus Loss"
+authors = "Oggvik"
+logoFile = "icon.png"
+description = '''
+Prevents Minecraft fullscreen windows from minimizing when focus is lost.
+'''
+
+[["dependencies.stop_minimizing_on_focus_loss"]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[["dependencies.stop_minimizing_on_focus_loss"]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5]"
+ordering = "NONE"
+side = "CLIENT"

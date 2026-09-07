@@ -1,0 +1,69 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+plugins {
+    id 'babric-loom' version '1.5-SNAPSHOT'
+    id 'java'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    gluedMinecraftJar()
+    customMinecraftManifest.set("https://babric.github.io/manifest-polyfill/${minecraft_version}.json")
+    intermediaryUrl.set("https://maven.glass-launcher.net/babric/babric/intermediary/%1\$s/intermediary-%1\$s-v2.jar")
+}
+
+repositories {
+    maven {
+        name = 'Babric'
+        url = 'https://maven.glass-launcher.net/babric'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "babric:barn:${project.yarn_mappings}:v2"
+    modImplementation "babric:fabric-loader:${project.loader_version}"
+
+    implementation "org.slf4j:slf4j-api:1.8.0-beta4"
+    implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
+}
+
+processResources {
+    def props = [version: project.version, loader_version: project.loader_version]
+    inputs.properties(props)
+    filesMatching('fabric.mod.json') {
+        expand(props)
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    from sourceSets.main.output
+}
+
+tasks.register('copyRemappedJarToLibs', Copy) {
+    dependsOn tasks.named('remapJar')
+    from layout.buildDirectory.file("devlibs/${project.archives_base_name}-${project.version}-dev.jar")
+    into layout.buildDirectory.dir('libs')
+    rename { "${project.archives_base_name}-${project.version}.jar" }
+}
+
+tasks.named('build') {
+    finalizedBy tasks.named('copyRemappedJarToLibs')
+}

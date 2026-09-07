@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "oggvik.mods.stopminimizingonfocusloss.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "stop_minimizing_on_focus_loss.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "MainWindowMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

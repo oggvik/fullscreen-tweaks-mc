@@ -1,0 +1,13 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/'; name = 'Fabric' }
+        maven { url = 'https://maven.thesignalumproject.net/infrastructure'; name = 'SignalumMavenInfrastructure' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'stop-minimizing-on-focus-loss-bta-babric'

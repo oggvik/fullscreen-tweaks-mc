@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "${mod_group}",
+    "id": "${mod_id}",
+    "version": "${version}",
+    "metadata": {
+      "name": "${mod_name}",
+      "description": "${mod_description}",
+      "contributors": {
+        "${mod_author}": "Developer"
+      },
+      "contact": {
+        "homepage": "${repo_url}",
+        "issues": "${repo_issues_url}",
+        "sources": "${repo_sources_url}"
+      },
+      "license": "${mod_license}",
+      "icon": "icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "versions": ">=${quilt_loader_version}"
+      },
+      {
+        "id": "minecraft",
+        "versions": ${minecraft_dependency}
+      },
+      {
+        "id": "java",
+        "versions": ">=${java_version}"
+      }
+    ]
+  },
+  "mixin": {
+    "config": "stop_minimizing_on_focus_loss.mixins.json",
+    "environment": "client"
+  },
+  "minecraft": {
+    "environment": "client"
+  }
+}

@@ -1,0 +1,24 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url = 'https://maven.quiltmc.org/repository/release/' }
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.parchmentmc.org/' }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.quiltmc.org/repository/release/' }
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.parchmentmc.org/' }
+    }
+}
+
+rootProject.name = 'stop-minimizing-on-focus-loss-quilt'

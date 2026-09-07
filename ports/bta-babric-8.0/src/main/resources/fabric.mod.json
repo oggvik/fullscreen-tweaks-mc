@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "stop_minimizing_on_focus_loss",
+	"version": "${version}",
+	"name": "Stop Minimizing on Focus Loss",
+	"description": "Prevents Better Than Adventure fullscreen windows from minimizing by disabling GLFW auto-iconify.",
+	"authors": [
+		"Oggvik"
+	],
+	"contact": {
+		"homepage": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc",
+		"issues": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc/issues",
+		"sources": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc"
+	},
+	"icon": "icon.png",
+	"license": "AGPL-3.0-or-later",
+	"environment": "client",
+	"mixins": [
+		"stop_minimizing_on_focus_loss.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${fabricloader}",
+		"minecraft": "*",
+		"java": ">=${java}"
+	},
+	"suggests": {
+		"modmenu": ">=${modmenu}"
+	}
+}

@@ -1,0 +1,6 @@
+{
+  "pack": {
+    "description": "Prevents Minecraft fullscreen windows from minimizing when focus is lost.",
+    "pack_format": 15
+  }
+}

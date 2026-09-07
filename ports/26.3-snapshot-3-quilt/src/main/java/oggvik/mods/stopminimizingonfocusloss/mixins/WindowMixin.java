@@ -1,0 +1,36 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+package oggvik.mods.stopminimizingonfocusloss.mixins;
+
+import com.mojang.blaze3d.platform.Window;
+import org.lwjgl.glfw.GLFW;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(Window.class)
+public class WindowMixin {
+    @Shadow
+    @Final
+    private long handle;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterCreate(CallbackInfo info) {
+        stopMinimizingOnFocusLoss$disableAutoIconifyWindow();
+    }
+
+    @Inject(method = "setMode", at = @At("RETURN"))
+    private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterModeChange(CallbackInfo info) {
+        stopMinimizingOnFocusLoss$disableAutoIconifyWindow();
+    }
+
+    @Unique
+    private void stopMinimizingOnFocusLoss$disableAutoIconifyWindow() {
+        GLFW.glfwSetWindowAttrib(this.handle, GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "${repo_url}",
+    "issues": "${repo_issues_url}",
+    "sources": "${repo_sources_url}"
+  },
+  "icon": "icon.png",
+  "license": "${mod_license}",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=${fabricLoader}",
+    "minecraft": "${mc}",
+    "java": ">=${java_version}"
+  },
+  "entrypoints": {
+    "client": [
+      "oggvik.mods.stopminimizingonfocusloss.platform.PlatformEntrypoint"
+    ]
+  }
+}

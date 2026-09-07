@@ -1,0 +1,83 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+plugins {
+    id 'java'
+    id 'org.quiltmc.loom' version '1.14.3'
+}
+
+version = project.mod_version
+group = project.mod_group
+
+base {
+    archivesName = project.mod_id
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.java_version as int)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    def targetJava = project.java_version as int
+    sourceCompatibility = project.java_version
+    targetCompatibility = project.java_version
+    if (targetJava > 8) {
+        options.release = targetJava
+    }
+}
+
+loom {
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.parchmentmc.org/' }
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        def parchmentVersion = findProperty('parchment_version') ?: ''
+        if (!parchmentVersion.isBlank()) {
+            parchment("org.parchmentmc.data:parchment-${project.parchment_minecraft}:${parchmentVersion}@zip")
+        }
+    }
+    modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
+    modLocalRuntime "maven.modrinth:modmenu:${project.mod_menu_version}"
+}
+
+processResources {
+    def props = [
+            version             : project.version,
+            mod_id              : project.mod_id,
+            mod_name            : project.mod_name,
+            mod_author          : project.mod_author,
+            mod_description     : project.mod_description,
+            mod_license         : project.mod_license,
+            mod_group           : project.mod_group,
+            repo_url            : project.repo_url,
+            repo_issues_url     : project.repo_issues_url,
+            repo_sources_url    : project.repo_sources_url,
+            minecraft_dependency: project.minecraft_dependency,
+            java_version        : project.java_version,
+            quilt_loader_version: project.quilt_loader_version,
+            pack_format         : project.pack_format
+    ]
+    inputs.properties(props)
+    from(rootProject.file('../../src/main/resources/assets/stop_minimizing_on_focus_loss/lang/en_us.json')) {
+        into 'assets/stop_minimizing_on_focus_loss/lang'
+    }
+    filesMatching(['quilt.mod.json', 'pack.mcmeta']) {
+        expand(props)
+    }
+}

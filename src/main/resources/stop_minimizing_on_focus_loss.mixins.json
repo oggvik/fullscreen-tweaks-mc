@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "oggvik.mods.stopminimizingonfocusloss.mixins",
+  "minVersion": "0.8",
+  "__mixin_refmap_placeholder__": "",
+  "client": [
+    "WindowMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "stop_minimizing_on_focus_loss",
+  "version": "${version}",
+  "name": "Stop Minimizing on Focus Loss",
+  "description": "Experimental b1.7.3 compatibility build; vanilla b1.7.3 does not expose the relevant native fullscreen behavior.",
+  "authors": [
+    "Oggvik"
+  ],
+  "contact": {
+    "homepage": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc",
+    "issues": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc/issues",
+    "sources": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc"
+  },
+  "license": "AGPL-3.0-or-later",
+  "icon": "icon.png",
+  "environment": "client",
+  "mixins": [
+    "stop_minimizing_on_focus_loss.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}

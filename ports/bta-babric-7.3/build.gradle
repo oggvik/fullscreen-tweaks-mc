@@ -1,0 +1,105 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import com.smushytaco.lwjgl_gradle.Preset
+
+plugins {
+    id 'java'
+    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
+    id 'com.smushytaco.lwjgl3' version '1.0.2'
+}
+
+version = project.mod_version
+group = project.mod_group
+
+base {
+    archivesName = project.mod_id
+}
+
+loom {
+    customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${project.bta_channel}/v${project.bta_version}/manifest.json")
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/'; name = 'Fabric' }
+    maven { url = 'https://maven.thesignalumproject.net/infrastructure'; name = 'SignalumMavenInfrastructure' }
+    maven { url = 'https://maven.thesignalumproject.net/releases'; name = 'SignalumMavenReleases' }
+    ivy {
+        url = uri('https://github.com/Better-than-Adventure')
+        patternLayout { artifact('[organisation]/releases/download/[revision]/[module]-bta-[revision].jar') }
+        metadataSources { artifact() }
+    }
+    ivy {
+        url = uri("https://downloads.betterthanadventure.net/bta-client/${project.bta_channel}/")
+        patternLayout { artifact('/v[revision]/client.jar') }
+        metadataSources { artifact() }
+    }
+    ivy {
+        url = uri("https://downloads.betterthanadventure.net/bta-server/${project.bta_channel}/")
+        patternLayout { artifact('/v[revision]/server.jar') }
+        metadataSources { artifact() }
+    }
+    ivy {
+        url = uri('https://piston-data.mojang.com')
+        patternLayout { artifact('v1/[organisation]/[revision]/[module].jar') }
+        metadataSources { artifact() }
+    }
+}
+
+lwjgl {
+    version = project.lwjgl_version
+    implementation([Preset.MINIMAL_OPENGL], 'implementation')
+}
+
+dependencies {
+    minecraft "::${project.bta_version}"
+    runtimeOnly 'objects:client:43db9b498cb67058d2e12d394e6507722e71bb45'
+
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "com.github.Better-than-Adventure:legacy-lwjgl3:${project.legacy_lwjgl_version}"
+
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'com.google.guava:guava:33.5.0-jre'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.20.0'
+    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'org.apache.commons:commons-lang3:3.20.0'
+    include 'org.apache.commons:commons-lang3:3.20.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.java_version as int)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+    sourceCompatibility = JavaVersion.toVersion(project.java_version)
+    targetCompatibility = JavaVersion.toVersion(project.java_version)
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaExec).configureEach {
+    defaultCharacterEncoding = 'UTF-8'
+}
+
+processResources {
+    def props = [
+            version       : project.version,
+            loader_version: project.loader_version,
+            java_version  : project.java_version
+    ]
+    inputs.properties(props)
+    filesMatching('fabric.mod.json') {
+        expand(props)
+    }
+}
+
+configurations.configureEach {
+    exclude group: 'org.lwjgl.lwjgl'
+}

@@ -1,0 +1,82 @@
+// SPDX-FileCopyrightText: 2026 Oggvik
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.141'
+}
+
+version = '0.1.1+1.20.1-neoforge'
+group = 'oggvik.mods.stopminimizingonfocusloss'
+
+base {
+    archivesName = 'stop_minimizing_on_focus_loss'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+legacyForge {
+    enable {
+        neoForgeVersion = '1.20.1-47.1.106'
+    }
+
+    parchment {
+        minecraftVersion = '1.20.1'
+        mappingsVersion = '2023.09.03'
+    }
+
+    runs {
+        client {
+            client()
+            gameDirectory = project.file('run')
+            systemProperty 'forge.logging.console.level', 'debug'
+        }
+    }
+
+    mods {
+        stop_minimizing_on_focus_loss {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = 'Sponge'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, 'stop_minimizing_on_focus_loss.refmap.json'
+    config 'stop_minimizing_on_focus_loss.mixins.json'
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title'     : 'stop_minimizing_on_focus_loss',
+                'Specification-Vendor'    : 'Oggvik',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : "${version}",
+                'Implementation-Vendor'   : 'Oggvik',
+                'MixinConfigs'            : 'stop_minimizing_on_focus_loss.mixins.json',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}

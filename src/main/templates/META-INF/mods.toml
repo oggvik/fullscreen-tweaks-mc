@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 Oggvik
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "${repo_issues_url}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+displayTest = "IGNORE_SERVER_VERSION"
+description = '''
+${mod_description}
+'''
+logoFile = "icon.png"
+
+[["dependencies.${mod_id}"]]
+modId = "forge"
+mandatory = true
+ordering = "NONE"
+side = "CLIENT"
+
+[["dependencies.${mod_id}"]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${mc}"
+ordering = "NONE"
+side = "CLIENT"
