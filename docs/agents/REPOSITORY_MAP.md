@@ -21,7 +21,7 @@ Root `settings.gradle.kts` declares all Stonecutter projects. Root `build.gradle
 
 ## Runtime structure
 
-- `config/` code owns the two persistent settings: minimization prevention and fullscreen mode.
+- `config/` code owns the four persistent settings: minimization prevention, fullscreen mode, loading-screen mode, and minimized startup.
 - `window/` or `platform/` code bridges Minecraft to GLFW or LWJGL2 and applies the selected policy.
 - `mixins/` inject lifecycle and Options-screen behavior on modern targets.
 - Legacy Forge ports use event subscribers and sided proxies instead of mixins.

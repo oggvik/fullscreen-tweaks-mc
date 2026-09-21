@@ -17,7 +17,9 @@ Borderless mode detaches the window from native fullscreen, removes decorations,
 
 The controller reapplies the policy after window creation and fullscreen transitions. If Minecraft is windowed, it chooses the monitor with the greatest overlap and falls back to the primary monitor. Native handles, monitor choices, and video modes are never persisted.
 
-Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. That target is retained as a buildable template no-op.
+Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on that target, while its startup-window controller uses SDL3 to select the loading mode and minimize the window.
+
+At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. The controller restores the regular choice when Minecraft clears its startup overlay. If the mod minimized the window and it is still minimized at that point, restoration preserves that state; manually restoring the window during loading takes precedence.
 
 ## Version-specific hooks
 
@@ -31,7 +33,7 @@ Stonecutter conditions select the correct handle field, identifier type, GUI ren
 
 ## Settings and UI
 
-The properties file stores only `preventAutoIconify` and `fullscreenMode`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; fullscreen mode defaults to borderless on Windows and native on other systems.
+The properties file stores `preventAutoIconify`, `fullscreenMode`, `loadingScreenMode`, and `startMinimized`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; fullscreen mode defaults to borderless on Windows and native on other systems. The loading screen follows the game by default and does not start minimized.
 
 The settings button is attached to the main Options screen so replacements for video settings, including Sodium and Embeddium, do not remove the entry point. Its geometry helper checks visible widget bounds, tries aligned free slots, uses a compact button when necessary, and hides the control if no safe position exists.
 

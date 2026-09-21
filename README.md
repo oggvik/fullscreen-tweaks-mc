@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 [![Gradle CI](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml/badge.svg)](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE.md)
 
-A client-side Minecraft mod that keeps fullscreen Minecraft visible when you alt-tab, click another monitor, or move focus to another application. Version 1.0.0 supports native and borderless fullscreen across a large range of Minecraft and loader versions.
+A client-side Minecraft mod that keeps fullscreen Minecraft visible when you alt-tab, click another monitor, or move focus to another application. Version 1.1.0 also lets the loading screen use a window mode and minimized state independently from the rest of the game.
 
 Install the jar that matches both your Minecraft version and mod loader. No server installation is required.
 
@@ -17,9 +17,11 @@ Install the jar that matches both your Minecraft version and mod loader. No serv
 - Prevents supported fullscreen windows from minimizing when focus is lost.
 - Lets you enable or disable minimization prevention independently of fullscreen mode.
 - Provides native and borderless fullscreen modes.
+- Lets the loading screen follow the game, stay windowed, or use fullscreen.
+- Can start the loading screen minimized and restore the selected game window mode when loading finishes.
 - Defaults to borderless on Windows and native fullscreen with auto-iconification disabled elsewhere.
 - Follows the monitor containing most of the Minecraft window.
-- Stores two portable settings in `config/stop-minimizing-on-focus-loss.properties`.
+- Stores four portable settings in `config/stop-minimizing-on-focus-loss.properties`.
 - Adds a **Fullscreen settings** entry to Minecraft's main Options screen on supported GUI targets.
 
 ## Configuration
@@ -29,6 +31,8 @@ Open **Options → Fullscreen settings** in Minecraft. The page controls:
 - **Fullscreen:** Minecraft's normal fullscreen setting. F11 and other screens use the same value.
 - **Prevent minimizing on focus loss:** enables or disables this mod's focus-loss policy.
 - **Fullscreen mode:** chooses native or borderless fullscreen.
+- **Loading screen:** follows the game's fullscreen setting or temporarily forces the loading screen to be windowed or fullscreen.
+- **Start loading screen minimized:** starts Minecraft minimized in the operating system's taskbar or dock. The window remains minimized when its regular mode is restored after loading, unless you restore it manually first.
 
 The Options entry searches for a free position without moving other mods' controls. On crowded screens it can shrink to `...` or hide until a slot becomes available.
 

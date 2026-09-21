@@ -39,7 +39,7 @@ Choose a jar by Minecraft version and loader. The Java column is the class-file 
 | `26.2` | Fabric / Quilt port | 25 | `>=26.2 <26.3` | Extractor-era GLFW implementation |
 | `26.2` | NeoForge | 25 | `[26.2,26.3)` | Extractor-era GLFW implementation |
 | `26.3-snapshot-1`–`-3` | Fabric / Quilt ports | 25 | exact `26.3-alpha.1`–`.3` | Extractor-era GLFW implementation |
-| `26.3-snapshot-4` | Fabric | 25 | exact `26.3-alpha.4` | Template no-op: Minecraft moved to SDL3 |
+| `26.3-snapshot-4` | Fabric | 25 | exact `26.3-alpha.4` | SDL3 loading-window controls; focus-loss policy is unnecessary |
 | `b1.7.3` | Babric standalone | 8 | exact `1.0.0-beta.7.3` | Experimental no-op; no supported GLFW hook |
 | BTA `7.3_04` | Babric standalone | 8 | `*` | GLFW controller and properties config; no injected GUI |
 | BTA `8.0.1` | Babric standalone | 17 | `*` | GLFW controller and properties config; build runs on JDK 21 |

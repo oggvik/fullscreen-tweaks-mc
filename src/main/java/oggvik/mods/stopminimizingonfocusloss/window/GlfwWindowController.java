@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 /*?}*/
 
-/** Applies the two-setting fullscreen policy to Minecraft's GLFW window. */
+/** Applies the runtime fullscreen policy to Minecraft's GLFW window. */
 public final class GlfwWindowController {
     private static long managedWindow;
     private static boolean managedBorderless;
