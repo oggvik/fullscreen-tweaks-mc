@@ -143,6 +143,7 @@ stonecutter {
         put("new_window_handle", stonecutter.eval(mcVersion, ">=1.21.11") || stonecutter.eval(mcVersion, ">=26.1"))
         put("new_set_screen", stonecutter.eval(mcVersion, ">=26.2"))
         put("new_gui_owner", stonecutter.eval(mcVersion, ">=26.2"))
+        put("exclusive_fullscreen_query", mcVersion == "26.3")
         put("window_show_method", stonecutter.current.project == "26.3-snapshot-4-fabric")
         put("old_minecraft_window_field", stonecutter.eval(mcVersion, "<=1.14.4"))
         put("legacy_string_button", stonecutter.eval(mcVersion, "<=1.15.2"))
