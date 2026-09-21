@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.Window;
 import oggvik.mods.stopminimizingonfocusloss.config.LoadingScreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import oggvik.mods.stopminimizingonfocusloss.mixins.WindowModeAccessor;
+import oggvik.mods.stopminimizingonfocusloss.platform.MinecraftWindowBridge;
 /*? if template_noop {*/
 /*import org.lwjgl.sdl.SDLVideo;
 *//*?} else {*/
@@ -55,6 +56,7 @@ public final class StartupWindowController {
             return;
         }
         startupActive = false;
+        MinecraftWindowBridge.setFullscreenSetting(gameFullscreen);
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
         if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != gameFullscreen) {
             accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);

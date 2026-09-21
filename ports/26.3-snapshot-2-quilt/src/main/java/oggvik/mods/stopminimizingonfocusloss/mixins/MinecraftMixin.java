@@ -55,7 +55,7 @@ public class MinecraftMixin {
     }
     /*?}*/
 
-    /*? if template_noop {*/
+    /*? if template_noop && window_show_method {*/
     /*@Inject(
             method = "<init>",
             at = @At(

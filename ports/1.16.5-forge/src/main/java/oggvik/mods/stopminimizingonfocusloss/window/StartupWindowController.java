@@ -7,6 +7,7 @@ import net.minecraft.client.MainWindow;
 import oggvik.mods.stopminimizingonfocusloss.config.LoadingScreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import oggvik.mods.stopminimizingonfocusloss.mixin.MainWindowModeAccessor;
+import oggvik.mods.stopminimizingonfocusloss.platform.MinecraftWindowBridge;
 import org.lwjgl.glfw.GLFW;
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
@@ -51,6 +52,7 @@ public final class StartupWindowController {
             return;
         }
         startupActive = false;
+        MinecraftWindowBridge.setFullscreenSetting(gameFullscreen);
         MainWindowModeAccessor accessor = (MainWindowModeAccessor) (Object) window;
         if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != gameFullscreen) {
             accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);

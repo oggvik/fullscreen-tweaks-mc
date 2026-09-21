@@ -33,6 +33,15 @@ public final class MinecraftWindowBridge {
         return Minecraft.getInstance().options.fullscreen;
         /*?}*/
     }
+
+    public static void setFullscreenSetting(boolean fullscreen) {
+        /*? if component_factory {*/
+        /*Minecraft.getInstance().options.fullscreen().set(fullscreen);
+        *//*?} else {*/
+        Minecraft.getInstance().options.fullscreen = fullscreen;
+        /*?}*/
+    }
+
     public static void showScreen(Screen screen) {
         /*? if new_set_screen {*/
         /*Minecraft.getInstance().gui.setScreen(screen);
