@@ -43,7 +43,8 @@ for minecraft_version in "${versions[@]}"; do
     cp -R "$generated_root/config" "$generated_root/window" "$generated_root/client" "$target_root/"
     cp "$generated_root/StopMinimizingOnFocusLoss.java" "$target_root/"
     cp "$generated_root/platform/MinecraftWindowBridge.java" "$target_root/platform/"
-    cp "$generated_root/mixins/WindowMixin.java" "$generated_root/mixins/OptionsScreenMixin.java" \
+    cp "$generated_root/mixins/WindowMixin.java" "$generated_root/mixins/WindowModeAccessor.java" \
+        "$generated_root/mixins/MinecraftMixin.java" "$generated_root/mixins/OptionsScreenMixin.java" \
         "$generated_root/mixins/ScreenLayoutMixin.java" "$generated_root/mixins/WidgetBoundsAccessor.java" \
         "$target_root/mixins/"
     cp "$generated_mixin" "$port_root/src/main/resources/stop_minimizing_on_focus_loss.mixins.json"
