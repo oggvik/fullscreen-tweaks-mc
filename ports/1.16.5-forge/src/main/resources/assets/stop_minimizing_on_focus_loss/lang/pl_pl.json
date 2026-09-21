@@ -1,0 +1,23 @@
+{
+  "modmenu.nameTranslation.stop_minimizing_on_focus_loss": "Ulepszenia pełnego ekranu",
+  "stop_minimizing_on_focus_loss.settings.button": "Ustawienia pełnego ekranu...",
+  "stop_minimizing_on_focus_loss.settings.title": "Ulepszenia pełnego ekranu",
+  "stop_minimizing_on_focus_loss.settings.subtitle": "Zachowanie okna podczas gry i uruchamiania",
+  "stop_minimizing_on_focus_loss.option.prevent_auto_iconify": "Blokuj minimalizację natywnego pełnego ekranu",
+  "stop_minimizing_on_focus_loss.option.fullscreen_mode": "Styl pełnego ekranu",
+  "stop_minimizing_on_focus_loss.option.loading_screen_mode": "Okno ekranu ładowania",
+  "stop_minimizing_on_focus_loss.option.start_minimized": "Minimalizuj podczas ładowania",
+  "stop_minimizing_on_focus_loss.tooltip.minecraft_fullscreen": "Zwykłe ustawienie pełnego ekranu Minecrafta.",
+  "stop_minimizing_on_focus_loss.tooltip.prevent_auto_iconify": "Dotyczy tylko natywnego pełnego ekranu; tryb bez ramek zwykle pozostaje widoczny po utracie fokusu.",
+  "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode.native": "Używa pełnego ekranu Minecrafta przypisanego do monitora.",
+  "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode.borderless": "Wypełnia bieżący monitor oknem bez ramek o rozmiarze pulpitu.",
+  "stop_minimizing_on_focus_loss.tooltip.loading_screen_mode.same_as_game": "Podczas ładowania używa zapisanego ustawienia pełnego ekranu gry.",
+  "stop_minimizing_on_focus_loss.tooltip.loading_screen_mode.windowed": "Pozostawia ekran ładowania w oknie, niezależnie od ustawienia gry.",
+  "stop_minimizing_on_focus_loss.tooltip.loading_screen_mode.fullscreen": "Wyświetla ekran ładowania na pełnym ekranie, niezależnie od ustawienia gry.",
+  "stop_minimizing_on_focus_loss.tooltip.start_minimized": "Pozostawia okno zminimalizowane do zakończenia ładowania.",
+  "stop_minimizing_on_focus_loss.value.native": "Natywny",
+  "stop_minimizing_on_focus_loss.value.borderless": "Bez ramek",
+  "stop_minimizing_on_focus_loss.value.same_as_game": "Tak jak w grze",
+  "stop_minimizing_on_focus_loss.value.windowed": "Okno",
+  "stop_minimizing_on_focus_loss.value.fullscreen": "Pełny ekran"
+}
