@@ -8,7 +8,7 @@ license = "AGPL-3.0-or-later"
 
 [[mods]]
 modId = "stop_minimizing_on_focus_loss"
-version = "1.0.0+1.20.1-neoforge"
+version = "1.1.0+1.20.1-neoforge"
 displayName = "Stop Minimizing on Focus Loss"
 displayURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc"
 authors = "Oggvik"
