@@ -16,15 +16,20 @@ Fullscreen Tweaks was previously named **Stop Minimizing on Focus Loss**. The mo
 
 ## Features
 
-- Prevents supported fullscreen windows from minimizing when focus is lost.
-- Lets you enable or disable minimization prevention independently of fullscreen mode.
-- Provides native and borderless fullscreen modes.
-- Lets the loading screen follow the game, stay windowed, or use fullscreen.
-- Can start the loading screen minimized and restore the selected game window mode when loading finishes.
-- Defaults to borderless on Windows and native fullscreen with auto-iconification disabled elsewhere.
-- Follows the monitor containing most of the Minecraft window.
-- Stores four portable settings in `config/stop-minimizing-on-focus-loss.properties`.
-- Adds a **Fullscreen settings** entry to Minecraft's main Options screen on supported GUI targets.
+- Keeps native fullscreen visible when Minecraft loses focus, such as while alt-tabbing, clicking another monitor, or using another application. (**Added in 0.1.0**)
+- Reapplies the focus-loss policy after Minecraft creates its window and whenever it changes window mode, so the behavior remains reliable across fullscreen transitions. (**Added in 0.1.0**)
+- Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Quilt, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
+- Provides a dedicated **Fullscreen settings** screen directly from Minecraft's main Options screen on supported GUI targets. (**Added in 1.0.0**)
+- Lets minimization prevention be enabled or disabled independently from the selected fullscreen style. (**Added in 1.0.0**)
+- Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode. (**Added in 1.0.0**)
+- Makes borderless fullscreen fill the monitor containing most of the Minecraft window, with a safe fallback to the primary monitor. (**Added in 1.0.0**)
+- Uses practical platform defaults: borderless fullscreen on Windows and native fullscreen with minimization prevention elsewhere. (**Added in 1.0.0**)
+- Stores portable settings in `config/stop-minimizing-on-focus-loss.properties` and migrates the original enable/disable setting automatically. (**Added in 1.0.0**)
+- Lets the loading screen follow the game's saved fullscreen setting or independently use windowed or fullscreen mode. (**Added in 1.1.0**)
+- Can keep Minecraft minimized throughout loading, then restore and show it in the regular game window mode when loading finishes. (**Added in 1.1.0**)
+- Restores both the actual window mode and Minecraft's displayed fullscreen setting after temporary loading-window overrides. (**Added in 1.1.0**)
+- Presents multi-choice settings as radio-style controls, with concise labels and an individual tooltip for every setting and choice. (**Added in 1.1.0**)
+- Supports Minecraft's newer SDL3 window backend, including optional classic minimize-on-focus-loss behavior when **Keep fullscreen visible when unfocused** is disabled. (**Added in 1.1.0**)
 
 ## Configuration
 
