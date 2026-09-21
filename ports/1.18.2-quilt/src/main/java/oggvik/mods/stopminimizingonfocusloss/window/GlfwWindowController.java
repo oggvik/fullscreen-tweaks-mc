@@ -27,6 +27,10 @@ public final class GlfwWindowController {
         if (window == 0L) {
             return;
         }
+        if (managedWindow != window) {
+            managedWindow = window;
+            managedBorderless = false;
+        }
 
         FullscreenSettings settings = SettingsManager.get();
         GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_AUTO_ICONIFY,
@@ -43,7 +47,6 @@ public final class GlfwWindowController {
             return;
         }
 
-        managedWindow = window;
         if (settings.getFullscreenMode() == FullscreenMode.BORDERLESS) {
             applyBorderless(window, monitor, desktopMode);
         } else if (managedBorderless || GLFW.glfwGetWindowMonitor(window) == 0L) {
@@ -70,9 +73,21 @@ public final class GlfwWindowController {
             GLFW.glfwSetWindowMonitor(window, 0L, x[0], y[0],
                     desktopMode.width(), desktopMode.height(), GLFW.GLFW_DONT_CARE);
         }
-        GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
-        GLFW.glfwSetWindowPos(window, x[0], y[0]);
-        GLFW.glfwSetWindowSize(window, desktopMode.width(), desktopMode.height());
+        if (GLFW.glfwGetWindowAttrib(window, GLFW.GLFW_DECORATED) != GLFW.GLFW_FALSE) {
+            GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
+        }
+        int[] windowX = new int[1];
+        int[] windowY = new int[1];
+        int[] windowWidth = new int[1];
+        int[] windowHeight = new int[1];
+        GLFW.glfwGetWindowPos(window, windowX, windowY);
+        GLFW.glfwGetWindowSize(window, windowWidth, windowHeight);
+        if (windowX[0] != x[0] || windowY[0] != y[0]) {
+            GLFW.glfwSetWindowPos(window, x[0], y[0]);
+        }
+        if (windowWidth[0] != desktopMode.width() || windowHeight[0] != desktopMode.height()) {
+            GLFW.glfwSetWindowSize(window, desktopMode.width(), desktopMode.height());
+        }
         managedBorderless = true;
     }
 
@@ -141,8 +156,8 @@ public final class GlfwWindowController {
     }
 
     private static void restoreWindowDecorations(long window) {
-        GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
-        if (managedWindow == window) {
+        if (managedWindow == window && managedBorderless) {
+            GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
             managedBorderless = false;
         }
     }
