@@ -3,7 +3,6 @@
 
 package oggvik.mods.stopminimizingonfocusloss.mixins;
 
-/*? if !template_noop {*/
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.AbstractWidget;
 /*? if button_builder {*/
@@ -170,4 +169,3 @@ public abstract class OptionsScreenMixin extends Screen implements SettingsButto
         MinecraftWindowBridge.showScreen(new FullscreenSettingsScreen((Screen) (Object) this));
     }
 }
-/*?}*/

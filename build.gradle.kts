@@ -137,6 +137,7 @@ stonecutter {
         put("forgelike", isForgeLike)
         put("new_window_handle", stonecutter.eval(mcVersion, ">=1.21.11") || stonecutter.eval(mcVersion, ">=26.1"))
         put("new_set_screen", stonecutter.eval(mcVersion, ">=26.2"))
+        put("new_gui_owner", stonecutter.eval(mcVersion, ">=26.2"))
         put("old_minecraft_window_field", stonecutter.eval(mcVersion, "<=1.14.4"))
         put("legacy_string_button", stonecutter.eval(mcVersion, "<=1.15.2"))
         put("legacy_add_button", stonecutter.eval(mcVersion, "<=1.16.5"))
@@ -194,23 +195,24 @@ tasks {
     withType<ProcessResources>().configureEach {
         val mixinRefmapPlaceholder = "\"__mixin_refmap_placeholder__\": \"\","
         val settingsMixinPlaceholder = "\"__settings_mixin_placeholder__\": \"\","
+        val guiMixinPlaceholder = "\"__gui_mixin_placeholder__\": \"\","
         val mixinRefmapLine = if (isForge) {
             "\"refmap\": \"$resolvedModId.refmap.json\","
         } else {
             ""
         }
-        val settingsMixinLine = if (resolveProp("templateNoop")?.toBoolean() == true) {
-            ""
-        } else {
+        val settingsMixinLine =
             "\"OptionsScreenMixin\", \"ScreenLayoutMixin\", \"WidgetBoundsAccessor\","
-        }
+        val guiMixinLine = if (stonecutter.eval(mcVersion, ">=26.2")) "\"GuiMixin\"," else ""
 
         inputs.property("mixin_refmap", mixinRefmapLine)
         inputs.property("settings_mixin", settingsMixinLine)
+        inputs.property("gui_mixin", guiMixinLine)
         filesMatching("$resolvedModId.mixins.json") {
             filter { line: String ->
                 line.replace(mixinRefmapPlaceholder, mixinRefmapLine)
                     .replace(settingsMixinPlaceholder, settingsMixinLine)
+                    .replace(guiMixinPlaceholder, guiMixinLine)
                     .trimEnd()
             }
         }

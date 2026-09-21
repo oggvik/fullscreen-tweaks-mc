@@ -5,6 +5,9 @@
   "__mixin_refmap_placeholder__": "",
   "client": [
     "__settings_mixin_placeholder__": "",
+    "MinecraftMixin",
+    "__gui_mixin_placeholder__": "",
+    "WindowModeAccessor",
     "WindowMixin"
   ],
   "mixins": [

@@ -6,12 +6,10 @@ package oggvik.mods.stopminimizingonfocusloss.platform;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-/*? if !template_noop {*/
 import net.minecraft.client.gui.components.AbstractWidget;
 /*? if !component_factory {*/
 /*import net.minecraft.client.Option;
 *//*?}*/
-/*?}*/
 import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
 
 /** The only Minecraft-version-specific window access used by the settings UI. */
@@ -19,7 +17,6 @@ public final class MinecraftWindowBridge {
     private MinecraftWindowBridge() {
     }
 
-    /*? if !template_noop {*/
     public static AbstractWidget createFullscreenButton(int x, int y, int width) {
         Minecraft minecraft = Minecraft.getInstance();
         /*? if component_factory {*/
@@ -36,8 +33,6 @@ public final class MinecraftWindowBridge {
         /*return Minecraft.getInstance().options.fullscreen;
         *//*?}*/
     }
-    /*?}*/
-
     public static void showScreen(Screen screen) {
         /*? if new_set_screen {*/
         /*Minecraft.getInstance().gui.setScreen(screen);

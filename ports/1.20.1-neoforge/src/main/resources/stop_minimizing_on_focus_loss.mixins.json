@@ -8,6 +8,8 @@
     "OptionsScreenMixin",
     "ScreenLayoutMixin",
     "WidgetBoundsAccessor",
+    "MinecraftMixin",
+    "WindowModeAccessor",
     "WindowMixin"
   ],
   "mixins": [

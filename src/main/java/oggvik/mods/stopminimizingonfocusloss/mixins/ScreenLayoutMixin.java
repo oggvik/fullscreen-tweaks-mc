@@ -3,7 +3,6 @@
 
 package oggvik.mods.stopminimizingonfocusloss.mixins;
 
-/*? if !template_noop {*/
 import net.minecraft.client.gui.screens.Screen;
 import oggvik.mods.stopminimizingonfocusloss.client.SettingsButtonHost;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,4 +24,3 @@ public abstract class ScreenLayoutMixin {
         }
     }
 }
-/*?}*/

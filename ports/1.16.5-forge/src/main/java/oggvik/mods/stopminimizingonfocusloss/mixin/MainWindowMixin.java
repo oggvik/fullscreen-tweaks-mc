@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.IWindowEventListener;
 import net.minecraft.client.renderer.MonitorHandler;
 import net.minecraft.client.renderer.ScreenSize;
 import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
+import oggvik.mods.stopminimizingonfocusloss.window.StartupWindowController;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +26,10 @@ public class MainWindowMixin {
     @Shadow
     private boolean fullscreen;
 
+    @Shadow
+    private void setMode() {
+    }
+
     @Inject(method = "<init>", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterCreate(
             IWindowEventListener eventHandler,
@@ -34,7 +39,15 @@ public class MainWindowMixin {
             String title,
             CallbackInfo info
     ) {
-        stopMinimizingOnFocusLoss$applySettings();
+        boolean gameFullscreen = this.fullscreen;
+        boolean loadingFullscreen = StartupWindowController.loadingFullscreen(gameFullscreen);
+        if (loadingFullscreen != gameFullscreen) {
+            this.fullscreen = loadingFullscreen;
+            this.setMode();
+            this.fullscreen = gameFullscreen;
+            StartupWindowController.markModeOverridden();
+        }
+        GlfwWindowController.apply(this.window, loadingFullscreen);
     }
 
     @Inject(method = "updateFullscreen", at = @At("RETURN"))

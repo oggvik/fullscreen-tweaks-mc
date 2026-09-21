@@ -3,7 +3,6 @@
 
 package oggvik.mods.stopminimizingonfocusloss.client;
 
-/*? if !template_noop {*/
 /*? if render_extractor {*/
 /*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -318,4 +317,3 @@ public final class FullscreenSettingsScreen extends Screen {
     }
     *//*?}*/
 }
-/*?}*/

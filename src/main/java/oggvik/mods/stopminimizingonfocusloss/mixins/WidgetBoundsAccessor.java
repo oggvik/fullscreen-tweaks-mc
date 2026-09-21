@@ -3,7 +3,6 @@
 
 package oggvik.mods.stopminimizingonfocusloss.mixins;
 
-/*? if !template_noop {*/
 import net.minecraft.client.gui.components.AbstractWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -19,4 +18,3 @@ public interface WidgetBoundsAccessor {
     @Accessor("y") void stopMinimizingOnFocusLoss$setY(int value);
     @Accessor("width") void stopMinimizingOnFocusLoss$setWidth(int value);
 }
-/*?}*/
