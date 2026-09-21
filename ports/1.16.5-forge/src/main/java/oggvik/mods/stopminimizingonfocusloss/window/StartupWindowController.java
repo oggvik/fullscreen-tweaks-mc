@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFW;
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
+    private static boolean startupActive;
     private static boolean modeOverridden;
 
     private StartupWindowController() {
@@ -27,25 +28,35 @@ public final class StartupWindowController {
         return gameFullscreen;
     }
 
-    public static void markModeOverridden() {
-        modeOverridden = true;
-    }
-
-    public static void finishLoading(MainWindow window) {
-        if (!modeOverridden || window == null) {
+    public static void beginLoading(MainWindow window) {
+        if (window == null) {
             return;
         }
-        boolean keepMinimized = SettingsManager.get().isStartMinimized()
-                && GLFW.glfwGetWindowAttrib(window.getWindow(), GLFW.GLFW_ICONIFIED) == GLFW.GLFW_TRUE;
-        modeOverridden = false;
-        ((MainWindowModeAccessor) (Object) window).stopMinimizingOnFocusLoss$setMode();
-        if (keepMinimized) {
+        startupActive = true;
+        MainWindowModeAccessor accessor = (MainWindowModeAccessor) (Object) window;
+        boolean gameFullscreen = accessor.stopMinimizingOnFocusLoss$isFullscreen();
+        boolean loadingFullscreen = loadingFullscreen(gameFullscreen);
+        if (loadingFullscreen != gameFullscreen) {
+            accessor.stopMinimizingOnFocusLoss$setFullscreen(loadingFullscreen);
+            accessor.stopMinimizingOnFocusLoss$setMode();
+            accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);
+            modeOverridden = true;
+        }
+        if (SettingsManager.get().isStartMinimized()) {
             GLFW.glfwIconifyWindow(window.getWindow());
         }
     }
 
-    public static void minimizeIfConfigured(MainWindow window) {
-        if (SettingsManager.get().isStartMinimized() && window != null) {
+    public static void finishLoading(MainWindow window) {
+        if (!startupActive || window == null) {
+            return;
+        }
+        startupActive = false;
+        if (modeOverridden) {
+            modeOverridden = false;
+            ((MainWindowModeAccessor) (Object) window).stopMinimizingOnFocusLoss$setMode();
+        }
+        if (SettingsManager.get().isStartMinimized()) {
             GLFW.glfwIconifyWindow(window.getWindow());
         }
     }

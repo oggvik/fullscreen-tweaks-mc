@@ -19,7 +19,7 @@ The controller reapplies the policy after window creation and fullscreen transit
 
 Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on that target, while its startup-window controller uses SDL3 to select the loading mode and minimize the window.
 
-At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. The controller restores the regular choice when Minecraft clears its startup overlay. If the mod minimized the window and it is still minimized at that point, restoration preserves that state; manually restoring the window during loading takes precedence.
+At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. The controller applies these choices after Minecraft finishes configuring its window, restores the regular choice when Minecraft clears its startup overlay, and reapplies minimized startup after that mode transition. Reapplying minimization avoids relying on a compositor-reported iconified state, which is unavailable on Wayland.
 
 ## Version-specific hooks
 

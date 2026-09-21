@@ -32,7 +32,7 @@ Open **Options → Fullscreen settings** in Minecraft. The page controls:
 - **Prevent minimizing on focus loss:** enables or disables this mod's focus-loss policy.
 - **Fullscreen mode:** chooses native or borderless fullscreen.
 - **Loading screen:** follows the game's fullscreen setting or temporarily forces the loading screen to be windowed or fullscreen.
-- **Start loading screen minimized:** starts Minecraft minimized in the operating system's taskbar or dock. The window remains minimized when its regular mode is restored after loading, unless you restore it manually first.
+- **Start loading screen minimized:** starts Minecraft minimized in the operating system's taskbar or dock and keeps it minimized while its regular mode is restored after loading.
 
 The Options entry searches for a free position without moving other mods' controls. On crowded screens it can shrink to `...` or hide until a slot becomes available.
 
