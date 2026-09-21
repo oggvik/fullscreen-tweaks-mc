@@ -36,6 +36,8 @@ Open **Options → Fullscreen settings** in Minecraft. The page controls:
 
 The Options entry searches for a free position without moving other mods' controls. On crowded screens it can shrink to `...` or hide until a slot becomes available.
 
+Fullscreen style and loading-screen mode use radio-style choices so every available mode is visible at once. Hover any setting for a short explanation; older Minecraft versions show the same contextual help beneath the screen title.
+
 ## Compatibility
 
 See [Supported targets](docs/SUPPORTED_TARGETS.md) for the complete build matrix, Java requirements, declared Minecraft ranges, and runtime notes. Each jar is version- and loader-specific; do not reuse a jar on another row of the matrix.

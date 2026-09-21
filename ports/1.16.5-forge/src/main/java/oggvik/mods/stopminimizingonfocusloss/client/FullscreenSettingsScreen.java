@@ -3,11 +3,20 @@
 
 package oggvik.mods.stopminimizingonfocusloss.client;
 
-/*? if !template_noop {*/
 /*? if render_extractor {*/
 /*import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 *//*?} else if gui_graphics {*/
 /*import net.minecraft.client.gui.GuiGraphics;
+/^? if identifier {^/
+/^import net.minecraft.resources.Identifier;
+^//^?} else {^/
+import net.minecraft.resources.ResourceLocation;
+/^?}^/
+/^? if !identifier {^/
+import com.mojang.blaze3d.systems.RenderSystem;
+/^?}^/
 *//*?} else if !legacy_string_button {*/
 import com.mojang.blaze3d.matrix.MatrixStack;
 /*?}*/
@@ -15,6 +24,9 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.Widget;
 /*? if !legacy_add_button {*/
 /*import net.minecraft.client.gui.components.CycleButton;
+*//*?}*/
+/*? if button_builder {*/
+/*import net.minecraft.client.gui.components.Tooltip;
 *//*?}*/
 import net.minecraft.client.gui.screen.Screen;
 /*? if component_factory {*/
@@ -32,14 +44,57 @@ import oggvik.mods.stopminimizingonfocusloss.config.LoadingScreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import oggvik.mods.stopminimizingonfocusloss.platform.MinecraftWindowBridge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Small dependency-free settings screen that remains compatible with Sodium and Embeddium. */
 public final class FullscreenSettingsScreen extends Screen {
-    private static final int CONTROL_WIDTH = 260;
+    private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
+    private static final int CONTROL_GAP = 4;
+    /*? if render_extractor {*/
+    /*private static final Identifier MENU_LIST_BACKGROUND =
+            Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
+    private static final Identifier INWORLD_MENU_LIST_BACKGROUND =
+            Identifier.withDefaultNamespace("textures/gui/inworld_menu_list_background.png");
+    *//*?}*/
+    /*? if gui_graphics {*/
+    /*/^? if identifier {^/
+    /^private static final Identifier MENU_LIST_BACKGROUND =
+            Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
+    private static final Identifier HEADER_SEPARATOR =
+            Identifier.withDefaultNamespace("textures/gui/header_separator.png");
+    private static final Identifier FOOTER_SEPARATOR =
+            Identifier.withDefaultNamespace("textures/gui/footer_separator.png");
+    ^//^?} else {^/
+    private static final ResourceLocation MENU_LIST_BACKGROUND =
+            /^? if resource_location_factory {^/
+            /^ResourceLocation.withDefaultNamespace("textures/gui/menu_list_background.png");
+            ^//^?} else {^/
+            new ResourceLocation("textures/gui/menu_list_background.png");
+            /^?}^/
+    private static final ResourceLocation HEADER_SEPARATOR =
+            /^? if resource_location_factory {^/
+            /^ResourceLocation.withDefaultNamespace("textures/gui/header_separator.png");
+            ^//^?} else {^/
+            new ResourceLocation("textures/gui/header_separator.png");
+            /^?}^/
+    private static final ResourceLocation FOOTER_SEPARATOR =
+            /^? if resource_location_factory {^/
+            /^ResourceLocation.withDefaultNamespace("textures/gui/footer_separator.png");
+            ^//^?} else {^/
+            new ResourceLocation("textures/gui/footer_separator.png");
+            /^?}^/
+    /^?}^/
+        *//*?}*/
 
     private final Screen parent;
+    private final List<TooltipArea> tooltipAreas = new ArrayList<>();
     private Widget fullscreenButton;
     private boolean lastFullscreen;
+    private boolean compactLayout;
+    private int fullscreenModeLabelY;
+    private int loadingModeLabelY;
 
     public FullscreenSettingsScreen(Screen parent) {
         /*? if component_factory {*/
@@ -53,17 +108,82 @@ public final class FullscreenSettingsScreen extends Screen {
     @Override
     protected void init() {
         FullscreenSettings settings = SettingsManager.get();
-        int startY = Math.max(32, Math.min(this.height / 3, this.height - 161));
+        tooltipAreas.clear();
+        compactLayout = this.height < 220;
+        int startY = compactLayout
+                ? Math.max(32, Math.min(this.height / 3, this.height - 145))
+                : Math.max(44, Math.min(54, this.height - 176));
         int controlWidth = Math.min(CONTROL_WIDTH, Math.max(100, this.width - 20));
+        int controlX = (this.width - controlWidth) / 2;
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(
-                (this.width - controlWidth) / 2, startY, controlWidth);
+                controlX, startY, controlWidth);
         lastFullscreen = MinecraftWindowBridge.fullscreenSetting();
+        /*? if gui_graphics && !transparent_settings_background {*/
+        /*addRenderableOnly((graphics, mouseX, mouseY, partialTick) -> {
+            /^? if modern_menu_list_background {^/
+            /^/^¹? if !identifier {¹^/
+            RenderSystem.enableBlend();
+            /^¹?}¹^/
+            graphics.blit(HEADER_SEPARATOR,
+                    0, 31, 0, 0, this.width, 2, 32, 2);
+            graphics.blit(MENU_LIST_BACKGROUND,
+                    0, 33, 0, 0, this.width, Math.max(0, this.height - 66), 32, 32);
+            graphics.blit(FOOTER_SEPARATOR,
+                    0, Math.max(33, this.height - 33), 0, 0, this.width, 2, 32, 2);
+            /^¹? if !identifier {¹^/
+            RenderSystem.disableBlend();
+            /^¹?}¹^/
+            ^//^?} else {^/
+            graphics.setColor(0.125F, 0.125F, 0.125F, 1.0F);
+            graphics.blit(Screen.BACKGROUND_LOCATION,
+                    0, 33, 0, 0, this.width, Math.max(0, this.height - 66), 32, 32);
+            graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+            /^?}^/
+        });
+        *//*?}*/
         addWidget(fullscreenButton);
-        addControl(startY + 24, preventionLabel(settings), ignored -> togglePrevention(settings));
-        addControl(startY + 48, modeLabel(settings), ignored -> cycleMode(settings));
-        addControl(startY + 72, loadingModeLabel(settings), ignored -> cycleLoadingMode(settings));
-        addControl(startY + 96, startMinimizedLabel(settings), ignored -> toggleStartMinimized(settings));
-        addControl(this.height - 26, translate("gui.done"), ignored -> onClose(), 200);
+        addTooltip(fullscreenButton, controlX, startY, controlWidth,
+                "stop_minimizing_on_focus_loss.tooltip.minecraft_fullscreen");
+        addControl(controlX, startY + 24, controlWidth, preventionLabel(settings),
+                ignored -> togglePrevention(settings),
+                "stop_minimizing_on_focus_loss.tooltip.prevent_auto_iconify");
+
+        int fullscreenModeY = startY + (compactLayout ? 48 : 61);
+        fullscreenModeLabelY = fullscreenModeY - 11;
+        int halfWidth = (controlWidth - CONTROL_GAP) / 2;
+        addControl(controlX, fullscreenModeY, halfWidth,
+                radioLabel(settings.getFullscreenMode() == FullscreenMode.NATIVE,
+                        "stop_minimizing_on_focus_loss.value.native"),
+                ignored -> selectFullscreenMode(settings, FullscreenMode.NATIVE),
+                "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode");
+        addControl(controlX + halfWidth + CONTROL_GAP, fullscreenModeY,
+                controlWidth - halfWidth - CONTROL_GAP,
+                radioLabel(settings.getFullscreenMode() == FullscreenMode.BORDERLESS,
+                        "stop_minimizing_on_focus_loss.value.borderless"),
+                ignored -> selectFullscreenMode(settings, FullscreenMode.BORDERLESS),
+                "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode");
+
+        int loadingModeY = startY + (compactLayout ? 72 : 99);
+        loadingModeLabelY = loadingModeY - 11;
+        int thirdWidth = (controlWidth - CONTROL_GAP * 2) / 3;
+        addLoadingModeControl(settings, controlX, loadingModeY, thirdWidth,
+                LoadingScreenMode.SAME_AS_GAME,
+                "stop_minimizing_on_focus_loss.value.same_as_game");
+        addLoadingModeControl(settings, controlX + thirdWidth + CONTROL_GAP,
+                loadingModeY, thirdWidth, LoadingScreenMode.WINDOWED,
+                "stop_minimizing_on_focus_loss.value.windowed");
+        addLoadingModeControl(settings, controlX + (thirdWidth + CONTROL_GAP) * 2,
+                loadingModeY, controlWidth - thirdWidth * 2 - CONTROL_GAP * 2,
+                LoadingScreenMode.FULLSCREEN,
+                "stop_minimizing_on_focus_loss.value.fullscreen");
+
+        int minimizedY = startY + (compactLayout ? 96 : 123);
+        addControl(controlX, minimizedY, controlWidth, startMinimizedLabel(settings),
+                ignored -> toggleStartMinimized(settings),
+                "stop_minimizing_on_focus_loss.tooltip.start_minimized");
+        addControl((this.width - Math.min(200, Math.max(100, this.width - 20))) / 2,
+                this.height - 26, Math.min(200, Math.max(100, this.width - 20)),
+                translate("gui.done"), ignored -> onClose(), null);
     }
 
     @Override
@@ -76,31 +196,51 @@ public final class FullscreenSettingsScreen extends Screen {
             /*? if legacy_add_button {*/
             fullscreenButton.setMessage(MinecraftWindowBridge.createFullscreenButton(0, 0, CONTROL_WIDTH).getMessage());
             /*?} else {*/
-            /*@SuppressWarnings("unchecked")
-            CycleButton<Boolean> cycleButton = (CycleButton<Boolean>) fullscreenButton;
-            cycleButton.setValue(value);
+            /*if (fullscreenButton instanceof CycleButton<?>) {
+                @SuppressWarnings("unchecked")
+                CycleButton<Boolean> cycleButton = (CycleButton<Boolean>) fullscreenButton;
+                cycleButton.setValue(value);
+            } else {
+                fullscreenButton.setMessage(MinecraftWindowBridge.createFullscreenButton(0, 0, CONTROL_WIDTH).getMessage());
+            }
             *//*?}*/
         }
     }
 
-    private void addControl(int y, String label, Button.IPressable action) {
-        addControl(y, label, action, CONTROL_WIDTH);
+    private void addControl(int x, int y, int width, String label,
+                            Button.IPressable action, String tooltipKey) {
+        Widget button;
+        /*? if button_builder {*/
+        /*button = Button.builder(Component.literal(label), action)
+                .bounds(x, y, width, CONTROL_HEIGHT)
+                .build();
+        *//*?} else if legacy_string_button {*/
+        /*button = new Button(x, y, width, CONTROL_HEIGHT, label, action);
+        *//*?} else if component_factory {*/
+        /*button = new Button(x, y, width, CONTROL_HEIGHT, Component.literal(label), action);
+        *//*?} else {*/
+        button = new Button(x, y, width, CONTROL_HEIGHT, new StringTextComponent(label), action);
+        /*?}*/
+        addWidget(button);
+        addTooltip(button, x, y, width, tooltipKey);
     }
 
-    private void addControl(int y, String label, Button.IPressable action, int requestedWidth) {
-        int width = Math.min(requestedWidth, Math.max(100, this.width - 20));
-        int x = (this.width - width) / 2;
+    private void addLoadingModeControl(FullscreenSettings settings, int x, int y, int width,
+                                       LoadingScreenMode mode, String valueKey) {
+        addControl(x, y, width,
+                radioLabel(settings.getLoadingScreenMode() == mode, valueKey),
+                ignored -> selectLoadingMode(settings, mode),
+                "stop_minimizing_on_focus_loss.tooltip.loading_screen_mode");
+    }
+
+    private void addTooltip(Widget widget, int x, int y, int width, String tooltipKey) {
+        if (tooltipKey == null) {
+            return;
+        }
+        tooltipAreas.add(new TooltipArea(x, y, width, CONTROL_HEIGHT, tooltipKey));
         /*? if button_builder {*/
-        /*addWidget(Button.builder(Component.literal(label), action)
-                .bounds(x, y, width, CONTROL_HEIGHT)
-                .build());
-        *//*?} else if legacy_string_button {*/
-        /*addWidget(new Button(x, y, width, CONTROL_HEIGHT, label, action));
-        *//*?} else if component_factory {*/
-        /*addWidget(new Button(x, y, width, CONTROL_HEIGHT, Component.literal(label), action));
-        *//*?} else {*/
-        addWidget(new Button(x, y, width, CONTROL_HEIGHT, new StringTextComponent(label), action));
-        /*?}*/
+        /*widget.setTooltip(Tooltip.create(Component.translatable(tooltipKey)));
+        *//*?}*/
     }
 
     private void addWidget(Widget button) {
@@ -111,19 +251,20 @@ public final class FullscreenSettingsScreen extends Screen {
         *//*?}*/
     }
 
-    private void cycleMode(FullscreenSettings settings) {
-        FullscreenMode next = settings.getFullscreenMode() == FullscreenMode.NATIVE
-                ? FullscreenMode.BORDERLESS
-                : FullscreenMode.NATIVE;
-        saveAndRefresh(settings.withFullscreenMode(next));
+    private void selectFullscreenMode(FullscreenSettings settings, FullscreenMode mode) {
+        if (settings.getFullscreenMode() != mode) {
+            saveAndRefresh(settings.withFullscreenMode(mode));
+        }
     }
 
     private void togglePrevention(FullscreenSettings settings) {
         saveAndRefresh(settings.withPreventAutoIconify(!settings.isPreventAutoIconify()));
     }
 
-    private void cycleLoadingMode(FullscreenSettings settings) {
-        saveAndRefresh(settings.withLoadingScreenMode(settings.getLoadingScreenMode().next()));
+    private void selectLoadingMode(FullscreenSettings settings, LoadingScreenMode mode) {
+        if (settings.getLoadingScreenMode() != mode) {
+            saveAndRefresh(settings.withLoadingScreenMode(mode));
+        }
     }
 
     private void toggleStartMinimized(FullscreenSettings settings) {
@@ -136,32 +277,29 @@ public final class FullscreenSettingsScreen extends Screen {
         MinecraftWindowBridge.showScreen(new FullscreenSettingsScreen(parent));
     }
 
-    private String modeLabel(FullscreenSettings settings) {
-        String value = settings.getFullscreenMode() == FullscreenMode.BORDERLESS
-                ? translate("stop_minimizing_on_focus_loss.value.borderless")
-                : translate("stop_minimizing_on_focus_loss.value.native");
-        return translate("stop_minimizing_on_focus_loss.option.fullscreen_mode") + ": " + value;
-    }
-
     private String preventionLabel(FullscreenSettings settings) {
         String value = translate(settings.isPreventAutoIconify() ? "options.on" : "options.off");
         return translate("stop_minimizing_on_focus_loss.option.prevent_auto_iconify") + ": " + value;
     }
 
-    private String loadingModeLabel(FullscreenSettings settings) {
-        LoadingScreenMode mode = settings.getLoadingScreenMode();
-        String key = mode == LoadingScreenMode.WINDOWED
-                ? "stop_minimizing_on_focus_loss.value.windowed"
-                : mode == LoadingScreenMode.FULLSCREEN
-                ? "stop_minimizing_on_focus_loss.value.fullscreen"
-                : "stop_minimizing_on_focus_loss.value.same_as_game";
-        return translate("stop_minimizing_on_focus_loss.option.loading_screen_mode")
-                + ": " + translate(key);
-    }
-
     private String startMinimizedLabel(FullscreenSettings settings) {
         String value = translate(settings.isStartMinimized() ? "options.on" : "options.off");
         return translate("stop_minimizing_on_focus_loss.option.start_minimized") + ": " + value;
+    }
+
+    private String radioLabel(boolean selected, String valueKey) {
+        return (selected ? "● " : "○ ") + translate(valueKey);
+    }
+
+    private String hint(int mouseX, int mouseY) {
+        /*? if !button_builder {*/
+        for (TooltipArea area : tooltipAreas) {
+            if (area.contains(mouseX, mouseY)) {
+                return translate(area.translationKey);
+            }
+        }
+        /*?}*/
+        return translate("stop_minimizing_on_focus_loss.settings.subtitle");
     }
 
     private static String translate(String key) {
@@ -179,35 +317,111 @@ public final class FullscreenSettingsScreen extends Screen {
         MinecraftWindowBridge.showScreen(parent);
     }
 
+    private static final class TooltipArea {
+        private final int x;
+        private final int y;
+        private final int width;
+        private final int height;
+        private final String translationKey;
+
+        private TooltipArea(int x, int y, int width, int height, String translationKey) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.translationKey = translationKey;
+        }
+
+        private boolean contains(int mouseX, int mouseY) {
+            return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
+        }
+    }
+
     /*? if legacy_string_button {*/
     /*@Override
     public void render(int mouseX, int mouseY, float partialTick) {
         this.renderBackground();
         this.drawCenteredString(this.font, translate("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
+        this.drawCenteredString(this.font, hint(mouseX, mouseY), this.width / 2, 28, 0xA0A0A0);
+        if (!compactLayout) {
+            this.drawCenteredString(this.font,
+                    translate("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                    this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+            this.drawCenteredString(this.font,
+                    translate("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                    this.width / 2, loadingModeLabelY, 0xA0A0A0);
+        }
         super.render(mouseX, mouseY, partialTick);
     }
     *//*?} else if render_extractor {*/
-    /*@Override
+    /*        @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        graphics.fill(0, 0, this.width, this.height, 0xC0101010);
+        Identifier menuListBackground = this.minecraft.level == null
+                ? MENU_LIST_BACKGROUND
+                : INWORLD_MENU_LIST_BACKGROUND;
+        Identifier headerSeparator = this.minecraft.level == null
+                ? Screen.HEADER_SEPARATOR
+                : Screen.INWORLD_HEADER_SEPARATOR;
+        Identifier footerSeparator = this.minecraft.level == null
+                ? Screen.FOOTER_SEPARATOR
+                : Screen.INWORLD_FOOTER_SEPARATOR;
+        graphics.blit(RenderPipelines.GUI_TEXTURED, headerSeparator,
+                0, 31, 0.0F, 0.0F, this.width, 2, 32, 2);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, menuListBackground,
+                0, 33, 0.0F, 0.0F, this.width, Math.max(0, this.height - 66), 32, 32);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, footerSeparator,
+                0, Math.max(33, this.height - 33), 0.0F, 0.0F, this.width, 2, 32, 2);
         graphics.centeredText(this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFFFF);
+        graphics.centeredText(this.font, Component.literal(hint(mouseX, mouseY)),
+                this.width / 2, 28, 0xFFA0A0A0);
+        if (!compactLayout) {
+            graphics.centeredText(this.font,
+                    Component.translatable("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                    this.width / 2, fullscreenModeLabelY, 0xFFA0A0A0);
+            graphics.centeredText(this.font,
+                    Component.translatable("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                    this.width / 2, loadingModeLabelY, 0xFFA0A0A0);
+        }
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
-    *//*?} else if gui_graphics {*/
+    */        /*?} else if gui_graphics {*/
     /*@Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        /^? if render_background_delta {^/
-        /^graphics.fill(0, 0, this.width, this.height, 0xC0101010);
-        ^//^?} else {^/
-        this.renderBackground(graphics);
-        /^?}^/
+    /^? if render_background_delta {^/
+    /^super.render(graphics, mouseX, mouseY, partialTick);
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
+            this.width / 2, 15, 0xFFFFFF);
+    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+            this.width / 2, 28, 0xA0A0A0);
+    if (!compactLayout) {
         graphics.drawCenteredString(this.font,
-                Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
-                this.width / 2, 15, 0xFFFFFF);
-        super.render(graphics, mouseX, mouseY, partialTick);
+                Component.translatable("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+        graphics.drawCenteredString(this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                this.width / 2, loadingModeLabelY, 0xA0A0A0);
+    }
+    ^//^?} else {^/
+    renderBackground(graphics);
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
+            this.width / 2, 15, 0xFFFFFF);
+    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+            this.width / 2, 28, 0xA0A0A0);
+    if (!compactLayout) {
+        graphics.drawCenteredString(this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+        graphics.drawCenteredString(this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                this.width / 2, loadingModeLabelY, 0xA0A0A0);
+    }
+    super.render(graphics, mouseX, mouseY, partialTick);
+    /^?}^/
     }
     *//*?} else if component_factory {*/
     /*@Override
@@ -216,6 +430,16 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
+        drawCenteredString(poseStack, this.font, Component.literal(hint(mouseX, mouseY)),
+                this.width / 2, 28, 0xA0A0A0);
+        if (!compactLayout) {
+            drawCenteredString(poseStack, this.font,
+                    Component.translatable("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                    this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+            drawCenteredString(poseStack, this.font,
+                    Component.translatable("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                    this.width / 2, loadingModeLabelY, 0xA0A0A0);
+        }
         super.render(poseStack, mouseX, mouseY, partialTick);
     }
     *//*?} else {*/
@@ -225,8 +449,17 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 new TranslationTextComponent("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
+        drawCenteredString(poseStack, this.font, new StringTextComponent(hint(mouseX, mouseY)),
+                this.width / 2, 28, 0xA0A0A0);
+        if (!compactLayout) {
+            drawCenteredString(poseStack, this.font,
+                    new TranslationTextComponent("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                    this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+            drawCenteredString(poseStack, this.font,
+                    new TranslationTextComponent("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                    this.width / 2, loadingModeLabelY, 0xA0A0A0);
+        }
         super.render(poseStack, mouseX, mouseY, partialTick);
     }
     /*?}*/
 }
-/*?}*/
