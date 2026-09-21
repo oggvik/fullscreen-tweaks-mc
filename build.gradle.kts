@@ -92,6 +92,10 @@ modstitch {
             packMetadata(resourcePackFormat, resolveProp("modDescription").orEmpty())
         )
         replacementProperties.put("java_version", javaTargetVersion.toString())
+        replacementProperties.put(
+            "neoforge_icon_property",
+            if (stonecutter.eval(mcVersion, ">=26.3")) "iconFile" else "logoFile"
+        )
 
         // replacementProperties DSL
         fun setReplace(key: String, property: String) {
