@@ -17,7 +17,7 @@ Borderless mode detaches the window from native fullscreen, removes decorations,
 
 The controller reapplies the policy after window creation and fullscreen transitions. If Minecraft is windowed, it chooses the monitor with the greatest overlap and falls back to the primary monitor. Native handles, monitor choices, and video modes are never persisted.
 
-Minecraft `26.3-snapshot-4` and the `26.3` release use SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on those targets, while their startup-window controller uses SDL3 to minimize the window.
+Minecraft `26.3-snapshot-4` and the `26.3` release use SDL3. Minecraft disables SDL's automatic focus-loss minimization, so the mod explicitly minimizes exclusive fullscreen when prevention is disabled. SDL versions use Minecraft's own exclusive-versus-borderless setting; the mod's GLFW-specific fullscreen-mode control is hidden there.
 
 At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. A constructor-argument mixin replaces Minecraft's initial fullscreen value before GLFW or SDL3 creates the native window. The controller records Minecraft's fullscreen option as well as the launch-time display value because modern Minecraft synchronizes those values later in its constructor. It reapplies the temporary mode after that synchronization and after Minecraft shows the window, which covers native-window handoff from NeoForge. When Minecraft clears its startup overlay, the controller restores the regular mode and restores the window from its minimized state.
 
@@ -35,7 +35,7 @@ Stonecutter conditions select the correct handle field, identifier type, GUI ren
 
 ## Settings and UI
 
-The properties file stores `preventAutoIconify`, `fullscreenMode`, `loadingScreenMode`, and `startMinimized`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; fullscreen mode defaults to borderless on Windows and native on other systems. The loading screen follows the game by default and does not start minimized.
+The properties file stores `preventAutoIconify`, `fullscreenMode`, `loadingScreenMode`, and `startMinimized`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; on GLFW targets, fullscreen mode defaults to borderless on Windows and native on other systems. SDL targets retain the stored mode for downgrade compatibility but defer the active fullscreen style to Minecraft's vanilla setting. The loading screen follows the game by default and does not start minimized.
 
 The settings button is attached to the main Options screen so replacements for video settings, including Sodium and Embeddium, do not remove the entry point. Its geometry helper checks visible widget bounds, tries aligned free slots, uses a compact button when necessary, and hides the control if no safe position exists.
 
