@@ -32,7 +32,7 @@ Open **Options → Fullscreen settings** in Minecraft. The page controls:
 - **Prevent minimizing on focus loss:** enables or disables this mod's focus-loss policy.
 - **Fullscreen mode:** chooses native or borderless fullscreen.
 - **Loading screen:** follows the game's fullscreen setting or temporarily forces the loading screen to be windowed or fullscreen.
-- **Start loading screen minimized:** starts Minecraft minimized in the operating system's taskbar or dock and keeps it minimized while its regular mode is restored after loading.
+- **Start loading screen minimized:** keeps Minecraft minimized in the operating system's taskbar or dock throughout loading, then shows it in the regular game window mode when loading finishes.
 
 The Options entry searches for a free position without moving other mods' controls. On crowded screens it can shrink to `...` or hide until a slot becomes available.
 
@@ -40,7 +40,9 @@ The Options entry searches for a free position without moving other mods' contro
 
 See [Supported targets](docs/SUPPORTED_TARGETS.md) for the complete build matrix, Java requirements, declared Minecraft ranges, and runtime notes. Each jar is version- and loader-specific; do not reuse a jar on another row of the matrix.
 
-The loading-window override is applied before Minecraft creates its native window and uses Minecraft's GLFW or SDL3 backend. This keeps the same code path portable across Windows, macOS, Linux on X11 or Wayland, and other Unix-like systems supported by the game's native libraries. Window managers and Wayland compositors may still decide how a minimize request is presented.
+The loading-window override is applied before Minecraft creates or adopts its native window and uses Minecraft's GLFW or SDL3 backend. This keeps the same code path portable across Windows, macOS, Linux on X11 or Wayland, and other Unix-like systems supported by the game's native libraries. Window managers and Wayland compositors may still decide how a minimize request is presented.
+
+NeoForge's earliest loading window is created before regular mods are discovered, so a mod installed in the `mods` directory cannot control that first stage. Once NeoForge hands its native window to Minecraft, this mod applies the selected loading mode and minimized state through the vanilla loading screen, then restores the configured game mode.
 
 ## Development
 

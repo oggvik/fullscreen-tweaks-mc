@@ -3,6 +3,7 @@
 
 package oggvik.mods.stopminimizingonfocusloss.mixin;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.renderer.IWindowEventListener;
 import net.minecraft.client.renderer.MonitorHandler;
@@ -29,7 +30,9 @@ public class MainWindowMixin {
 
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
     private static ScreenSize stopMinimizingOnFocusLoss$selectLoadingWindowMode(ScreenSize screenSize) {
-        boolean loadingFullscreen = StartupWindowController.prepareLoading(screenSize.isFullscreen);
+        boolean gameFullscreen = screenSize.isFullscreen
+                || Minecraft.getInstance().options.fullscreen;
+        boolean loadingFullscreen = StartupWindowController.prepareLoading(gameFullscreen);
         if (loadingFullscreen == screenSize.isFullscreen) {
             return screenSize;
         }
@@ -50,7 +53,7 @@ public class MainWindowMixin {
             String title,
             CallbackInfo info
     ) {
-        StartupWindowController.windowCreated((MainWindow) (Object) this);
+        StartupWindowController.reapplyLoadingState((MainWindow) (Object) this);
         GlfwWindowController.apply(this.window, this.fullscreen);
     }
 

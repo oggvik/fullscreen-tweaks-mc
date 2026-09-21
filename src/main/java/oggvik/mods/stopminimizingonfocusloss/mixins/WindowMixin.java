@@ -5,6 +5,7 @@ package oggvik.mods.stopminimizingonfocusloss.mixins;
 
 import com.mojang.blaze3d.platform.DisplayData;
 import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.Minecraft;
 import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
 import oggvik.mods.stopminimizingonfocusloss.window.StartupWindowController;
 import org.spongepowered.asm.mixin.Final;
@@ -38,6 +39,12 @@ public class WindowMixin {
         *//*?} else {*/
         boolean gameFullscreen = displayData.isFullscreen;
         /*?}*/
+        Minecraft minecraft = Minecraft.getInstance();
+        /*? if component_factory {*/
+        gameFullscreen = gameFullscreen || minecraft.options.fullscreen().get();
+        /*?} else {*/
+        /*gameFullscreen = gameFullscreen || minecraft.options.fullscreen;
+        *//*?}*/
         boolean loadingFullscreen = StartupWindowController.prepareLoading(gameFullscreen);
         if (loadingFullscreen == gameFullscreen) {
             return displayData;
@@ -56,7 +63,7 @@ public class WindowMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$applySettingsAfterCreate(CallbackInfo info) {
-        StartupWindowController.windowCreated((Window) (Object) this);
+        StartupWindowController.reapplyLoadingState((Window) (Object) this);
         /*? if !template_noop {*/
         GlfwWindowController.apply(stopMinimizingOnFocusLoss$windowHandle(), this.fullscreen);
         /*?}*/

@@ -13,6 +13,7 @@ import org.lwjgl.glfw.GLFW;
 public final class StartupWindowController {
     private static boolean startupActive;
     private static boolean gameFullscreen;
+    private static boolean loadingFullscreen;
 
     private StartupWindowController() {
     }
@@ -22,22 +23,25 @@ public final class StartupWindowController {
         gameFullscreen = regularFullscreen;
         LoadingScreenMode mode = SettingsManager.get().getLoadingScreenMode();
         if (mode == LoadingScreenMode.WINDOWED) {
-            return false;
+            loadingFullscreen = false;
+        } else if (mode == LoadingScreenMode.FULLSCREEN) {
+            loadingFullscreen = true;
+        } else {
+            loadingFullscreen = regularFullscreen;
         }
-        if (mode == LoadingScreenMode.FULLSCREEN) {
-            return true;
-        }
-        return regularFullscreen;
+        return loadingFullscreen;
     }
 
-    public static void windowCreated(MainWindow window) {
+    public static void reapplyLoadingState(MainWindow window) {
+        if (!startupActive || window == null) {
+            return;
+        }
+        MainWindowModeAccessor accessor = (MainWindowModeAccessor) (Object) window;
+        if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != loadingFullscreen) {
+            accessor.stopMinimizingOnFocusLoss$setFullscreen(loadingFullscreen);
+            accessor.stopMinimizingOnFocusLoss$setMode();
+        }
         if (SettingsManager.get().isStartMinimized()) {
-            GLFW.glfwIconifyWindow(window.getWindow());
-        }
-    }
-
-    public static void minecraftReady(MainWindow window) {
-        if (startupActive && SettingsManager.get().isStartMinimized()) {
             GLFW.glfwIconifyWindow(window.getWindow());
         }
     }
@@ -53,7 +57,7 @@ public final class StartupWindowController {
             accessor.stopMinimizingOnFocusLoss$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
-            GLFW.glfwIconifyWindow(window.getWindow());
+            GLFW.glfwRestoreWindow(window.getWindow());
         }
     }
 }

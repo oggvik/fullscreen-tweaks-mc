@@ -24,8 +24,50 @@ public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$applyLoadingWindowSettings(CallbackInfo info) {
-        StartupWindowController.minecraftReady(this.window);
+        StartupWindowController.reapplyLoadingState(this.window);
     }
+
+    /*? if !template_noop {*/
+    @Inject(
+            method = "<init>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/platform/Window;toggleFullScreen()V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void stopMinimizingOnFocusLoss$keepLoadingModeAfterFullscreenSync(CallbackInfo info) {
+        StartupWindowController.reapplyLoadingState(this.window);
+    }
+    /*?}*/
+
+    /*? if new_set_screen && !template_noop {*/
+    /*@Inject(
+            method = "<init>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lorg/lwjgl/glfw/GLFW;glfwShowWindow(J)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void stopMinimizingOnFocusLoss$keepMinimizedAfterShow(CallbackInfo info) {
+        StartupWindowController.reapplyLoadingState(this.window);
+    }
+    *//*?}*/
+
+    /*? if template_noop {*/
+    /*@Inject(
+            method = "<init>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/platform/Window;show()V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void stopMinimizingOnFocusLoss$keepMinimizedAfterShow(CallbackInfo info) {
+        StartupWindowController.reapplyLoadingState(this.window);
+    }
+    *//*?}*/
 
     /*? if !new_gui_owner {*/
     @Inject(method = "setOverlay", at = @At("HEAD"))
