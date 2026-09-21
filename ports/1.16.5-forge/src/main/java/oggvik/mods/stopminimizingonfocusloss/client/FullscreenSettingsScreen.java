@@ -28,6 +28,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 *//*?}*/
 import oggvik.mods.stopminimizingonfocusloss.config.FullscreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.FullscreenSettings;
+import oggvik.mods.stopminimizingonfocusloss.config.LoadingScreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import oggvik.mods.stopminimizingonfocusloss.platform.MinecraftWindowBridge;
 
@@ -52,7 +53,7 @@ public final class FullscreenSettingsScreen extends Screen {
     @Override
     protected void init() {
         FullscreenSettings settings = SettingsManager.get();
-        int startY = Math.max(32, Math.min(this.height / 3, this.height - 113));
+        int startY = Math.max(32, Math.min(this.height / 3, this.height - 161));
         int controlWidth = Math.min(CONTROL_WIDTH, Math.max(100, this.width - 20));
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(
                 (this.width - controlWidth) / 2, startY, controlWidth);
@@ -60,6 +61,8 @@ public final class FullscreenSettingsScreen extends Screen {
         addWidget(fullscreenButton);
         addControl(startY + 24, preventionLabel(settings), ignored -> togglePrevention(settings));
         addControl(startY + 48, modeLabel(settings), ignored -> cycleMode(settings));
+        addControl(startY + 72, loadingModeLabel(settings), ignored -> cycleLoadingMode(settings));
+        addControl(startY + 96, startMinimizedLabel(settings), ignored -> toggleStartMinimized(settings));
         addControl(this.height - 26, translate("gui.done"), ignored -> onClose(), 200);
     }
 
@@ -119,6 +122,14 @@ public final class FullscreenSettingsScreen extends Screen {
         saveAndRefresh(settings.withPreventAutoIconify(!settings.isPreventAutoIconify()));
     }
 
+    private void cycleLoadingMode(FullscreenSettings settings) {
+        saveAndRefresh(settings.withLoadingScreenMode(settings.getLoadingScreenMode().next()));
+    }
+
+    private void toggleStartMinimized(FullscreenSettings settings) {
+        saveAndRefresh(settings.withStartMinimized(!settings.isStartMinimized()));
+    }
+
     private void saveAndRefresh(FullscreenSettings settings) {
         SettingsManager.set(settings);
         MinecraftWindowBridge.reapply();
@@ -135,6 +146,22 @@ public final class FullscreenSettingsScreen extends Screen {
     private String preventionLabel(FullscreenSettings settings) {
         String value = translate(settings.isPreventAutoIconify() ? "options.on" : "options.off");
         return translate("stop_minimizing_on_focus_loss.option.prevent_auto_iconify") + ": " + value;
+    }
+
+    private String loadingModeLabel(FullscreenSettings settings) {
+        LoadingScreenMode mode = settings.getLoadingScreenMode();
+        String key = mode == LoadingScreenMode.WINDOWED
+                ? "stop_minimizing_on_focus_loss.value.windowed"
+                : mode == LoadingScreenMode.FULLSCREEN
+                ? "stop_minimizing_on_focus_loss.value.fullscreen"
+                : "stop_minimizing_on_focus_loss.value.same_as_game";
+        return translate("stop_minimizing_on_focus_loss.option.loading_screen_mode")
+                + ": " + translate(key);
+    }
+
+    private String startMinimizedLabel(FullscreenSettings settings) {
+        String value = translate(settings.isStartMinimized() ? "options.on" : "options.off");
+        return translate("stop_minimizing_on_focus_loss.option.start_minimized") + ": " + value;
     }
 
     private static String translate(String key) {

@@ -24,19 +24,26 @@ final class FullscreenSettingsTest {
 
         assertEquals(FullscreenMode.platformDefault(), settings.getFullscreenMode());
         assertTrue(settings.isPreventAutoIconify());
-        assertEquals(2, settings.toProperties().size());
+        assertEquals(LoadingScreenMode.SAME_AS_GAME, settings.getLoadingScreenMode());
+        assertFalse(settings.isStartMinimized());
+        assertEquals(4, settings.toProperties().size());
     }
 
     @Test
     void validValuesRoundTrip() {
-        FullscreenSettings original = new FullscreenSettings(FullscreenMode.BORDERLESS, false);
+        FullscreenSettings original = new FullscreenSettings(
+                FullscreenMode.BORDERLESS, false, LoadingScreenMode.FULLSCREEN, true);
 
         FullscreenSettings restored = FullscreenSettings.load(original.toProperties());
 
         assertEquals(FullscreenMode.BORDERLESS, restored.getFullscreenMode());
         assertFalse(restored.isPreventAutoIconify());
+        assertEquals(LoadingScreenMode.FULLSCREEN, restored.getLoadingScreenMode());
+        assertTrue(restored.isStartMinimized());
         assertEquals("BORDERLESS", restored.toProperties().getProperty("fullscreenMode"));
         assertEquals("false", restored.toProperties().getProperty("preventAutoIconify"));
+        assertEquals("FULLSCREEN", restored.toProperties().getProperty("loadingScreenMode"));
+        assertEquals("true", restored.toProperties().getProperty("startMinimized"));
     }
 
     @Test

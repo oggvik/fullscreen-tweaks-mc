@@ -4,6 +4,11 @@
   "stop_minimizing_on_focus_loss.settings.title": "Stop Minimizing on Focus Loss",
   "stop_minimizing_on_focus_loss.option.prevent_auto_iconify": "Prevent minimizing on focus loss",
   "stop_minimizing_on_focus_loss.option.fullscreen_mode": "Fullscreen mode",
+  "stop_minimizing_on_focus_loss.option.loading_screen_mode": "Loading screen",
+  "stop_minimizing_on_focus_loss.option.start_minimized": "Start loading screen minimized",
   "stop_minimizing_on_focus_loss.value.native": "Native",
-  "stop_minimizing_on_focus_loss.value.borderless": "Borderless"
+  "stop_minimizing_on_focus_loss.value.borderless": "Borderless",
+  "stop_minimizing_on_focus_loss.value.same_as_game": "Same as game",
+  "stop_minimizing_on_focus_loss.value.windowed": "Windowed",
+  "stop_minimizing_on_focus_loss.value.fullscreen": "Fullscreen"
 }
