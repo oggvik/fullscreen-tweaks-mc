@@ -83,7 +83,9 @@ public class WindowMixin {
     /*? if template_noop {*/
     /*@Inject(method = "onFocus", at = @At("TAIL"))
     private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
-        if (!focused && this.fullscreen && !SettingsManager.get().isPreventAutoIconify()) {
+        Window window = (Window) (Object) this;
+        if (!focused && window.isExclusiveFullscreen()
+                && !SettingsManager.get().isPreventAutoIconify()) {
             SDLVideo.SDL_MinimizeWindow(this.handle);
         }
     }

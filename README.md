@@ -29,14 +29,14 @@ Fullscreen Tweaks was previously named **Stop Minimizing on Focus Loss**. The mo
 - Can keep Minecraft minimized throughout loading, then restore and show it in the regular game window mode when loading finishes. (**Added in 1.1.0**)
 - Restores both the actual window mode and Minecraft's displayed fullscreen setting after temporary loading-window overrides. (**Added in 1.1.0**)
 - Presents multi-choice settings as radio-style controls, with concise labels and an individual tooltip for every setting and choice. (**Added in 1.1.0**)
-- Supports Minecraft's newer SDL3 window backend, including optional classic minimize-on-focus-loss behavior when **Keep fullscreen visible when unfocused** is disabled. (**Added in 1.1.0**)
+- Supports Minecraft's newer SDL3 window backend, including optional classic minimize-on-focus-loss behavior for native fullscreen. (**Added in 1.1.0**)
 
 ## Configuration
 
 Open **Options → Fullscreen settings** in Minecraft. The page controls:
 
 - **Fullscreen:** Minecraft's normal fullscreen setting. F11 and other screens use the same value.
-- **Prevent minimizing on focus loss:** enables or disables this mod's focus-loss policy.
+- **Prevent native fullscreen minimization:** controls focus-loss minimization for native fullscreen; borderless fullscreen normally remains visible regardless.
 - **Fullscreen mode:** chooses native or borderless fullscreen.
 - **Loading screen:** follows the game's fullscreen setting or temporarily forces the loading screen to be windowed or fullscreen.
 - **Start loading screen minimized:** keeps Minecraft minimized in the operating system's taskbar or dock throughout loading, then shows it in the regular game window mode when loading finishes.
