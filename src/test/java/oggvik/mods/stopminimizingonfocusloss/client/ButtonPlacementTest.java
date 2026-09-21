@@ -57,6 +57,19 @@ final class ButtonPlacementTest {
     }
 
     @Test
+    void keepsColumnAlignmentWhenMovingToAnotherRow() {
+        ButtonPlacement.Rect result = ButtonPlacement.find(500, 300,
+                new ButtonPlacement.Rect(95, 56, 150, 20),
+                Arrays.asList(new ButtonPlacement.Rect(95, 32, 150, 20),
+                        new ButtonPlacement.Rect(255, 32, 150, 20),
+                        new ButtonPlacement.Rect(95, 56, 150, 20),
+                        new ButtonPlacement.Rect(255, 56, 150, 20)));
+        assertNotNull(result);
+        assertEquals(95, result.x);
+        assertEquals(80, result.y);
+    }
+
+    @Test
     void hidesWhenFullAndRecoversWhenSpaceReturns() {
         ButtonPlacement.Rect own = new ButtonPlacement.Rect(5, 215, 150, 20);
         assertNull(ButtonPlacement.find(320, 240, own,

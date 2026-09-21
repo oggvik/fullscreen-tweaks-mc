@@ -50,24 +50,27 @@ public final class ButtonPlacement {
         if (fits(screenWidth, screenHeight, current, occupied)) {
             return current;
         }
-        Set<Integer> xs = new LinkedHashSet<>(alignedXs);
+        Set<Integer> fallbackXs = new LinkedHashSet<>();
         Set<Integer> ys = new LinkedHashSet<>();
-        xs.add(MARGIN);
-        xs.add(screenWidth - MARGIN - current.width);
-        xs.add((screenWidth - current.width) / 2);
+        fallbackXs.add(MARGIN);
+        fallbackXs.add(screenWidth - MARGIN - current.width);
+        fallbackXs.add((screenWidth - current.width) / 2);
         ys.add(screenHeight - MARGIN - current.height);
         ys.add(TITLE_BOTTOM);
         for (Rect other : occupied) {
-            xs.add(other.x + other.width + GAP);
-            xs.add(other.x - current.width - GAP);
+            fallbackXs.add(other.x + other.width + GAP);
+            fallbackXs.add(other.x - current.width - GAP);
             ys.add(other.y - current.height - GAP);
             ys.add(other.y + other.height + GAP);
         }
+        fallbackXs.removeAll(alignedXs);
+        List<Integer> orderedXs = new ArrayList<>(alignedXs);
+        List<Integer> orderedFallbackXs = new ArrayList<>(fallbackXs);
+        orderedFallbackXs.sort(Integer::compareTo);
+        orderedXs.addAll(orderedFallbackXs);
         List<Integer> orderedYs = new ArrayList<>(ys);
         orderedYs.sort(Integer::compareTo);
         for (int y : orderedYs) {
-            List<Integer> orderedXs = new ArrayList<>(xs);
-            orderedXs.sort(Integer::compareTo);
             for (int x : orderedXs) {
                 Rect candidate = new Rect(x, y, current.width, current.height);
                 if (fits(screenWidth, screenHeight, candidate, occupied)) {
