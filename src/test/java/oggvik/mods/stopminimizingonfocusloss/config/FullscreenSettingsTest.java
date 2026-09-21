@@ -13,6 +13,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class FullscreenSettingsTest {
     @Test
+    void defaultsToBorderlessOnWindows() {
+        assertEquals(FullscreenMode.BORDERLESS, FullscreenMode.platformDefault("Windows 11"));
+        assertEquals(FullscreenMode.BORDERLESS, FullscreenMode.platformDefault("windows server 2025"));
+    }
+
+    @Test
+    void defaultsToNativeOutsideWindows() {
+        assertEquals(FullscreenMode.NATIVE, FullscreenMode.platformDefault("Linux"));
+        assertEquals(FullscreenMode.NATIVE, FullscreenMode.platformDefault("Mac OS X"));
+        assertEquals(FullscreenMode.NATIVE, FullscreenMode.platformDefault("FreeBSD"));
+        assertEquals(FullscreenMode.NATIVE, FullscreenMode.platformDefault(null));
+    }
+
+    @Test
     void invalidValuesUseSafeDefaults() {
         Properties properties = new Properties();
         properties.setProperty("fullscreenMode", "invalid");

@@ -11,7 +11,11 @@ public enum FullscreenMode {
     BORDERLESS;
 
     public static FullscreenMode platformDefault() {
-        String osName = System.getProperty("os.name", "").toLowerCase(Locale.ROOT);
+        return platformDefault(System.getProperty("os.name", ""));
+    }
+
+    static FullscreenMode platformDefault(String name) {
+        String osName = name == null ? "" : name.toLowerCase(Locale.ROOT);
         return osName.startsWith("windows") ? BORDERLESS : NATIVE;
     }
 
