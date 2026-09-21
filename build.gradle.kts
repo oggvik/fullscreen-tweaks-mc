@@ -64,7 +64,7 @@ modstitch {
         modLicense = resolveProp("modLicense")
         modAuthor = resolveProp("modAuthor")
 
-        val resourcePackFormats = mapOf(
+        val resourcePackFormats: Map<String, Number> = mapOf(
             "1.14.4" to 4,
             "1.15.2" to 5,
             "1.16.5" to 6,
@@ -82,6 +82,7 @@ modstitch {
             "26.3-snapshot-2" to 90,
             "26.3-snapshot-3" to 91,
             "26.3-snapshot-4" to 92,
+            "26.3" to 97.1,
         )
         val resourcePackFormat = resourcePackFormats[mcVersion]
             ?: throw IllegalArgumentException("Please store the resource pack version for $mcVersion in build.gradle.kts! https://minecraft.wiki/w/Pack_format")
@@ -138,6 +139,7 @@ stonecutter {
         put("new_window_handle", stonecutter.eval(mcVersion, ">=1.21.11") || stonecutter.eval(mcVersion, ">=26.1"))
         put("new_set_screen", stonecutter.eval(mcVersion, ">=26.2"))
         put("new_gui_owner", stonecutter.eval(mcVersion, ">=26.2"))
+        put("window_show_method", stonecutter.current.project == "26.3-snapshot-4-fabric")
         put("old_minecraft_window_field", stonecutter.eval(mcVersion, "<=1.14.4"))
         put("legacy_string_button", stonecutter.eval(mcVersion, "<=1.15.2"))
         put("legacy_add_button", stonecutter.eval(mcVersion, "<=1.16.5"))
@@ -228,9 +230,9 @@ fun resolveProp(property: String): String? =
     System.getenv(property)?.takeIf { it.isNotBlank() }
         ?: findProperty(property)?.toString()?.takeIf { it.isNotBlank() }
 
-fun packMetadata(packFormat: Int, description: String): String {
+fun packMetadata(packFormat: Number, description: String): String {
     val escapedDescription = jsonString(description)
-    return if (packFormat > 64) {
+    return if (packFormat.toDouble() > 64) {
         """
     "pack_format": $packFormat,
     "min_format": $packFormat,

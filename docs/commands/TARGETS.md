@@ -64,6 +64,8 @@ Run these commands from the repository root. Every build produces a loader- and 
 | 26.3 snapshot 3 | Fabric | `./gradlew :26.3-snapshot-3-fabric:build` | `./gradlew :26.3-snapshot-3-fabric:runClient` |
 | 26.3 snapshot 3 | Quilt | `ports/26.3-snapshot-3-quilt/gradlew -p ports/26.3-snapshot-3-quilt build` | `ports/26.3-snapshot-3-quilt/gradlew -p ports/26.3-snapshot-3-quilt runClient` |
 | 26.3 snapshot 4 | Fabric | `./gradlew :26.3-snapshot-4-fabric:build` | `./gradlew :26.3-snapshot-4-fabric:runClient` |
+| 26.3 | Fabric | `./gradlew :26.3-fabric:build` | `./gradlew :26.3-fabric:runClient` |
+| 26.3 | NeoForge | `./gradlew :26.3-neoforge:build` | `./gradlew :26.3-neoforge:runClient` |
 
 ## Better Than Adventure targets
 

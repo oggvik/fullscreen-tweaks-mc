@@ -17,11 +17,11 @@ Borderless mode detaches the window from native fullscreen, removes decorations,
 
 The controller reapplies the policy after window creation and fullscreen transitions. If Minecraft is windowed, it chooses the monitor with the greatest overlap and falls back to the primary monitor. Native handles, monitor choices, and video modes are never persisted.
 
-Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on that target, while its startup-window controller uses SDL3 to minimize the window.
+Minecraft `26.3-snapshot-4` and the `26.3` release use SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on those targets, while their startup-window controller uses SDL3 to minimize the window.
 
 At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. A constructor-argument mixin replaces Minecraft's initial fullscreen value before GLFW or SDL3 creates the native window. The controller records Minecraft's fullscreen option as well as the launch-time display value because modern Minecraft synchronizes those values later in its constructor. It reapplies the temporary mode after that synchronization and after Minecraft shows the window, which covers native-window handoff from NeoForge. When Minecraft clears its startup overlay, the controller restores the regular mode and restores the window from its minimized state.
 
-NeoForge's immediate window provider runs before ordinary mods are discovered and hands the same GLFW handle to Minecraft. A normal mod jar cannot affect creation of that earliest NeoForge window. The startup controller begins managing the handle when Minecraft constructs its `Window`, keeps it minimized through the vanilla loading overlay when requested, and makes the completed game visible in its regular mode. Reapplying minimization avoids relying on a compositor-reported iconified state, which is unavailable on Wayland.
+NeoForge's immediate window provider runs before ordinary mods are discovered and hands its native window to Minecraft. A normal mod jar cannot affect creation of that earliest NeoForge window. The startup controller begins managing the handle when Minecraft constructs its `Window`, keeps it minimized through the vanilla loading overlay when requested, and makes the completed game visible in its regular mode. Reapplying minimization avoids relying on a compositor-reported iconified state, which is unavailable on Wayland.
 
 ## Version-specific hooks
 

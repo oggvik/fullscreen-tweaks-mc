@@ -8,6 +8,8 @@ plugins {
 
     val modstitchVersion = "0.8.5" // Source: https://github.com/isXander/modstitch
     id("dev.isxander.modstitch.base") version modstitchVersion apply false
+    id("net.neoforged.moddev") version "2.0.147" apply false
+    id("net.neoforged.moddev.legacyforge") version "2.0.147" apply false
 }
 stonecutter active "1.21.1-fabric"
 
