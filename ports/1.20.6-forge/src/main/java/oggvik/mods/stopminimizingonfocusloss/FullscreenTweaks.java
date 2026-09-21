@@ -7,11 +7,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-@Mod(StopMinimizingOnFocusLoss.MOD_ID)
-public final class StopMinimizingOnFocusLoss {
+@Mod(FullscreenTweaks.MOD_ID)
+public final class FullscreenTweaks {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
 
-    public StopMinimizingOnFocusLoss() {
+    public FullscreenTweaks() {
         if (FMLLoader.getDist() == Dist.CLIENT) {
             init();
         }

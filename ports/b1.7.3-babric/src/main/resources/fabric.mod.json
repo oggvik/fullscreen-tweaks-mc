@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "stop_minimizing_on_focus_loss",
   "version": "${version}",
-  "name": "Stop Minimizing on Focus Loss",
+  "name": "Fullscreen Tweaks",
   "description": "Experimental b1.7.3 compatibility build; vanilla b1.7.3 does not expose the relevant native fullscreen behavior.",
   "authors": [
     "Oggvik"

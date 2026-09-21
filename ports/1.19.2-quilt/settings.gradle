@@ -21,4 +21,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'stop-minimizing-on-focus-loss-quilt'
+rootProject.name = 'fullscreen-tweaks-quilt'

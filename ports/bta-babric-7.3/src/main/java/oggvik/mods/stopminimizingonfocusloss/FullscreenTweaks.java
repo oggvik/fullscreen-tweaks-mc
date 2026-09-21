@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-public final class StopMinimizingOnFocusLoss {
+public final class FullscreenTweaks {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
 
     private static final int GLFW_AUTO_ICONIFY = 0x00020006;
@@ -28,7 +28,7 @@ public final class StopMinimizingOnFocusLoss {
     private static boolean loggedNoHandle;
     private static boolean loggedFailure;
 
-    private StopMinimizingOnFocusLoss() {
+    private FullscreenTweaks() {
     }
 
     public static void disableAutoIconifyIfSupported() {
@@ -135,21 +135,21 @@ public final class StopMinimizingOnFocusLoss {
     private static void logSuccess() {
         if (!loggedSuccess) {
             loggedSuccess = true;
-            System.out.println("[Stop Minimizing on Focus Loss] Disabled GLFW auto-iconify.");
+            System.out.println("[Fullscreen Tweaks] Disabled GLFW auto-iconify.");
         }
     }
 
     private static void logNoHandle() {
         if (!loggedNoHandle) {
             loggedNoHandle = true;
-            System.out.println("[Stop Minimizing on Focus Loss] Could not find a GLFW window handle.");
+            System.out.println("[Fullscreen Tweaks] Could not find a GLFW window handle.");
         }
     }
 
     private static void logFailure() {
         if (!loggedFailure) {
             loggedFailure = true;
-            System.out.println("[Stop Minimizing on Focus Loss] GLFW auto-iconify is not available in this runtime.");
+            System.out.println("[Fullscreen Tweaks] GLFW auto-iconify is not available in this runtime.");
         }
     }
 }

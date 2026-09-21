@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "stop_minimizing_on_focus_loss",
   "version": "${version}",
-  "name": "Stop Minimizing on Focus Loss",
+  "name": "Fullscreen Tweaks",
   "description": "Prevents BTA fullscreen windows from minimizing by disabling GLFW auto-iconify on BTA's GameWindowGLFW window.",
   "authors": [
     "Oggvik"

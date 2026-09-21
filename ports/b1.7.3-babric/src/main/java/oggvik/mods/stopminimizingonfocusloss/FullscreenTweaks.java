@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-public final class StopMinimizingOnFocusLoss {
+public final class FullscreenTweaks {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
 
     private static final int GLFW_AUTO_ICONIFY = 0x00020006;
@@ -23,7 +23,7 @@ public final class StopMinimizingOnFocusLoss {
             "handle"
     };
 
-    private StopMinimizingOnFocusLoss() {
+    private FullscreenTweaks() {
     }
 
     public static void disableAutoIconifyIfSupported() {

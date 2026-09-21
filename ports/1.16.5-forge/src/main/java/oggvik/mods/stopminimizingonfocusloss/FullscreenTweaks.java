@@ -14,13 +14,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(StopMinimizingOnFocusLoss.MOD_ID)
-public final class StopMinimizingOnFocusLoss {
+@Mod(FullscreenTweaks.MOD_ID)
+public final class FullscreenTweaks {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
-    public static final String MOD_NAME = "Stop Minimizing on Focus Loss";
+    public static final String MOD_NAME = "Fullscreen Tweaks";
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public StopMinimizingOnFocusLoss() {
+    public FullscreenTweaks() {
         ModLoadingContext.get().registerExtensionPoint(
                 ExtensionPoint.DISPLAYTEST,
                 () -> Pair.of(

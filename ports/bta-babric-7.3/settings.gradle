@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'stop-minimizing-on-focus-loss-bta-babric'
+rootProject.name = 'fullscreen-tweaks-bta-babric'

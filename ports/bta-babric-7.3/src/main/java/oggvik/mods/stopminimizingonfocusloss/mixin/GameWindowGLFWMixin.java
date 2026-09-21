@@ -4,7 +4,7 @@
 package oggvik.mods.stopminimizingonfocusloss.mixin;
 
 import net.minecraft.client.Minecraft;
-import oggvik.mods.stopminimizingonfocusloss.StopMinimizingOnFocusLoss;
+import oggvik.mods.stopminimizingonfocusloss.FullscreenTweaks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,11 +18,11 @@ public final class GameWindowGLFWMixin {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterInit(Minecraft minecraft, int width, int height, CallbackInfo info) {
-        StopMinimizingOnFocusLoss.disableAutoIconify(this.window);
+        FullscreenTweaks.disableAutoIconify(this.window);
     }
 
     @Inject(method = "updateWindowState", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterWindowStateChange(CallbackInfo info) {
-        StopMinimizingOnFocusLoss.disableAutoIconify(this.window);
+        FullscreenTweaks.disableAutoIconify(this.window);
     }
 }

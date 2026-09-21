@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'stop-minimizing-on-focus-loss-1.16.5-forge'
+rootProject.name = 'fullscreen-tweaks-1.16.5-forge'

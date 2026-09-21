@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2026 Oggvik
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Stop Minimizing on Focus Loss - Quilt 26.3-snapshot-3 Port
+# Fullscreen Tweaks - Quilt 26.3-snapshot-3 Port
 
 Standalone Quilt 26.3-snapshot-3 build using Quilt Loom and `quilt.mod.json` metadata.
 

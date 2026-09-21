@@ -11,4 +11,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'stop-minimizing-on-focus-loss-1.20.1-neoforge'
+rootProject.name = 'fullscreen-tweaks-1.20.1-neoforge'

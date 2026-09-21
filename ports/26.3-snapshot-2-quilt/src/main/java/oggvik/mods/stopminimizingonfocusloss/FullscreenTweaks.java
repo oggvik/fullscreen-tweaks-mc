@@ -5,11 +5,11 @@ package oggvik.mods.stopminimizingonfocusloss;
 
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 
-public final class StopMinimizingOnFocusLoss {
+public final class FullscreenTweaks {
     public static final String MOD_ID = "stop_minimizing_on_focus_loss";
-    public static final String MOD_NAME = "Stop Minimizing on Focus Loss";
+    public static final String MOD_NAME = "Fullscreen Tweaks";
 
-    private StopMinimizingOnFocusLoss() {
+    private FullscreenTweaks() {
     }
 
     public static void init() {

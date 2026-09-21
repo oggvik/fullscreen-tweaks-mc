@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2026 Oggvik
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Stop Minimizing on Focus Loss - Forge 1.20.6 Port
+# Fullscreen Tweaks - Forge 1.20.6 Port
 
 Standalone ForgeGradle 6 build for Minecraft Forge `1.20.6-50.2.8`.
 

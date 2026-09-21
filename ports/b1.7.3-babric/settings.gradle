@@ -16,4 +16,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'stop-minimizing-on-focus-loss-b1.7.3-babric'
+rootProject.name = 'fullscreen-tweaks-b1.7.3-babric'

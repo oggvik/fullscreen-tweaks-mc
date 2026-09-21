@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Contributing
 
-Thanks for helping improve Stop Minimizing on Focus Loss.
+Thanks for helping improve Fullscreen Tweaks.
 
 ## Before opening an issue
 

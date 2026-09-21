@@ -9,12 +9,12 @@ license = "AGPL-3.0-or-later"
 [[mods]]
 modId = "stop_minimizing_on_focus_loss"
 version = "${file.jarVersion}"
-displayName = "Stop Minimizing on Focus Loss"
+displayName = "Fullscreen Tweaks"
 authors = "Oggvik"
 displayTest = "IGNORE_SERVER_VERSION"
 logoFile = "icon.png"
 description = '''
-Prevents Minecraft fullscreen windows from minimizing when focus is lost.
+Customizes Minecraft fullscreen and window behavior, including focus-loss and loading-screen controls where supported.
 '''
 
 [[dependencies.stop_minimizing_on_focus_loss]]

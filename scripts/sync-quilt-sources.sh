@@ -39,9 +39,10 @@ for minecraft_version in "${versions[@]}"; do
 
     echo "==> Synchronizing ${port_root}"
     rm -rf "$target_root/config" "$target_root/window" "$target_root/client"
+    rm -f "$target_root/StopMinimizingOnFocusLoss.java" "$target_root/FullscreenTweaks.java"
     mkdir -p "$target_root/platform" "$target_root/mixins"
     cp -R "$generated_root/config" "$generated_root/window" "$generated_root/client" "$target_root/"
-    cp "$generated_root/StopMinimizingOnFocusLoss.java" "$target_root/"
+    cp "$generated_root/FullscreenTweaks.java" "$target_root/"
     cp "$generated_root/platform/MinecraftWindowBridge.java" "$target_root/platform/"
     cp "$generated_root/mixins/WindowMixin.java" "$generated_root/mixins/WindowModeAccessor.java" \
         "$generated_root/mixins/MinecraftMixin.java" "$generated_root/mixins/OptionsScreenMixin.java" \

@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2026 Oggvik
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Stop Minimizing on Focus Loss - Babric b1.7.3 Port
+# Fullscreen Tweaks - Babric b1.7.3 Port
 
 Standalone Babric b1.7.3 build using `babric-loom`.
 

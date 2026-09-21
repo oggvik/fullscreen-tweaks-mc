@@ -3,14 +3,16 @@ SPDX-FileCopyrightText: 2026 Oggvik
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Stop Minimizing on Focus Loss
+# Fullscreen Tweaks
 
 [![Gradle CI](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml/badge.svg)](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE.md)
 
-A client-side Minecraft mod that keeps fullscreen Minecraft visible when you alt-tab, click another monitor, or move focus to another application. Version 1.1.0 also lets the loading screen use a window mode and minimized state independently from the rest of the game.
+A client-side Minecraft mod for controlling fullscreen style, focus-loss behavior, and the loading window independently from the rest of the game.
 
 Install the jar that matches both your Minecraft version and mod loader. No server installation is required.
+
+Fullscreen Tweaks was previously named **Stop Minimizing on Focus Loss**. The mod ID, configuration filename, and package namespace remain unchanged so existing installations and settings continue to work.
 
 ## Features
 

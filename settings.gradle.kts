@@ -48,4 +48,4 @@ stonecutter {
         mc("26.3", loaders = listOf("fabric", "neoforge"))
     }
 }
-rootProject.name = "Stop Minimizing on Focus Loss"
+rootProject.name = "Fullscreen Tweaks"

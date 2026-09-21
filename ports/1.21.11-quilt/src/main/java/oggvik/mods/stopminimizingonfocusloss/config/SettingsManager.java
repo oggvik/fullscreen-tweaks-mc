@@ -3,7 +3,7 @@
 
 package oggvik.mods.stopminimizingonfocusloss.config;
 
-import oggvik.mods.stopminimizingonfocusloss.StopMinimizingOnFocusLoss;
+import oggvik.mods.stopminimizingonfocusloss.FullscreenTweaks;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,7 +72,7 @@ public final class SettingsManager {
         try {
             Files.createDirectories(parent);
             try (OutputStream output = Files.newOutputStream(temporary)) {
-                value.toProperties().store(output, "Stop Minimizing on Focus Loss client settings");
+                value.toProperties().store(output, "Fullscreen Tweaks client settings");
             }
             try {
                 Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
@@ -94,7 +94,7 @@ public final class SettingsManager {
     }
 
     private static void warn(String message, Throwable throwable) {
-        System.err.println("[" + StopMinimizingOnFocusLoss.MOD_NAME + "] " + message
+        System.err.println("[" + FullscreenTweaks.MOD_NAME + "] " + message
                 + ": " + throwable.getMessage());
     }
 }

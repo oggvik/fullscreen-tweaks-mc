@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2026 Oggvik
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Stop Minimizing on Focus Loss - BTA 8.0.1 Babric Port
+# Fullscreen Tweaks - BTA 8.0.1 Babric Port
 
 Standalone Better Than Adventure `8.0.1` Babric build using Fabric Loom and the official BTA 8.0.1 client manifest.
 
