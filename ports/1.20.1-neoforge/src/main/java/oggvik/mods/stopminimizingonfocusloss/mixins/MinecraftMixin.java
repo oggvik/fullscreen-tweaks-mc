@@ -22,7 +22,7 @@ public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$applyLoadingWindowSettings(CallbackInfo info) {
-        StartupWindowController.beginLoading(this.window);
+        StartupWindowController.minecraftReady(this.window);
     }
 
     @Inject(method = "setOverlay", at = @At("HEAD"))

@@ -17,14 +17,14 @@ Borderless mode detaches the window from native fullscreen, removes decorations,
 
 The controller reapplies the policy after window creation and fullscreen transitions. If Minecraft is windowed, it chooses the monitor with the greatest overlap and falls back to the primary monitor. Native handles, monitor choices, and video modes are never persisted.
 
-Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on that target, while its startup-window controller uses SDL3 to select the loading mode and minimize the window.
+Minecraft `26.3-snapshot-4` moved from GLFW to SDL3, after snapshot 3 stopped auto-minimizing fullscreen windows. The focus-loss policy remains unnecessary on that target, while its startup-window controller uses SDL3 to minimize the window.
 
-At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. The controller applies these choices after Minecraft finishes configuring its window, restores the regular choice when Minecraft clears its startup overlay, and reapplies minimized startup after that mode transition. Reapplying minimization avoids relying on a compositor-reported iconified state, which is unavailable on Wayland.
+At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. A constructor-argument mixin replaces Minecraft's initial fullscreen value before GLFW or SDL3 creates the native window. This is early enough for the loading window itself to use the selected mode and leaves platform-specific creation to Minecraft's native backend. The controller records the regular choice, restores it when Minecraft clears its startup overlay, and reapplies minimized startup after window creation and mode restoration. Reapplying minimization avoids relying on a compositor-reported iconified state, which is unavailable on Wayland.
 
 ## Version-specific hooks
 
-- Modern Fabric, Forge, NeoForge, and Quilt builds inject into `com.mojang.blaze3d.platform.Window` after construction and fullscreen-mode changes.
-- Forge 1.16.5 targets `net.minecraft.client.MainWindow`.
+- Maintained Modstitch Fabric, Forge, and NeoForge builds replace the initial `DisplayData` argument at the head of `com.mojang.blaze3d.platform.Window`'s constructor, then inject after construction and fullscreen-mode changes.
+- Forge 1.16.5 uses the equivalent `ScreenSize` constructor argument on `net.minecraft.client.MainWindow`.
 - Forge 1.7.10, 1.8.9, and 1.12.2 use a client-tick controller around LWJGL2's `Display` API.
 - BTA 7.3 and 8.0 target `net.minecraft.client.render.window.GameWindowGLFW`.
 - Babric b1.7.3 remains an experimental no-op because it does not expose the required GLFW fullscreen path.
@@ -42,6 +42,8 @@ Fabric and Quilt settings builds bundle only the matching Fabric API base and re
 ## Platform boundaries
 
 GLFW native fullscreen normally changes the display mode and can iconify on focus loss. Borderless mode uses an undecorated window at desktop size, which avoids that native-fullscreen transition.
+
+Startup mode selection does not call operating-system window APIs directly. GLFW handles Windows, macOS, X11, Wayland, and the Unix-like platforms supported by Minecraft's LWJGL build; SDL3 does the same for Minecraft versions that use it. Minimization is a request to that backend, so a Wayland compositor or another window manager may apply its own policy.
 
 Windows Fullscreen Optimizations are operating-system presentation behavior rather than a GLFW/OpenGL window attribute. The mod does not modify executable compatibility flags. On Linux, compositor bypass and unredirect behavior belongs to the active X11 window manager or Wayland compositor, so the mod does not write desktop-environment settings.
 

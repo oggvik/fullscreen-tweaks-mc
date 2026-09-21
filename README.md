@@ -40,6 +40,8 @@ The Options entry searches for a free position without moving other mods' contro
 
 See [Supported targets](docs/SUPPORTED_TARGETS.md) for the complete build matrix, Java requirements, declared Minecraft ranges, and runtime notes. Each jar is version- and loader-specific; do not reuse a jar on another row of the matrix.
 
+The loading-window override is applied before Minecraft creates its native window and uses Minecraft's GLFW or SDL3 backend. This keeps the same code path portable across Windows, macOS, Linux on X11 or Wayland, and other Unix-like systems supported by the game's native libraries. Window managers and Wayland compositors may still decide how a minimize request is presented.
+
 ## Development
 
 The main project uses [Stonecutter](https://stonecutter.kikugie.dev/) and [Modstitch](https://modstitch.dev/) to generate Fabric, Forge, and NeoForge targets from shared sources. Quilt and legacy/Babric builds live under `ports/` as standalone Gradle projects.

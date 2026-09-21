@@ -12,12 +12,14 @@ import org.lwjgl.glfw.GLFW;
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
     private static boolean startupActive;
-    private static boolean modeOverridden;
+    private static boolean gameFullscreen;
 
     private StartupWindowController() {
     }
 
-    public static boolean loadingFullscreen(boolean gameFullscreen) {
+    public static boolean prepareLoading(boolean regularFullscreen) {
+        startupActive = true;
+        gameFullscreen = regularFullscreen;
         LoadingScreenMode mode = SettingsManager.get().getLoadingScreenMode();
         if (mode == LoadingScreenMode.WINDOWED) {
             return false;
@@ -25,24 +27,17 @@ public final class StartupWindowController {
         if (mode == LoadingScreenMode.FULLSCREEN) {
             return true;
         }
-        return gameFullscreen;
+        return regularFullscreen;
     }
 
-    public static void beginLoading(Window window) {
-        if (window == null) {
-            return;
-        }
-        startupActive = true;
-        WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        boolean gameFullscreen = accessor.stopMinimizingOnFocusLoss$isFullscreen();
-        boolean loadingFullscreen = loadingFullscreen(gameFullscreen);
-        if (loadingFullscreen != gameFullscreen) {
-            accessor.stopMinimizingOnFocusLoss$setFullscreen(loadingFullscreen);
-            accessor.stopMinimizingOnFocusLoss$setMode();
-            accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);
-            modeOverridden = true;
-        }
+    public static void windowCreated(Window window) {
         if (SettingsManager.get().isStartMinimized()) {
+            GLFW.glfwIconifyWindow(window.getWindow());
+        }
+    }
+
+    public static void minecraftReady(Window window) {
+        if (startupActive && SettingsManager.get().isStartMinimized()) {
             GLFW.glfwIconifyWindow(window.getWindow());
         }
     }
@@ -52,9 +47,10 @@ public final class StartupWindowController {
             return;
         }
         startupActive = false;
-        if (modeOverridden) {
-            modeOverridden = false;
-            ((WindowModeAccessor) (Object) window).stopMinimizingOnFocusLoss$setMode();
+        WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
+        if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != gameFullscreen) {
+            accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);
+            accessor.stopMinimizingOnFocusLoss$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
             GLFW.glfwIconifyWindow(window.getWindow());
