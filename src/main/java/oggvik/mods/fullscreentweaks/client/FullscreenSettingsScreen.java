@@ -73,9 +73,17 @@ public final class FullscreenSettingsScreen extends Screen {
     /*? if sdl_fullscreen_option {*/
     /*private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = true;
     private static final boolean STYLE_SECTION_HEADINGS = true;
+    private static final String PREVENTION_LABEL_KEY =
+            "fullscreen_tweaks.option.prevent_auto_iconify.sdl";
+    private static final String PREVENTION_TOOLTIP_KEY =
+            "fullscreen_tweaks.tooltip.prevent_auto_iconify.sdl";
     *//*?} else {*/
     private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = false;
     private static final boolean STYLE_SECTION_HEADINGS = false;
+    private static final String PREVENTION_LABEL_KEY =
+            "fullscreen_tweaks.option.prevent_auto_iconify";
+    private static final String PREVENTION_TOOLTIP_KEY =
+            "fullscreen_tweaks.tooltip.prevent_auto_iconify";
     /*?}*/
     /*? if button_builder {*/
     /*private static final boolean HAS_NATIVE_TOOLTIPS = true;
@@ -191,7 +199,7 @@ public final class FullscreenSettingsScreen extends Screen {
         *//*?}*/
         addControl(controlX, nextControlY, controlWidth, preventionLabel(settings),
                 ignored -> togglePrevention(settings),
-                "fullscreen_tweaks.tooltip.prevent_auto_iconify");
+                PREVENTION_TOOLTIP_KEY);
 
         int loadingModeY;
         if (SHOW_FULLSCREEN_MODE) {
@@ -360,7 +368,7 @@ public final class FullscreenSettingsScreen extends Screen {
 
     private String preventionLabel(FullscreenSettings settings) {
         String value = translate(settings.isPreventAutoIconify() ? "options.on" : "options.off");
-        return translate("fullscreen_tweaks.option.prevent_auto_iconify") + ": " + value;
+        return translate(PREVENTION_LABEL_KEY) + ": " + value;
     }
 
     private String startMinimizedLabel(FullscreenSettings settings) {
