@@ -5,16 +5,62 @@ package oggvik.mods.fullscreentweaks.platform;
 
 import oggvik.mods.fullscreentweaks.FullscreenTweaks;
 import oggvik.mods.fullscreentweaks.client.FullscreenSettingsScreen;
-/*? if fabric {*/
+/*? if fabric && !legacy_modmenu {*/
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.api.ClientModInitializer;
 
-public final class PlatformEntrypoint implements ClientModInitializer {
+public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
     @Override
     public void onInitializeClient() {
         FullscreenTweaks.init();
     }
+
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return FullscreenSettingsScreen::new;
+    }
 }
-/*?} elif neoforge {*/
+/*?} else if modmenu_114 {*/
+/*import io.github.prospector.modmenu.api.ModMenuApi;
+import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.gui.screens.Screen;
+
+import java.util.function.Function;
+
+public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
+    @Override
+    public void onInitializeClient() {
+        FullscreenTweaks.init();
+    }
+
+    @Override
+    public String getModId() {
+        return FullscreenTweaks.MOD_ID;
+    }
+
+    @Override
+    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
+        return FullscreenSettingsScreen::new;
+    }
+}
+*//*?} else if legacy_modmenu {*/
+/*import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import io.github.prospector.modmenu.api.ModMenuApi;
+import net.fabricmc.api.ClientModInitializer;
+
+public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
+    @Override
+    public void onInitializeClient() {
+        FullscreenTweaks.init();
+    }
+
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return FullscreenSettingsScreen::new;
+    }
+}
+*//*?} else if neoforge {*/
 /*import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -28,7 +74,7 @@ public final class PlatformEntrypoint {
                 (IConfigScreenFactory) (ignored, parent) -> new FullscreenSettingsScreen(parent));
     }
 }
-*//*?} elif forge_config_gui_handler {*/
+*//*?} else if forge_config_gui_handler {*/
 /*import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -47,7 +93,7 @@ public final class PlatformEntrypoint {
         }
     }
 }
-*//*?} elif forge_config_gui {*/
+*//*?} else if forge_config_gui {*/
 /*import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -66,7 +112,7 @@ public final class PlatformEntrypoint {
         }
     }
 }
-*//*?} elif forge_config_screen {*/
+*//*?} else if forge_config_screen {*/
 /*import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
