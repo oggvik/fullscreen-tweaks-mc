@@ -26,6 +26,17 @@ public final class MinecraftWindowBridge {
         *//*?}*/
     }
 
+    /*? if sdl_fullscreen_option {*/
+    /*public static AbstractWidget createExclusiveFullscreenButton(int x, int y, int width) {
+        Minecraft minecraft = Minecraft.getInstance();
+        return minecraft.options.exclusiveFullscreen().createButton(minecraft.options, x, y, width);
+    }
+
+    public static boolean exclusiveFullscreenSetting() {
+        return Minecraft.getInstance().options.exclusiveFullscreen().get();
+    }
+    *//*?}*/
+
     public static boolean fullscreenSetting() {
         /*? if component_factory {*/
         return Minecraft.getInstance().options.fullscreen().get();

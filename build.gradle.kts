@@ -150,6 +150,8 @@ stonecutter {
         put("button_builder", stonecutter.eval(mcVersion, ">=1.19.4"))
         put("component_factory", stonecutter.eval(mcVersion, ">=1.19"))
         put("render_extractor", stonecutter.eval(mcVersion, ">=26.1"))
+        put("sdl_fullscreen_option", stonecutter.current.project == "26.3-fabric"
+                || stonecutter.current.project == "26.3-neoforge")
         put("gui_graphics", stonecutter.eval(mcVersion, ">=1.20") && stonecutter.eval(mcVersion, "<26.1"))
         put("resource_location_factory", stonecutter.eval(mcVersion, ">=1.21") && !stonecutter.current.project.startsWith("1.21.11"))
         put("identifier", stonecutter.current.project.startsWith("1.21.11"))
