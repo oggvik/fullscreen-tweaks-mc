@@ -28,16 +28,17 @@ NeoForge's immediate window provider runs before ordinary mods are discovered an
 - Maintained Modstitch Fabric, Forge, and NeoForge builds replace the initial `DisplayData` argument at the head of `com.mojang.blaze3d.platform.Window`'s constructor, then inject after construction and fullscreen-mode changes.
 - Forge 1.16.5 uses the equivalent `ScreenSize` constructor argument on `net.minecraft.client.MainWindow`.
 - Forge 1.7.10, 1.8.9, and 1.12.2 use a client-tick controller around LWJGL2's `Display` API.
-- BTA 7.3 and 8.0 target `net.minecraft.client.render.window.GameWindowGLFW`.
+- BTA 7.3 targets `net.minecraft.client.render.window.GameWindowGLFW` for its legacy focus-loss policy.
+- BTA 8.0.1 uses its native options-page registry and `GameWindowGLFW`. The mod records BTA's effective launch fullscreen state, temporarily applies the selected loading state after window creation, and restores the game state before BTA's final startup window update. BTA's built-in native-versus-borderless option remains authoritative.
 - Babric b1.7.3 remains an experimental no-op because it does not expose the required GLFW fullscreen path.
 
 Stonecutter conditions select the correct handle field, identifier type, GUI renderer, screen package, and button API for each generated target. Generated mixins are tied to their compiled Minecraft version.
 
 ## Settings and UI
 
-The properties file stores `preventAutoIconify`, `fullscreenMode`, `loadingScreenMode`, and `startMinimized`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; on GLFW targets, fullscreen mode defaults to borderless on Windows and native on other systems. SDL targets retain the stored mode for downgrade compatibility but defer the active fullscreen style to Minecraft's vanilla setting. The loading screen follows the game by default and does not start minimized.
+The shared properties file stores `preventAutoIconify`, `fullscreenMode`, `loadingScreenMode`, and `startMinimized`. Legacy `enabled` values migrate to the prevention setting on read. Prevention defaults to enabled; on GLFW targets, fullscreen mode defaults to borderless on Windows and native on other systems. SDL targets retain the stored mode for downgrade compatibility but defer the active fullscreen style to Minecraft's vanilla setting. BTA 8.0.1 stores only prevention and loading-window settings because BTA already owns fullscreen-style selection. The loading screen follows the game by default and does not start minimized.
 
-The settings button is attached to the main Options screen so replacements for video settings, including Sodium and Embeddium, do not remove the entry point. Its geometry helper checks visible widget bounds, tries aligned free slots, uses a compact button when necessary, and hides the control if no safe position exists.
+The settings button is attached to the main Options screen so replacements for video settings, including Sodium and Embeddium, do not remove the entry point. Its geometry helper checks visible widget bounds, tries aligned free slots, uses a compact button when necessary, and hides the control if no safe position exists. BTA 8.0.1 instead registers a native options page with BTA's own categories, controls, search integration, and tooltip rendering.
 
 Fabric and Quilt settings builds bundle only the matching Fabric API base and resource-loader modules. Forge and NeoForge use their built-in resource-pack support. Quilt targets from 1.21.11 onward require Quilt Loader 0.30.1-beta.2 or newer.
 

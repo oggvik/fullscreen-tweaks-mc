@@ -50,6 +50,8 @@ Version 2.0.0 is a major expansion of the mod formerly known as **Stop Minimizin
 * Added SDL3-aware fullscreen detection and focus-loss handling for Minecraft 26.3.
 * On SDL3, Minecraft's own **Exclusive Fullscreen** setting now controls exclusive versus borderless behavior instead of duplicating that choice in a mod-owned setting.
 * When minimization prevention is disabled on SDL3, native fullscreen can once again use the classic minimize-on-focus-loss behavior.
+* Upgraded the Better Than Adventure 8.0.1 Babric port to Fullscreen Tweaks 2.0.0 with a native BTA options page, loading-window modes, minimized loading, and configurable focus-loss behavior.
+* BTA's built-in native-versus-borderless fullscreen setting remains authoritative and is not duplicated by the mod.
 
 ## Localization
 
@@ -71,4 +73,4 @@ Version 2.0.0 is a major expansion of the mod formerly known as **Stop Minimizin
 
 Every uploaded jar is specific to one Minecraft version and loader. Install only the file whose `+<minecraft>-<loader>` suffix matches your game exactly.
 
-Fullscreen Tweaks 2.0.x is available for the actively supported Fabric, Forge, and NeoForge combinations listed on the project page. Other Minecraft and loader combinations remain on the legacy 0.1.x line and do not receive 2.0.x features. Better Than Adventure remains separately supported and will receive compatibility updates when needed.
+Fullscreen Tweaks 2.0.x is available for the actively supported Fabric, Forge, and NeoForge combinations listed on the project page, plus the separately maintained Better Than Adventure 8.0.1 Babric port. Other Minecraft and loader combinations remain on the legacy 0.1.x line and do not receive 2.0.x features.

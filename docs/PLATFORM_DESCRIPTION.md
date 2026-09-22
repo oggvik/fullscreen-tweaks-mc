@@ -20,7 +20,7 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 * Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Quilt, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
 * Provides a dedicated **Fullscreen Settings** screen directly from Minecraft's main Options screen on supported GUI targets. (**Added in 1.0.0**)
 * Lets minimization prevention be enabled or disabled independently from the selected fullscreen style. (**Added in 1.0.0**)
-* Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode on GLFW versions. SDL versions use Minecraft's built-in exclusive-fullscreen choice instead. (**Added in 1.0.0**)
+* Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode where vanilla lacks that choice. Minecraft 26.3 and BTA 8.0.1 use their own built-in fullscreen-style settings instead. (**Added in 1.0.0**)
 * Makes borderless fullscreen fill the monitor containing most of the Minecraft window, with a safe fallback to the primary monitor. (**Added in 1.0.0**)
 * Uses practical platform defaults: borderless fullscreen on Windows and native fullscreen with minimization prevention elsewhere. (**Added in 1.0.0**)
 * Stores portable settings in `config/fullscreen-tweaks.properties`, automatically migrating both the previous filename and the original enable/disable setting. (**Added in 1.0.0**)
@@ -75,5 +75,5 @@ Better Than Adventure is the exception to that legacy policy. Its Babric targets
 | Better Than Adventure version | Loader | Support status |
 | --- | --- | --- |
 | 7.3_04 | Babric | Supported legacy release |
-| 8.0.1 | Babric | Supported current release |
+| 8.0.1 | Babric | **2.0.x** current release with focus-loss and loading-window controls |
 | Future supported BTA releases | Babric | Compatibility updates will be added as needed |

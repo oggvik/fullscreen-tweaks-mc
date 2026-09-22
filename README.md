@@ -21,7 +21,7 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 - Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Quilt, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
 - Provides a dedicated **Fullscreen Settings** screen directly from Minecraft's main Options screen on supported GUI targets. (**Added in 1.0.0**)
 - Lets minimization prevention be enabled or disabled independently from the selected fullscreen style. (**Added in 1.0.0**)
-- Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode on GLFW versions. SDL versions use Minecraft's built-in exclusive-fullscreen choice instead. (**Added in 1.0.0**)
+- Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode where vanilla lacks that choice. Minecraft 26.3 and BTA 8.0.1 use their own built-in fullscreen-style settings instead. (**Added in 1.0.0**)
 - Makes borderless fullscreen fill the monitor containing most of the Minecraft window, with a safe fallback to the primary monitor. (**Added in 1.0.0**)
 - Uses practical platform defaults: borderless fullscreen on Windows and native fullscreen with minimization prevention elsewhere. (**Added in 1.0.0**)
 - Stores portable settings in `config/fullscreen-tweaks.properties`, automatically migrating both the previous filename and the original enable/disable setting. (**Added in 1.0.0**)
@@ -33,11 +33,11 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 
 ## Configuration
 
-Open **Options → Fullscreen Settings** in Minecraft. The page controls:
+Open **Options → Fullscreen Settings** in Minecraft. BTA 8.0.1 exposes the same controls as a native **Fullscreen Tweaks** options page. The page controls:
 
 - **Fullscreen:** Minecraft's normal fullscreen setting. F11 and other screens use the same value.
 - **Prevent native fullscreen minimization:** controls focus-loss minimization for native fullscreen; borderless fullscreen normally remains visible regardless.
-- **Fullscreen mode:** chooses native or borderless fullscreen on GLFW versions. Minecraft 26.3 and newer use the equivalent vanilla exclusive-fullscreen setting.
+- **Fullscreen mode:** chooses native or borderless fullscreen where Minecraft does not already provide that choice. Minecraft 26.3 and BTA 8.0.1 retain their equivalent vanilla settings.
 - **Loading screen:** follows the game's fullscreen setting or temporarily forces the loading screen to be windowed or fullscreen.
 - **Start loading screen minimized:** keeps Minecraft minimized in the operating system's taskbar or dock throughout loading, then shows it in the regular game window mode when loading finishes.
 
