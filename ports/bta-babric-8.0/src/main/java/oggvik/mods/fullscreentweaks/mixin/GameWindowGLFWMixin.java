@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Oggvik
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-package oggvik.mods.stopminimizingonfocusloss.mixin;
+package oggvik.mods.fullscreentweaks.mixin;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
@@ -18,22 +18,22 @@ public final class GameWindowGLFWMixin {
 	public long window;
 
 	@Inject(method = "init", at = @At("RETURN"))
-	private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterInit(
+	private void fullscreenTweaks$disableAutoIconifyAfterInit(
 		Minecraft minecraft,
 		int width,
 		int height,
 		CallbackInfo info
 	) {
-		stopMinimizingOnFocusLoss$disableAutoIconify();
+		fullscreenTweaks$disableAutoIconify();
 	}
 
 	@Inject(method = "updateWindowState", at = @At("RETURN"))
-	private void stopMinimizingOnFocusLoss$disableAutoIconifyAfterWindowStateChange(CallbackInfo info) {
-		stopMinimizingOnFocusLoss$disableAutoIconify();
+	private void fullscreenTweaks$disableAutoIconifyAfterWindowStateChange(CallbackInfo info) {
+		fullscreenTweaks$disableAutoIconify();
 	}
 
 	@Unique
-	private void stopMinimizingOnFocusLoss$disableAutoIconify() {
+	private void fullscreenTweaks$disableAutoIconify() {
 		GLFW.glfwSetWindowAttrib(this.window, GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
 	}
 }

@@ -1,22 +1,22 @@
 {
 	"schemaVersion": 1,
-	"id": "stop_minimizing_on_focus_loss",
+	"id": "fullscreen_tweaks",
 	"version": "${version}",
 	"name": "Fullscreen Tweaks",
-	"description": "Prevents Better Than Adventure fullscreen windows from minimizing by disabling GLFW auto-iconify.",
+	"description": "Customizes Better Than Adventure fullscreen and loading-window behavior.",
 	"authors": [
 		"Oggvik"
 	],
 	"contact": {
-		"homepage": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc",
-		"issues": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc/issues",
-		"sources": "https://codeberg.org/oggvik/stop-minimizing-on-focus-loss-mc"
+		"homepage": "https://github.com/oggvik/fullscreen-tweaks-mc",
+		"issues": "https://github.com/oggvik/fullscreen-tweaks-mc/issues",
+		"sources": "https://github.com/oggvik/fullscreen-tweaks-mc"
 	},
 	"icon": "icon.png",
 	"license": "AGPL-3.0-or-later",
 	"environment": "client",
 	"mixins": [
-		"stop_minimizing_on_focus_loss.mixins.json"
+		"fullscreen_tweaks.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=${fabricloader}",

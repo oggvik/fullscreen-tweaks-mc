@@ -5,9 +5,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Fullscreen Tweaks - BTA 8.0.1 Babric Port
 
-Standalone Better Than Adventure `8.0.1` Babric build using Fabric Loom and the official BTA 8.0.1 client manifest.
+Standalone Fullscreen Tweaks `2.0.0` build for Better Than Adventure `8.0.1` using Babric, Fabric Loom, and the official BTA client manifest.
 
-The client mixin targets BTA's `GameWindowGLFW` implementation. It disables GLFW auto-iconify after the window is created and reapplies the attribute after fullscreen or window-state changes.
+This port integrates with BTA's `GameWindowGLFW` implementation while leaving BTA's built-in native-versus-borderless fullscreen setting in control.
+
+Source and issue tracker: <https://github.com/oggvik/fullscreen-tweaks-mc>
 
 Build:
 

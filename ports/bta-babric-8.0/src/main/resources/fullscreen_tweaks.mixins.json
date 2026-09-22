@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "oggvik.mods.stopminimizingonfocusloss.mixin",
+  "package": "oggvik.mods.fullscreentweaks.mixin",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_${java}",
   "client": [
