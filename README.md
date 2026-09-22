@@ -25,11 +25,11 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 - Makes borderless fullscreen fill the monitor containing most of the Minecraft window, with a safe fallback to the primary monitor. (**Added in 1.0.0**)
 - Uses practical platform defaults: borderless fullscreen on Windows and native fullscreen with minimization prevention elsewhere. (**Added in 1.0.0**)
 - Stores portable settings in `config/fullscreen-tweaks.properties`, automatically migrating both the previous filename and the original enable/disable setting. (**Added in 1.0.0**)
-- Lets the loading screen follow the game's saved fullscreen setting or independently use windowed or fullscreen mode. (**Added in 1.1.0**)
-- Can keep Minecraft minimized throughout loading, then restore and show it in the regular game window mode when loading finishes. (**Added in 1.1.0**)
-- Restores both the actual window mode and Minecraft's displayed fullscreen setting after temporary loading-window overrides. (**Added in 1.1.0**)
-- Presents multi-choice settings as radio-style controls, with concise labels and an individual tooltip for every setting and choice. (**Added in 1.1.0**)
-- Supports Minecraft's newer SDL3 window backend, including optional classic minimize-on-focus-loss behavior for native fullscreen. (**Added in 1.1.0**)
+- Lets the loading screen follow the game's saved fullscreen setting or independently use windowed or fullscreen mode. (**Added in 2.0.0**)
+- Can keep Minecraft minimized throughout loading, then restore and show it in the regular game window mode when loading finishes. (**Added in 2.0.0**)
+- Restores both the actual window mode and Minecraft's displayed fullscreen setting after temporary loading-window overrides. (**Added in 2.0.0**)
+- Presents multi-choice settings as radio-style controls, with concise labels and an individual tooltip for every setting and choice. (**Added in 2.0.0**)
+- Supports Minecraft's newer SDL3 window backend, including optional classic minimize-on-focus-loss behavior for native fullscreen. (**Added in 2.0.0**)
 
 ## Configuration
 
