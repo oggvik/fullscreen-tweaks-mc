@@ -1,0 +1,12 @@
+fullscreen_tweaks.options.page=Ulepszenia pełnego ekranu
+fullscreen_tweaks.options.category.after_loading=Zachowanie okna po zakończeniu ładowania
+fullscreen_tweaks.options.category.loading=Ekran ładowania
+options.fullscreen_tweaks.prevent_auto_iconify=Nie minimalizuj natywnego pełnego ekranu po utracie fokusu
+options.fullscreen_tweaks.loading_screen_mode=Okno ekranu ładowania
+options.fullscreen_tweaks.loading_screen_mode.same_as_game=Tak jak w grze
+options.fullscreen_tweaks.loading_screen_mode.windowed=Okno
+options.fullscreen_tweaks.loading_screen_mode.fullscreen=Pełny ekran
+options.fullscreen_tweaks.start_minimized=Minimalizuj podczas ładowania
+fullscreen_tweaks.tooltip.prevent_auto_iconify=Po utracie fokusu natywny pełny ekran BTA pozostaje widoczny. Tryb bez ramek zwykle pozostaje widoczny bez tej opcji.
+fullscreen_tweaks.tooltip.loading_screen_mode=Określa, czy podczas ładowania używany jest zapisany stan okna gry, czy tymczasowo tryb okienkowy albo pełnoekranowy.
+fullscreen_tweaks.tooltip.start_minimized=Pozostawia okno zminimalizowane do zakończenia ładowania.

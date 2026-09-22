@@ -1,0 +1,12 @@
+fullscreen_tweaks.options.page=Fullscreen Tweaks
+fullscreen_tweaks.options.category.after_loading=Window behavior after loading
+fullscreen_tweaks.options.category.loading=Loading screen
+options.fullscreen_tweaks.prevent_auto_iconify=Prevent native fullscreen minimization on focus loss
+options.fullscreen_tweaks.loading_screen_mode=Loading screen window
+options.fullscreen_tweaks.loading_screen_mode.same_as_game=Same as game
+options.fullscreen_tweaks.loading_screen_mode.windowed=Windowed
+options.fullscreen_tweaks.loading_screen_mode.fullscreen=Fullscreen
+options.fullscreen_tweaks.start_minimized=Minimize while loading
+fullscreen_tweaks.tooltip.prevent_auto_iconify=Keeps native fullscreen visible when BTA loses focus. Borderless fullscreen is unaffected because it normally stays visible.
+fullscreen_tweaks.tooltip.loading_screen_mode=Chooses whether loading follows the game's saved window state or temporarily uses windowed or fullscreen mode.
+fullscreen_tweaks.tooltip.start_minimized=Keeps the window minimized until loading ends.
