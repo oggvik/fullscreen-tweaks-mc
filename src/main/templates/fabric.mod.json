@@ -23,6 +23,9 @@
   "entrypoints": {
     "client": [
       "oggvik.mods.fullscreentweaks.platform.PlatformEntrypoint"
+    ],
+    "modmenu": [
+      "oggvik.mods.fullscreentweaks.platform.ModMenuIntegration"
     ]
   }
 }

@@ -38,6 +38,24 @@ val javaTargetVersion = when {
     else -> 8
 }
 val resolvedModId = resolveProp("modId") ?: error("modId is required")
+val modMenuVersion = when (stonecutter.current.project) {
+    "1.14.4-fabric" -> "1.7.18"
+    "1.15.2-fabric" -> "1.10.7"
+    "1.16.5-fabric" -> "1.16.23"
+    "1.17.1-fabric" -> "2.0.17"
+    "1.18.2-fabric" -> "3.2.5"
+    "1.19.2-fabric" -> "4.1.2"
+    "1.19.4-fabric" -> "6.3.1"
+    "1.20.1-fabric" -> "7.2.2"
+    "1.20.6-fabric" -> "10.0.0"
+    "1.21.1-fabric" -> "11.0.3"
+    "1.21.11-fabric" -> "17.0.1-beta.1"
+    "26.1.2-fabric" -> "18.0.1"
+    "26.2-fabric", "26.3-snapshot-1-fabric", "26.3-snapshot-2-fabric",
+    "26.3-snapshot-3-fabric" -> "20.0.2"
+    "26.3-fabric" -> "21.0.0-beta.1"
+    else -> null
+}
 
 repositories {
     maven("https://api.modrinth.com/maven") {
@@ -136,6 +154,8 @@ modstitch {
 stonecutter {
     constants {
         put("fabric", isFabric)
+        put("modmenu_114", stonecutter.current.project == "1.14.4-fabric")
+        put("legacy_modmenu", isFabric && stonecutter.eval(mcVersion, "<=1.15.2"))
         put("neoforge", isNeoforge)
         put("forge", isForge)
         put("forgelike", isForgeLike)
@@ -170,6 +190,9 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.12.2")
 
     if (isFabric) {
+        modMenuVersion?.let {
+            add("modstitchModImplementation", "maven.modrinth:modmenu:$it")
+        }
         resolveProp("deps.fabricApiBase")?.let { apiBaseVersion ->
             val apiBase = "net.fabricmc.fabric-api:fabric-api-base:$apiBaseVersion"
             add("modstitchModImplementation", apiBase)
