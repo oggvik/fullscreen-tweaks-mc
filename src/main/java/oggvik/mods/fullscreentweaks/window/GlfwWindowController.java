@@ -6,13 +6,16 @@ package oggvik.mods.fullscreentweaks.window;
 import oggvik.mods.fullscreentweaks.config.FullscreenMode;
 import oggvik.mods.fullscreentweaks.config.FullscreenSettings;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
-/*? if !template_noop {*/
+/*? if template_noop {*/
+/*import org.lwjgl.sdl.SDLHints;
+import org.lwjgl.sdl.SDLVideo;
+*//*?} else {*/
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 /*?}*/
 
-/** Applies the runtime fullscreen policy to Minecraft's GLFW window. */
+/** Applies the runtime fullscreen policy to Minecraft's native window backend. */
 public final class GlfwWindowController {
     private static long managedWindow;
     private static boolean managedBorderless;
@@ -22,7 +25,12 @@ public final class GlfwWindowController {
 
     public static void apply(long window, boolean minecraftFullscreen) {
         /*? if template_noop {*/
-        /*return;
+        /*boolean minimizeOnFocusLoss = !SettingsManager.get().isPreventAutoIconify()
+                && isExclusiveFullscreen(window);
+        SDLHints.SDL_SetHint(
+                SDLHints.SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS,
+                minimizeOnFocusLoss ? "1" : "0"
+        );
         *//*?} else {*/
         if (window == 0L) {
             return;
@@ -60,11 +68,19 @@ public final class GlfwWindowController {
         /*?}*/
     }
 
-    /*? if !template_noop {*/
+    /*? if template_noop {*/
+    /*private static boolean isExclusiveFullscreen(long window) {
+        return window != 0L
+                && (SDLVideo.SDL_GetWindowFlags(window) & SDLVideo.SDL_WINDOW_FULLSCREEN) != 0L
+                && SDLVideo.nSDL_GetWindowFullscreenMode(window) != 0L;
+    }
+    *//*?}*/
+
     public static void reapply(long window, boolean minecraftFullscreen) {
         apply(window, minecraftFullscreen);
     }
 
+    /*? if !template_noop {*/
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
         int[] x = new int[1];
         int[] y = new int[1];

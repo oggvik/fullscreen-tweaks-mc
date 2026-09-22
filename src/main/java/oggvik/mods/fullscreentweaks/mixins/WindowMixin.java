@@ -6,12 +6,8 @@ package oggvik.mods.fullscreentweaks.mixins;
 import com.mojang.blaze3d.platform.DisplayData;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import oggvik.mods.fullscreentweaks.config.SettingsManager;
 import oggvik.mods.fullscreentweaks.window.GlfwWindowController;
 import oggvik.mods.fullscreentweaks.window.StartupWindowController;
-/*? if template_noop {*/
-/*import org.lwjgl.sdl.SDLVideo;
-*//*?}*/
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -68,34 +64,14 @@ public class WindowMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        /*? if !template_noop {*/
         GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
-        /*?}*/
     }
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        /*? if !template_noop {*/
         GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
-        /*?}*/
     }
-
-    /*? if template_noop {*/
-    /*@Inject(method = "onFocus", at = @At("TAIL"))
-    private void fullscreenTweaks$restoreAutoIconify(boolean focused, CallbackInfo info) {
-        if (!focused && fullscreenTweaks$isExclusiveFullscreen()
-                && !SettingsManager.get().isPreventAutoIconify()) {
-            SDLVideo.SDL_MinimizeWindow(this.handle);
-        }
-    }
-
-    @Unique
-    private boolean fullscreenTweaks$isExclusiveFullscreen() {
-        return (SDLVideo.SDL_GetWindowFlags(this.handle) & SDLVideo.SDL_WINDOW_FULLSCREEN) != 0L
-                && SDLVideo.nSDL_GetWindowFullscreenMode(this.handle) != 0L;
-    }
-    *//*?}*/
 
     @Unique
     private long fullscreenTweaks$windowHandle() {

@@ -62,14 +62,16 @@ public final class MinecraftWindowBridge {
     }
 
     public static void reapply() {
-        /*? if template_noop {*/
-        /*return;
-        *//*?} else {*/
         Window window = minecraftWindow();
         if (window != null) {
-            GlfwWindowController.reapply(handle(window), window.isFullscreen());
+            GlfwWindowController.reapply(handle(window),
+                    /*? if template_noop {*/
+                    /*false
+                    *//*?} else {*/
+                    window.isFullscreen()
+                    /*?}*/
+            );
         }
-        /*?}*/
     }
 
     private static Window minecraftWindow() {
@@ -81,7 +83,6 @@ public final class MinecraftWindowBridge {
         /*?}*/
     }
 
-    /*? if !template_noop {*/
     private static long handle(Window window) {
         /*? if new_window_handle {*/
         /*return window.handle();
@@ -89,5 +90,4 @@ public final class MinecraftWindowBridge {
         return window.getWindow();
         /*?}*/
     }
-    /*?}*/
 }
