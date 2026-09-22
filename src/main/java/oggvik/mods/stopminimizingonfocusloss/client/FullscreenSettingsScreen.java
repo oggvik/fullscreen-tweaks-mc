@@ -57,6 +57,11 @@ public final class FullscreenSettingsScreen extends Screen {
     *//*?} else {*/
     private static final boolean SHOW_FULLSCREEN_MODE = true;
     /*?}*/
+    /*? if button_builder {*/
+    /*private static final boolean HAS_NATIVE_TOOLTIPS = true;
+    *//*?} else {*/
+    private static final boolean HAS_NATIVE_TOOLTIPS = false;
+    /*?}*/
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
             Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
@@ -307,15 +312,15 @@ public final class FullscreenSettingsScreen extends Screen {
         return (selected ? "● " : "○ ") + translate(valueKey);
     }
 
-    private String hint(int mouseX, int mouseY) {
-        /*? if !button_builder {*/
-        /*for (TooltipArea area : tooltipAreas) {
+    private String fallbackTooltip(int mouseX, int mouseY) {
+        if (!HAS_NATIVE_TOOLTIPS) {
+            for (TooltipArea area : tooltipAreas) {
             if (area.contains(mouseX, mouseY)) {
                 return translate(area.translationKey);
             }
         }
-        *//*?}*/
-        return translate("stop_minimizing_on_focus_loss.settings.subtitle");
+        }
+        return null;
     }
 
     private static String translate(String key) {
@@ -359,7 +364,13 @@ public final class FullscreenSettingsScreen extends Screen {
         this.renderBackground();
         this.drawCenteredString(this.font, translate("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        this.drawCenteredString(this.font, hint(mouseX, mouseY), this.width / 2, subtitleY, 0xA0A0A0);
+        this.drawCenteredString(this.font,
+                translate("stop_minimizing_on_focus_loss.settings.subtitle"),
+                this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            this.drawCenteredString(this.font, tooltip, this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 this.drawCenteredString(this.font,
@@ -393,8 +404,14 @@ public final class FullscreenSettingsScreen extends Screen {
         graphics.centeredText(this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFFFF);
-        graphics.centeredText(this.font, Component.literal(hint(mouseX, mouseY)),
+        graphics.centeredText(this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xFFA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            graphics.centeredText(this.font, Component.literal(tooltip),
+                    this.width / 2, this.height - 38, 0xFFFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 graphics.centeredText(this.font,
@@ -415,8 +432,14 @@ public final class FullscreenSettingsScreen extends Screen {
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
             this.width / 2, 15, 0xFFFFFF);
-    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
+    String tooltip = fallbackTooltip(mouseX, mouseY);
+    if (tooltip != null) {
+        graphics.drawCenteredString(this.font, tooltip,
+                this.width / 2, this.height - 38, 0xFFD070);
+    }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
@@ -432,8 +455,14 @@ public final class FullscreenSettingsScreen extends Screen {
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
             this.width / 2, 15, 0xFFFFFF);
-    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
+    String tooltip = fallbackTooltip(mouseX, mouseY);
+    if (tooltip != null) {
+        graphics.drawCenteredString(this.font, tooltip,
+                this.width / 2, this.height - 38, 0xFFD070);
+    }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
@@ -454,8 +483,14 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        drawCenteredString(poseStack, this.font, Component.literal(hint(mouseX, mouseY)),
+        drawCenteredString(poseStack, this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            drawCenteredString(poseStack, this.font, Component.literal(tooltip),
+                    this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 drawCenteredString(poseStack, this.font,
@@ -475,8 +510,14 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 new TranslatableComponent("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        drawCenteredString(poseStack, this.font, new TextComponent(hint(mouseX, mouseY)),
+        drawCenteredString(poseStack, this.font,
+                new TranslatableComponent("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            drawCenteredString(poseStack, this.font, new TextComponent(tooltip),
+                    this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 drawCenteredString(poseStack, this.font,

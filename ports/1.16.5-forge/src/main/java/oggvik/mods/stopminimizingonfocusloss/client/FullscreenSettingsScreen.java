@@ -52,6 +52,7 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
+    private static final boolean HAS_NATIVE_TOOLTIPS = false;
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
             Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
@@ -296,15 +297,15 @@ public final class FullscreenSettingsScreen extends Screen {
         return (selected ? "● " : "○ ") + translate(valueKey);
     }
 
-    private String hint(int mouseX, int mouseY) {
-        /*? if !button_builder {*/
-        for (TooltipArea area : tooltipAreas) {
-            if (area.contains(mouseX, mouseY)) {
-                return translate(area.translationKey);
+    private String fallbackTooltip(int mouseX, int mouseY) {
+        if (!HAS_NATIVE_TOOLTIPS) {
+            for (TooltipArea area : tooltipAreas) {
+                if (area.contains(mouseX, mouseY)) {
+                    return translate(area.translationKey);
+                }
             }
         }
-        /*?}*/
-        return translate("stop_minimizing_on_focus_loss.settings.subtitle");
+        return null;
     }
 
     private static String translate(String key) {
@@ -454,8 +455,14 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 new TranslationTextComponent("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        drawCenteredString(poseStack, this.font, new StringTextComponent(hint(mouseX, mouseY)),
+        drawCenteredString(poseStack, this.font,
+                new TranslationTextComponent("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            drawCenteredString(poseStack, this.font, new StringTextComponent(tooltip),
+                    this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             drawCenteredString(poseStack, this.font,
                     new TranslationTextComponent("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
