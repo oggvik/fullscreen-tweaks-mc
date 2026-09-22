@@ -1,3 +1,4 @@
+/*? if !template_noop {*/
 // SPDX-FileCopyrightText: 2026 Oggvik
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -6,15 +7,11 @@ package oggvik.mods.fullscreentweaks.window;
 import oggvik.mods.fullscreentweaks.config.FullscreenMode;
 import oggvik.mods.fullscreentweaks.config.FullscreenSettings;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
-/*? if template_noop {*/
-/*import org.lwjgl.sdl.SDLHints;
-*//*?} else {*/
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-/*?}*/
 
-/** Applies the runtime fullscreen policy to Minecraft's native window backend. */
+/** Applies the runtime fullscreen policy to Minecraft's GLFW window. */
 public final class GlfwWindowController {
     private static long managedWindow;
     private static boolean managedBorderless;
@@ -23,14 +20,6 @@ public final class GlfwWindowController {
     }
 
     public static void apply(long window, boolean minecraftFullscreen) {
-        /*? if template_noop {*/
-        /*boolean minimizeOnFocusLoss = !SettingsManager.get().isPreventAutoIconify()
-                && minecraftFullscreen;
-        SDLHints.SDL_SetHint(
-                SDLHints.SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS,
-                minimizeOnFocusLoss ? "1" : "0"
-        );
-        *//*?} else {*/
         if (window == 0L) {
             return;
         }
@@ -64,14 +53,12 @@ public final class GlfwWindowController {
             GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
             managedBorderless = false;
         }
-        /*?}*/
     }
 
     public static void reapply(long window, boolean minecraftFullscreen) {
         apply(window, minecraftFullscreen);
     }
 
-    /*? if !template_noop {*/
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
         int[] x = new int[1];
         int[] y = new int[1];
@@ -168,5 +155,13 @@ public final class GlfwWindowController {
             managedBorderless = false;
         }
     }
-    /*?}*/
+
+    public static void minimize(long window) {
+        GLFW.glfwIconifyWindow(window);
+    }
+
+    public static void restore(long window) {
+        GLFW.glfwRestoreWindow(window);
+    }
 }
+/*?}*/

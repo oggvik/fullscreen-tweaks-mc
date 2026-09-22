@@ -4,5 +4,5 @@
 package oggvik.mods.stopminimizingonfocusloss.client;
 
 public interface SettingsButtonHost {
-    void stopMinimizingOnFocusLoss$placeSettingsButton();
+    void fullscreenTweaks$placeSettingsButton();
 }

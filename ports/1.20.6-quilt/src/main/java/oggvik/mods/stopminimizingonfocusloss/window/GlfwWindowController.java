@@ -1,3 +1,4 @@
+/*? if !template_noop {*/
 // SPDX-FileCopyrightText: 2026 Oggvik
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -6,11 +7,9 @@ package oggvik.mods.stopminimizingonfocusloss.window;
 import oggvik.mods.stopminimizingonfocusloss.config.FullscreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.FullscreenSettings;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
-/*? if !template_noop {*/
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-/*?}*/
 
 /** Applies the runtime fullscreen policy to Minecraft's GLFW window. */
 public final class GlfwWindowController {
@@ -21,9 +20,6 @@ public final class GlfwWindowController {
     }
 
     public static void apply(long window, boolean minecraftFullscreen) {
-        /*? if template_noop {*/
-        /*return;
-        *//*?} else {*/
         if (window == 0L) {
             return;
         }
@@ -57,10 +53,8 @@ public final class GlfwWindowController {
             GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
             managedBorderless = false;
         }
-        /*?}*/
     }
 
-    /*? if !template_noop {*/
     public static void reapply(long window, boolean minecraftFullscreen) {
         apply(window, minecraftFullscreen);
     }
@@ -161,5 +155,13 @@ public final class GlfwWindowController {
             managedBorderless = false;
         }
     }
-    /*?}*/
+
+    public static void minimize(long window) {
+        GLFW.glfwIconifyWindow(window);
+    }
+
+    public static void restore(long window) {
+        GLFW.glfwRestoreWindow(window);
+    }
 }
+/*?}*/

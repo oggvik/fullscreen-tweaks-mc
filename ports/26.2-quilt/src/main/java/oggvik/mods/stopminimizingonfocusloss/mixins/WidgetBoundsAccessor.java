@@ -10,11 +10,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 /** Avoids the changing public widget geometry APIs across Minecraft versions. */
 @Mixin(AbstractWidget.class)
 public interface WidgetBoundsAccessor {
-    @Accessor("x") int stopMinimizingOnFocusLoss$getX();
-    @Accessor("y") int stopMinimizingOnFocusLoss$getY();
-    @Accessor("width") int stopMinimizingOnFocusLoss$getWidth();
-    @Accessor("height") int stopMinimizingOnFocusLoss$getHeight();
-    @Accessor("x") void stopMinimizingOnFocusLoss$setX(int value);
-    @Accessor("y") void stopMinimizingOnFocusLoss$setY(int value);
-    @Accessor("width") void stopMinimizingOnFocusLoss$setWidth(int value);
+    @Accessor("x") int fullscreenTweaks$getX();
+    @Accessor("y") int fullscreenTweaks$getY();
+    @Accessor("width") int fullscreenTweaks$getWidth();
+    @Accessor("height") int fullscreenTweaks$getHeight();
+    @Accessor("x") void fullscreenTweaks$setX(int value);
+    @Accessor("y") void fullscreenTweaks$setY(int value);
+    @Accessor("width") void fullscreenTweaks$setWidth(int value);
 }

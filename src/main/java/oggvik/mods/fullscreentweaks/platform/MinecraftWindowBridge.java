@@ -10,7 +10,11 @@ import net.minecraft.client.gui.components.AbstractWidget;
 /*? if !component_factory {*/
 /*import net.minecraft.client.Option;
 *//*?}*/
+/*? if template_noop {*/
+/*import oggvik.mods.fullscreentweaks.window.SdlWindowController;
+*//*?} else {*/
 import oggvik.mods.fullscreentweaks.window.GlfwWindowController;
+/*?}*/
 
 /** The only Minecraft-version-specific window access used by the settings UI. */
 public final class MinecraftWindowBridge {
@@ -64,13 +68,11 @@ public final class MinecraftWindowBridge {
     public static void reapply() {
         Window window = minecraftWindow();
         if (window != null) {
-            GlfwWindowController.reapply(handle(window),
-                    /*? if template_noop {*/
-                    /*window.isExclusiveFullscreen()
-                    *//*?} else {*/
-                    window.isFullscreen()
-                    /*?}*/
-            );
+            /*? if template_noop {*/
+            /*SdlWindowController.apply(window);
+            *//*?} else {*/
+            GlfwWindowController.reapply(handle(window), window.isFullscreen());
+            /*?}*/
         }
     }
 
@@ -83,6 +85,7 @@ public final class MinecraftWindowBridge {
         /*?}*/
     }
 
+    /*? if !template_noop {*/
     private static long handle(Window window) {
         /*? if new_window_handle {*/
         /*return window.handle();
@@ -90,4 +93,5 @@ public final class MinecraftWindowBridge {
         return window.getWindow();
         /*?}*/
     }
+    /*?}*/
 }

@@ -10,12 +10,20 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Window.class)
 public interface WindowModeAccessor {
+    /*? if template_noop {*/
+    /*@Accessor("fullscreenRequested")
+    *//*?} else {*/
     @Accessor("fullscreen")
-    boolean stopMinimizingOnFocusLoss$isFullscreen();
+    /*?}*/
+    boolean fullscreenTweaks$isFullscreenRequested();
 
+    /*? if template_noop {*/
+    /*@Accessor("fullscreenRequested")
+    *//*?} else {*/
     @Accessor("fullscreen")
-    void stopMinimizingOnFocusLoss$setFullscreen(boolean fullscreen);
+    /*?}*/
+    void fullscreenTweaks$setFullscreenRequested(boolean fullscreen);
 
     @Invoker("setMode")
-    void stopMinimizingOnFocusLoss$setMode();
+    void fullscreenTweaks$setMode();
 }

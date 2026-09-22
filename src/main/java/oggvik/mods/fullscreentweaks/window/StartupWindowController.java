@@ -8,11 +8,6 @@ import oggvik.mods.fullscreentweaks.config.LoadingScreenMode;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
 import oggvik.mods.fullscreentweaks.mixins.WindowModeAccessor;
 import oggvik.mods.fullscreentweaks.platform.MinecraftWindowBridge;
-/*? if template_noop {*/
-/*import org.lwjgl.sdl.SDLVideo;
-*//*?} else {*/
-import org.lwjgl.glfw.GLFW;
-/*?}*/
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
@@ -42,8 +37,8 @@ public final class StartupWindowController {
             return;
         }
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        if (accessor.fullscreenTweaks$isFullscreen() != loadingFullscreen) {
-            accessor.fullscreenTweaks$setFullscreen(loadingFullscreen);
+        if (accessor.fullscreenTweaks$isFullscreenRequested() != loadingFullscreen) {
+            accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
             accessor.fullscreenTweaks$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
@@ -58,8 +53,8 @@ public final class StartupWindowController {
         startupActive = false;
         MinecraftWindowBridge.setFullscreenSetting(gameFullscreen);
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        if (accessor.fullscreenTweaks$isFullscreen() != gameFullscreen) {
-            accessor.fullscreenTweaks$setFullscreen(gameFullscreen);
+        if (accessor.fullscreenTweaks$isFullscreenRequested() != gameFullscreen) {
+            accessor.fullscreenTweaks$setFullscreenRequested(gameFullscreen);
             accessor.fullscreenTweaks$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
@@ -69,17 +64,17 @@ public final class StartupWindowController {
 
     private static void minimize(Window window) {
         /*? if template_noop {*/
-        /*SDLVideo.SDL_MinimizeWindow(window.handle());
+        /*SdlWindowController.minimize(window);
         *//*?} else {*/
-        GLFW.glfwIconifyWindow(handle(window));
+        GlfwWindowController.minimize(handle(window));
         /*?}*/
     }
 
     private static void restore(Window window) {
         /*? if template_noop {*/
-        /*SDLVideo.SDL_RestoreWindow(window.handle());
+        /*SdlWindowController.restore(window);
         *//*?} else {*/
-        GLFW.glfwRestoreWindow(handle(window));
+        GlfwWindowController.restore(handle(window));
         /*?}*/
     }
 

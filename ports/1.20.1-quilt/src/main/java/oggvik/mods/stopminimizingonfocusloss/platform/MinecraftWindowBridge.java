@@ -10,7 +10,11 @@ import net.minecraft.client.gui.components.AbstractWidget;
 /*? if !component_factory {*/
 /*import net.minecraft.client.Option;
 *//*?}*/
+/*? if template_noop {*/
+/*import oggvik.mods.stopminimizingonfocusloss.window.SdlWindowController;
+*//*?} else {*/
 import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
+/*?}*/
 
 /** The only Minecraft-version-specific window access used by the settings UI. */
 public final class MinecraftWindowBridge {
@@ -25,6 +29,17 @@ public final class MinecraftWindowBridge {
         /*return Option.USE_FULLSCREEN.createButton(minecraft.options, x, y, width);
         *//*?}*/
     }
+
+    /*? if sdl_fullscreen_option {*/
+    /*public static AbstractWidget createExclusiveFullscreenButton(int x, int y, int width) {
+        Minecraft minecraft = Minecraft.getInstance();
+        return minecraft.options.exclusiveFullscreen().createButton(minecraft.options, x, y, width);
+    }
+
+    public static boolean exclusiveFullscreenSetting() {
+        return Minecraft.getInstance().options.exclusiveFullscreen().get();
+    }
+    *//*?}*/
 
     public static boolean fullscreenSetting() {
         /*? if component_factory {*/
@@ -51,14 +66,14 @@ public final class MinecraftWindowBridge {
     }
 
     public static void reapply() {
-        /*? if template_noop {*/
-        /*return;
-        *//*?} else {*/
         Window window = minecraftWindow();
         if (window != null) {
+            /*? if template_noop {*/
+            /*SdlWindowController.apply(window);
+            *//*?} else {*/
             GlfwWindowController.reapply(handle(window), window.isFullscreen());
+            /*?}*/
         }
-        /*?}*/
     }
 
     private static Window minecraftWindow() {

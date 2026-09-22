@@ -6,8 +6,12 @@ package oggvik.mods.fullscreentweaks.mixins;
 import com.mojang.blaze3d.platform.DisplayData;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import oggvik.mods.fullscreentweaks.window.GlfwWindowController;
 import oggvik.mods.fullscreentweaks.window.StartupWindowController;
+/*? if template_noop {*/
+/*import oggvik.mods.fullscreentweaks.window.SdlWindowController;
+*//*?} else {*/
+import oggvik.mods.fullscreentweaks.window.GlfwWindowController;
+/*?}*/
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Window.class)
 public class WindowMixin {
+    /*? if !template_noop {*/
     @Shadow
     private boolean fullscreen;
 
@@ -30,6 +35,7 @@ public class WindowMixin {
     @Shadow
     @Final
     private long window;
+    /*?}*/
     /*?}*/
 
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
@@ -64,26 +70,25 @@ public class WindowMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        GlfwWindowController.apply(
-                fullscreenTweaks$windowHandle(), fullscreenTweaks$policyFullscreen());
+        fullscreenTweaks$applyWindowPolicy();
     }
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        GlfwWindowController.apply(
-                fullscreenTweaks$windowHandle(), fullscreenTweaks$policyFullscreen());
+        fullscreenTweaks$applyWindowPolicy();
     }
 
     @Unique
-    private boolean fullscreenTweaks$policyFullscreen() {
+    private void fullscreenTweaks$applyWindowPolicy() {
         /*? if template_noop {*/
-        /*return ((Window) (Object) this).isExclusiveFullscreen();
+        /*SdlWindowController.apply((Window) (Object) this);
         *//*?} else {*/
-        return this.fullscreen;
+        GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
         /*?}*/
     }
 
+    /*? if !template_noop {*/
     @Unique
     private long fullscreenTweaks$windowHandle() {
         /*? if new_window_handle {*/
@@ -92,4 +97,5 @@ public class WindowMixin {
         return this.window;
         /*?}*/
     }
+    /*?}*/
 }

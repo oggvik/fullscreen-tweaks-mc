@@ -38,9 +38,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen implements SettingsButtonHost {
     @Unique
-    private Button stopMinimizingOnFocusLoss$settingsButton;
+    private Button fullscreenTweaks$settingsButton;
     @Unique
-    private boolean stopMinimizingOnFocusLoss$compact;
+    private boolean fullscreenTweaks$compact;
     protected OptionsScreenMixin() {
         /*? if component_factory {*/
         super(Component.empty());
@@ -50,51 +50,51 @@ public abstract class OptionsScreenMixin extends Screen implements SettingsButto
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void stopMinimizingOnFocusLoss$addSettingsButton(CallbackInfo info) {
+    private void fullscreenTweaks$addSettingsButton(CallbackInfo info) {
         int buttonWidth = Math.min(150, Math.max(1, this.width - 10));
         Button button;
         /*? if button_builder {*/
         button = Button.builder(
                         Component.translatable("stop_minimizing_on_focus_loss.settings.button"),
-                        ignored -> stopMinimizingOnFocusLoss$openSettings())
+                        ignored -> fullscreenTweaks$openSettings())
                 .bounds(5, this.height - 27, buttonWidth, 20)
                 .build();
         /*?} else if legacy_string_button {*/
         /*button = new Button(5, this.height - 27, buttonWidth, 20,
                 I18n.get("stop_minimizing_on_focus_loss.settings.button"),
-                ignored -> stopMinimizingOnFocusLoss$openSettings());
+                ignored -> fullscreenTweaks$openSettings());
         *//*?} else if component_factory {*/
         /*button = new Button(5, this.height - 27, buttonWidth, 20,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.button"),
-                ignored -> stopMinimizingOnFocusLoss$openSettings());
+                ignored -> fullscreenTweaks$openSettings());
         *//*?} else {*/
         /*button = new Button(5, this.height - 27, buttonWidth, 20,
                 new TranslatableComponent("stop_minimizing_on_focus_loss.settings.button"),
-                ignored -> stopMinimizingOnFocusLoss$openSettings());
+                ignored -> fullscreenTweaks$openSettings());
         *//*?}*/
-        stopMinimizingOnFocusLoss$settingsButton = button;
-        stopMinimizingOnFocusLoss$compact = false;
+        fullscreenTweaks$settingsButton = button;
+        fullscreenTweaks$compact = false;
         /*? if legacy_add_button {*/
         /*this.addButton(button);
         *//*?} else {*/
         this.addRenderableWidget(button);
         /*?}*/
-        stopMinimizingOnFocusLoss$placeSettingsButton();
+        fullscreenTweaks$placeSettingsButton();
     }
 
     @Override
-    public void stopMinimizingOnFocusLoss$placeSettingsButton() {
-        Button own = stopMinimizingOnFocusLoss$settingsButton;
+    public void fullscreenTweaks$placeSettingsButton() {
+        Button own = fullscreenTweaks$settingsButton;
         if (own == null) {
             return;
         }
         List<ButtonPlacement.Rect> occupied = new ArrayList<>();
         for (Object child : this.children()) {
             if (child instanceof AbstractWidget && child != own && ((AbstractWidget) child).visible) {
-                occupied.add(stopMinimizingOnFocusLoss$bounds((AbstractWidget) child));
+                occupied.add(fullscreenTweaks$bounds((AbstractWidget) child));
             }
         }
-        ButtonPlacement.Rect current = stopMinimizingOnFocusLoss$bounds(own);
+        ButtonPlacement.Rect current = fullscreenTweaks$bounds(own);
         int buttonWidth = Math.min(150, this.width - 10);
         /*? if modern_menu_list_background {*/
         /*ButtonPlacement.Rect preferred = new ButtonPlacement.Rect(
@@ -133,13 +133,13 @@ public abstract class OptionsScreenMixin extends Screen implements SettingsButto
         own.active = position != null;
         if (position != null) {
             WidgetBoundsAccessor bounds = (WidgetBoundsAccessor) own;
-            bounds.stopMinimizingOnFocusLoss$setX(position.x);
-            bounds.stopMinimizingOnFocusLoss$setY(position.y);
-            bounds.stopMinimizingOnFocusLoss$setWidth(position.width);
-            if (stopMinimizingOnFocusLoss$compact == compact) {
+            bounds.fullscreenTweaks$setX(position.x);
+            bounds.fullscreenTweaks$setY(position.y);
+            bounds.fullscreenTweaks$setWidth(position.width);
+            if (fullscreenTweaks$compact == compact) {
                 return;
             }
-            stopMinimizingOnFocusLoss$compact = compact;
+            fullscreenTweaks$compact = compact;
             /*? if legacy_string_button {*/
             /*own.setMessage(compact ? "..." : I18n.get("stop_minimizing_on_focus_loss.settings.button"));
             *//*?} else if component_factory {*/
@@ -157,15 +157,15 @@ public abstract class OptionsScreenMixin extends Screen implements SettingsButto
     }
 
     @Unique
-    private static ButtonPlacement.Rect stopMinimizingOnFocusLoss$bounds(AbstractWidget widget) {
+    private static ButtonPlacement.Rect fullscreenTweaks$bounds(AbstractWidget widget) {
         WidgetBoundsAccessor bounds = (WidgetBoundsAccessor) widget;
-        return new ButtonPlacement.Rect(bounds.stopMinimizingOnFocusLoss$getX(),
-                bounds.stopMinimizingOnFocusLoss$getY(), bounds.stopMinimizingOnFocusLoss$getWidth(),
-                bounds.stopMinimizingOnFocusLoss$getHeight());
+        return new ButtonPlacement.Rect(bounds.fullscreenTweaks$getX(),
+                bounds.fullscreenTweaks$getY(), bounds.fullscreenTweaks$getWidth(),
+                bounds.fullscreenTweaks$getHeight());
     }
 
     @Unique
-    private void stopMinimizingOnFocusLoss$openSettings() {
+    private void fullscreenTweaks$openSettings() {
         MinecraftWindowBridge.showScreen(new FullscreenSettingsScreen((Screen) (Object) this));
     }
 }

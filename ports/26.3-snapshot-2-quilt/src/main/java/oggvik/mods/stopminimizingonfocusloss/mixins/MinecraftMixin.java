@@ -23,7 +23,7 @@ public class MinecraftMixin {
     private Window window;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void stopMinimizingOnFocusLoss$applyLoadingWindowSettings(CallbackInfo info) {
+    private void fullscreenTweaks$applyLoadingWindowSettings(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState(this.window);
     }
 
@@ -36,28 +36,14 @@ public class MinecraftMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void stopMinimizingOnFocusLoss$keepMinimizedAfterShow(CallbackInfo info) {
+    private void fullscreenTweaks$keepMinimizedAfterShow(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState(this.window);
     }
     /*?}*/
 
-    /*? if template_noop && window_show_method {*/
-    /*@Inject(
-            method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/Window;show()V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void stopMinimizingOnFocusLoss$keepMinimizedAfterShow(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState(this.window);
-    }
-    *//*?}*/
-
     /*? if !new_gui_owner {*/
     /*@Inject(method = "setOverlay", at = @At("HEAD"))
-    private void stopMinimizingOnFocusLoss$restoreModeAfterLoading(
+    private void fullscreenTweaks$restoreModeAfterLoading(
             Overlay overlay, CallbackInfo info
     ) {
         if (overlay == null) {

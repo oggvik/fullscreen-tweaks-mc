@@ -6,12 +6,12 @@ package oggvik.mods.stopminimizingonfocusloss.mixins;
 import com.mojang.blaze3d.platform.DisplayData;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
-import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
 import oggvik.mods.stopminimizingonfocusloss.window.StartupWindowController;
 /*? if template_noop {*/
-/*import org.lwjgl.sdl.SDLVideo;
-*//*?}*/
+/*import oggvik.mods.stopminimizingonfocusloss.window.SdlWindowController;
+*//*?} else {*/
+import oggvik.mods.stopminimizingonfocusloss.window.GlfwWindowController;
+/*?}*/
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Window.class)
 public class WindowMixin {
+    /*? if !template_noop {*/
     @Shadow
     private boolean fullscreen;
 
@@ -35,9 +36,10 @@ public class WindowMixin {
     @Final
     private long window;
     /*?}*/
+    /*?}*/
 
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
-    private static DisplayData stopMinimizingOnFocusLoss$selectLoadingWindowMode(DisplayData displayData) {
+    private static DisplayData fullscreenTweaks$selectLoadingWindowMode(DisplayData displayData) {
         /*? if new_window_handle {*/
         /*boolean gameFullscreen = displayData.isFullscreen();
         *//*?} else {*/
@@ -66,43 +68,34 @@ public class WindowMixin {
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void stopMinimizingOnFocusLoss$applySettingsAfterCreate(CallbackInfo info) {
+    private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        /*? if !template_noop {*/
-        GlfwWindowController.apply(stopMinimizingOnFocusLoss$windowHandle(), this.fullscreen);
-        /*?}*/
+        fullscreenTweaks$applyWindowPolicy();
     }
 
     @Inject(method = "setMode", at = @At("RETURN"))
-    private void stopMinimizingOnFocusLoss$applySettingsAfterModeChange(CallbackInfo info) {
+    private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        /*? if !template_noop {*/
-        GlfwWindowController.apply(stopMinimizingOnFocusLoss$windowHandle(), this.fullscreen);
+        fullscreenTweaks$applyWindowPolicy();
+    }
+
+    @Unique
+    private void fullscreenTweaks$applyWindowPolicy() {
+        /*? if template_noop {*/
+        /*SdlWindowController.apply((Window) (Object) this);
+        *//*?} else {*/
+        GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
         /*?}*/
     }
 
-    /*? if template_noop {*/
-    /*@Inject(method = "onFocus", at = @At("TAIL"))
-    private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
-        if (!focused && stopMinimizingOnFocusLoss$isExclusiveFullscreen()
-                && !SettingsManager.get().isPreventAutoIconify()) {
-            SDLVideo.SDL_MinimizeWindow(this.handle);
-        }
-    }
-
+    /*? if !template_noop {*/
     @Unique
-    private boolean stopMinimizingOnFocusLoss$isExclusiveFullscreen() {
-        return (SDLVideo.SDL_GetWindowFlags(this.handle) & SDLVideo.SDL_WINDOW_FULLSCREEN) != 0L
-                && SDLVideo.nSDL_GetWindowFullscreenMode(this.handle) != 0L;
-    }
-    *//*?}*/
-
-    @Unique
-    private long stopMinimizingOnFocusLoss$windowHandle() {
+    private long fullscreenTweaks$windowHandle() {
         /*? if new_window_handle {*/
         /*return this.handle;
         *//*?} else {*/
         return this.window;
         /*?}*/
     }
+    /*?}*/
 }

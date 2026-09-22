@@ -31,6 +31,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 /*? if component_factory {*/
 /*import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 *//*?} else {*/
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -56,6 +57,18 @@ public final class FullscreenSettingsScreen extends Screen {
     /*private static final boolean SHOW_FULLSCREEN_MODE = false;
     *//*?} else {*/
     private static final boolean SHOW_FULLSCREEN_MODE = true;
+    /*?}*/
+    /*? if sdl_fullscreen_option {*/
+    /*private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = true;
+    private static final boolean STYLE_SECTION_HEADINGS = true;
+    *//*?} else {*/
+    private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = false;
+    private static final boolean STYLE_SECTION_HEADINGS = false;
+    /*?}*/
+    /*? if button_builder {*/
+    /*private static final boolean HAS_NATIVE_TOOLTIPS = true;
+    *//*?} else {*/
+    private static final boolean HAS_NATIVE_TOOLTIPS = false;
     /*?}*/
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
@@ -96,7 +109,9 @@ public final class FullscreenSettingsScreen extends Screen {
     private final Screen parent;
     private final List<TooltipArea> tooltipAreas = new ArrayList<>();
     private AbstractWidget fullscreenButton;
+    private AbstractWidget exclusiveFullscreenButton;
     private boolean lastFullscreen;
+    private boolean lastExclusiveFullscreen;
     private boolean compactLayout;
     private int subtitleY;
     private int fullscreenModeLabelY;
@@ -115,11 +130,13 @@ public final class FullscreenSettingsScreen extends Screen {
     protected void init() {
         FullscreenSettings settings = SettingsManager.get();
         tooltipAreas.clear();
-        compactLayout = this.height < (SHOW_FULLSCREEN_MODE ? 220 : 180);
+        compactLayout = this.height < (SHOW_FULLSCREEN_MODE || SHOW_EXCLUSIVE_FULLSCREEN ? 220 : 180);
         int startY = compactLayout
                 ? Math.max(32, Math.min(this.height / 3, this.height - 145))
                 : Math.max(44, Math.min(54, this.height - 176));
-        subtitleY = compactLayout ? 28 : startY - 11;
+        int sectionHeadingOffset = STYLE_SECTION_HEADINGS ? 14 : 11;
+        int controlRowStep = STYLE_SECTION_HEADINGS && !compactLayout ? 25 : 24;
+        subtitleY = compactLayout ? 28 : startY - sectionHeadingOffset;
         int controlWidth = Math.min(CONTROL_WIDTH, Math.max(100, this.width - 20));
         int controlX = (this.width - controlWidth) / 2;
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(
@@ -151,14 +168,23 @@ public final class FullscreenSettingsScreen extends Screen {
         addWidget(fullscreenButton);
         addTooltip(fullscreenButton, controlX, startY, controlWidth,
                 "stop_minimizing_on_focus_loss.tooltip.minecraft_fullscreen");
-        addControl(controlX, startY + 24, controlWidth, preventionLabel(settings),
+        int nextControlY = startY + controlRowStep;
+        /*? if sdl_fullscreen_option {*/
+        /*exclusiveFullscreenButton = MinecraftWindowBridge.createExclusiveFullscreenButton(
+                controlX, nextControlY, controlWidth);
+        lastExclusiveFullscreen = MinecraftWindowBridge.exclusiveFullscreenSetting();
+        updateExclusiveFullscreenTooltip();
+        addWidget(exclusiveFullscreenButton);
+        nextControlY += controlRowStep;
+        *//*?}*/
+        addControl(controlX, nextControlY, controlWidth, preventionLabel(settings),
                 ignored -> togglePrevention(settings),
                 "stop_minimizing_on_focus_loss.tooltip.prevent_auto_iconify");
 
         int loadingModeY;
         if (SHOW_FULLSCREEN_MODE) {
-            int fullscreenModeY = startY + (compactLayout ? 48 : 61);
-            fullscreenModeLabelY = fullscreenModeY - 11;
+            int fullscreenModeY = nextControlY + (compactLayout ? 24 : 37);
+            fullscreenModeLabelY = fullscreenModeY - sectionHeadingOffset;
             int halfWidth = (controlWidth - CONTROL_GAP) / 2;
             addControl(controlX, fullscreenModeY, halfWidth,
                     radioLabel(settings.getFullscreenMode() == FullscreenMode.NATIVE,
@@ -173,9 +199,10 @@ public final class FullscreenSettingsScreen extends Screen {
                     "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode.borderless");
             loadingModeY = startY + (compactLayout ? 72 : 99);
         } else {
-            loadingModeY = startY + (compactLayout ? 48 : 61);
+            loadingModeY = nextControlY + (compactLayout ? 24
+                    : STYLE_SECTION_HEADINGS ? 61 : 37);
         }
-        loadingModeLabelY = loadingModeY - 11;
+        loadingModeLabelY = loadingModeY - sectionHeadingOffset;
         int thirdWidth = (controlWidth - CONTROL_GAP * 2) / 3;
         addLoadingModeControl(settings, controlX, loadingModeY, thirdWidth,
                 LoadingScreenMode.SAME_AS_GAME,
@@ -191,9 +218,7 @@ public final class FullscreenSettingsScreen extends Screen {
                 "stop_minimizing_on_focus_loss.value.fullscreen",
                 "stop_minimizing_on_focus_loss.tooltip.loading_screen_mode.fullscreen");
 
-        int minimizedY = startY + (compactLayout
-                ? (SHOW_FULLSCREEN_MODE ? 96 : 72)
-                : (SHOW_FULLSCREEN_MODE ? 123 : 85));
+        int minimizedY = loadingModeY + controlRowStep;
         addControl(controlX, minimizedY, controlWidth, startMinimizedLabel(settings),
                 ignored -> toggleStartMinimized(settings),
                 "stop_minimizing_on_focus_loss.tooltip.start_minimized");
@@ -221,7 +246,35 @@ public final class FullscreenSettingsScreen extends Screen {
             }
             *//*?}*/
         }
+        /*? if sdl_fullscreen_option {*/
+        /*boolean exclusiveValue = MinecraftWindowBridge.exclusiveFullscreenSetting();
+        if (exclusiveFullscreenButton != null && exclusiveValue != lastExclusiveFullscreen) {
+            lastExclusiveFullscreen = exclusiveValue;
+            if (exclusiveFullscreenButton instanceof CycleButton<?>) {
+                @SuppressWarnings("unchecked")
+                CycleButton<Boolean> cycleButton = (CycleButton<Boolean>) exclusiveFullscreenButton;
+                cycleButton.setValue(exclusiveValue);
+            } else {
+                exclusiveFullscreenButton.setMessage(
+                        MinecraftWindowBridge.createExclusiveFullscreenButton(0, 0, CONTROL_WIDTH).getMessage());
+            }
+            updateExclusiveFullscreenTooltip();
+        }
+        *//*?}*/
     }
+
+    /*? if sdl_fullscreen_option {*/
+    /*private void updateExclusiveFullscreenTooltip() {
+        String vanillaKey = MinecraftWindowBridge.exclusiveFullscreenSetting()
+                ? "options.exclusiveFullscreen.on.tooltip"
+                : "options.exclusiveFullscreen.off.tooltip";
+        exclusiveFullscreenButton.setTooltip(Tooltip.create(
+                Component.translatable(vanillaKey)
+                        .append(" ")
+                        .append(Component.translatable(
+                                "stop_minimizing_on_focus_loss.tooltip.minecraft_exclusive_fullscreen"))));
+    }
+    *//*?}*/
 
     private void addControl(int x, int y, int width, String label,
                             Button.OnPress action, String tooltipKey) {
@@ -307,15 +360,15 @@ public final class FullscreenSettingsScreen extends Screen {
         return (selected ? "● " : "○ ") + translate(valueKey);
     }
 
-    private String hint(int mouseX, int mouseY) {
-        /*? if !button_builder {*/
-        for (TooltipArea area : tooltipAreas) {
+    private String fallbackTooltip(int mouseX, int mouseY) {
+        if (!HAS_NATIVE_TOOLTIPS) {
+            for (TooltipArea area : tooltipAreas) {
             if (area.contains(mouseX, mouseY)) {
                 return translate(area.translationKey);
             }
         }
-        /*?}*/
-        return translate("stop_minimizing_on_focus_loss.settings.subtitle");
+        }
+        return null;
     }
 
     private static String translate(String key) {
@@ -327,6 +380,15 @@ public final class FullscreenSettingsScreen extends Screen {
         /*return new TranslatableComponent(key).getString();
         *//*?}*/
     }
+
+    /*? if component_factory {*/
+    /*private static Component sectionHeading(String translationKey) {
+        Component heading = Component.translatable(translationKey);
+        return STYLE_SECTION_HEADINGS
+                ? heading.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.UNDERLINE)
+                : heading;
+    }
+    *//*?}*/
 
     @Override
     public void onClose() {
@@ -359,7 +421,13 @@ public final class FullscreenSettingsScreen extends Screen {
         this.renderBackground();
         this.drawCenteredString(this.font, translate("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        this.drawCenteredString(this.font, hint(mouseX, mouseY), this.width / 2, subtitleY, 0xA0A0A0);
+        this.drawCenteredString(this.font,
+                translate("stop_minimizing_on_focus_loss.settings.subtitle"),
+                this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            this.drawCenteredString(this.font, tooltip, this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 this.drawCenteredString(this.font,
@@ -393,20 +461,27 @@ public final class FullscreenSettingsScreen extends Screen {
         graphics.centeredText(this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFFFF);
-        graphics.centeredText(this.font, Component.literal(hint(mouseX, mouseY)),
-                this.width / 2, subtitleY, 0xFFA0A0A0);
+        graphics.centeredText(this.font,
+                sectionHeading("stop_minimizing_on_focus_loss.settings.subtitle"),
+                this.width / 2, subtitleY, 0xFFFFFFFF);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            graphics.centeredText(this.font, Component.literal(tooltip),
+                    this.width / 2, this.height - 38, 0xFFFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 graphics.centeredText(this.font,
-                        Component.translatable("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
-                        this.width / 2, fullscreenModeLabelY, 0xFFA0A0A0);
+                        sectionHeading("stop_minimizing_on_focus_loss.option.fullscreen_mode"),
+                        this.width / 2, fullscreenModeLabelY, 0xFFFFFFFF);
             }
             graphics.centeredText(this.font,
-                    Component.translatable("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
-                    this.width / 2, loadingModeLabelY, 0xFFA0A0A0);
+                    sectionHeading("stop_minimizing_on_focus_loss.option.loading_screen_mode"),
+                    this.width / 2, loadingModeLabelY, 0xFFFFFFFF);
         }
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
+
     */        /*?} else if gui_graphics {*/
     /*@Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
@@ -415,8 +490,14 @@ public final class FullscreenSettingsScreen extends Screen {
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
             this.width / 2, 15, 0xFFFFFF);
-    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
+    String tooltip = fallbackTooltip(mouseX, mouseY);
+    if (tooltip != null) {
+        graphics.drawCenteredString(this.font, tooltip,
+                this.width / 2, this.height - 38, 0xFFD070);
+    }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
@@ -432,8 +513,14 @@ public final class FullscreenSettingsScreen extends Screen {
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
             this.width / 2, 15, 0xFFFFFF);
-    graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
+    graphics.drawCenteredString(this.font,
+            Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
+    String tooltip = fallbackTooltip(mouseX, mouseY);
+    if (tooltip != null) {
+        graphics.drawCenteredString(this.font, tooltip,
+                this.width / 2, this.height - 38, 0xFFD070);
+    }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
@@ -454,8 +541,14 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        drawCenteredString(poseStack, this.font, Component.literal(hint(mouseX, mouseY)),
+        drawCenteredString(poseStack, this.font,
+                Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            drawCenteredString(poseStack, this.font, Component.literal(tooltip),
+                    this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 drawCenteredString(poseStack, this.font,
@@ -475,8 +568,14 @@ public final class FullscreenSettingsScreen extends Screen {
         drawCenteredString(poseStack, this.font,
                 new TranslatableComponent("stop_minimizing_on_focus_loss.settings.title"),
                 this.width / 2, 15, 0xFFFFFF);
-        drawCenteredString(poseStack, this.font, new TextComponent(hint(mouseX, mouseY)),
+        drawCenteredString(poseStack, this.font,
+                new TranslatableComponent("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
+        String tooltip = fallbackTooltip(mouseX, mouseY);
+        if (tooltip != null) {
+            drawCenteredString(poseStack, this.font, new TextComponent(tooltip),
+                    this.width / 2, this.height - 38, 0xFFD070);
+        }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
                 drawCenteredString(poseStack, this.font,

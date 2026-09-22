@@ -19,7 +19,10 @@ import java.util.Properties;
 public final class SettingsManager {
     private static final String CONFIG_DIRECTORY_PROPERTY =
             "stop_minimizing_on_focus_loss.configDirectory";
-    private static final String CONFIG_FILE_NAME = "stop-minimizing-on-focus-loss.properties";
+    private static final String LEGACY_CONFIG_DIRECTORY_PROPERTY =
+            "stop_minimizing_on_focus_loss.configDirectory";
+    private static final String CONFIG_FILE_NAME = "fullscreen-tweaks.properties";
+    private static final String LEGACY_CONFIG_FILE_NAME = "stop-minimizing-on-focus-loss.properties";
 
     private static boolean initialized;
     private static FullscreenSettings settings = FullscreenSettings.defaults();
@@ -32,7 +35,7 @@ public final class SettingsManager {
             return;
         }
         initialized = true;
-        settings = load(configPath());
+        settings = loadCurrentOrLegacy(configPath(), legacyConfigPath());
     }
 
     public static synchronized FullscreenSettings get() {
@@ -63,6 +66,17 @@ public final class SettingsManager {
         }
     }
 
+    static FullscreenSettings loadCurrentOrLegacy(Path currentPath, Path legacyPath) {
+        if (Files.isRegularFile(currentPath)) {
+            return load(currentPath);
+        }
+        FullscreenSettings migrated = load(legacyPath);
+        if (Files.isRegularFile(legacyPath)) {
+            save(currentPath, migrated);
+        }
+        return migrated;
+    }
+
     static void save(Path path, FullscreenSettings value) {
         Path parent = path.toAbsolutePath().getParent();
         if (parent == null) {
@@ -89,8 +103,17 @@ public final class SettingsManager {
     }
 
     private static Path configPath() {
-        String directory = System.getProperty(CONFIG_DIRECTORY_PROPERTY, "config");
+        String directory = configDirectory();
         return Paths.get(directory).resolve(CONFIG_FILE_NAME);
+    }
+
+    private static Path legacyConfigPath() {
+        return Paths.get(configDirectory()).resolve(LEGACY_CONFIG_FILE_NAME);
+    }
+
+    private static String configDirectory() {
+        String legacyDirectory = System.getProperty(LEGACY_CONFIG_DIRECTORY_PROPERTY, "config");
+        return System.getProperty(CONFIG_DIRECTORY_PROPERTY, legacyDirectory);
     }
 
     private static void warn(String message, Throwable throwable) {

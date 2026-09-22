@@ -18,9 +18,9 @@ public abstract class ScreenLayoutMixin {
     /*?} else {*/
     /*@Inject(method = "render", at = @At("HEAD"))
     *//*?}*/
-    private void stopMinimizingOnFocusLoss$layout(CallbackInfo info) {
+    private void fullscreenTweaks$layout(CallbackInfo info) {
         if ((Object) this instanceof SettingsButtonHost) {
-            ((SettingsButtonHost) (Object) this).stopMinimizingOnFocusLoss$placeSettingsButton();
+            ((SettingsButtonHost) (Object) this).fullscreenTweaks$placeSettingsButton();
         }
     }
 }

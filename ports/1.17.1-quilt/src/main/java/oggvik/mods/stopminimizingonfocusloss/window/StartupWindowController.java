@@ -8,11 +8,6 @@ import oggvik.mods.stopminimizingonfocusloss.config.LoadingScreenMode;
 import oggvik.mods.stopminimizingonfocusloss.config.SettingsManager;
 import oggvik.mods.stopminimizingonfocusloss.mixins.WindowModeAccessor;
 import oggvik.mods.stopminimizingonfocusloss.platform.MinecraftWindowBridge;
-/*? if template_noop {*/
-/*import org.lwjgl.sdl.SDLVideo;
-*//*?} else {*/
-import org.lwjgl.glfw.GLFW;
-/*?}*/
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
@@ -42,9 +37,9 @@ public final class StartupWindowController {
             return;
         }
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != loadingFullscreen) {
-            accessor.stopMinimizingOnFocusLoss$setFullscreen(loadingFullscreen);
-            accessor.stopMinimizingOnFocusLoss$setMode();
+        if (accessor.fullscreenTweaks$isFullscreenRequested() != loadingFullscreen) {
+            accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
+            accessor.fullscreenTweaks$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
             minimize(window);
@@ -58,9 +53,9 @@ public final class StartupWindowController {
         startupActive = false;
         MinecraftWindowBridge.setFullscreenSetting(gameFullscreen);
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        if (accessor.stopMinimizingOnFocusLoss$isFullscreen() != gameFullscreen) {
-            accessor.stopMinimizingOnFocusLoss$setFullscreen(gameFullscreen);
-            accessor.stopMinimizingOnFocusLoss$setMode();
+        if (accessor.fullscreenTweaks$isFullscreenRequested() != gameFullscreen) {
+            accessor.fullscreenTweaks$setFullscreenRequested(gameFullscreen);
+            accessor.fullscreenTweaks$setMode();
         }
         if (SettingsManager.get().isStartMinimized()) {
             restore(window);
@@ -69,17 +64,17 @@ public final class StartupWindowController {
 
     private static void minimize(Window window) {
         /*? if template_noop {*/
-        /*SDLVideo.SDL_MinimizeWindow(window.handle());
+        /*SdlWindowController.minimize(window);
         *//*?} else {*/
-        GLFW.glfwIconifyWindow(handle(window));
+        GlfwWindowController.minimize(handle(window));
         /*?}*/
     }
 
     private static void restore(Window window) {
         /*? if template_noop {*/
-        /*SDLVideo.SDL_RestoreWindow(window.handle());
+        /*SdlWindowController.restore(window);
         *//*?} else {*/
-        GLFW.glfwRestoreWindow(handle(window));
+        GlfwWindowController.restore(handle(window));
         /*?}*/
     }
 
