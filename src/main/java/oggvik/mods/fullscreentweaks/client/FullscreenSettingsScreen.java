@@ -58,7 +58,9 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
-    /*? if vanilla_title_y20 {*/
+    /*? if sdl_fullscreen_option {*/
+    /*private static final int TITLE_Y = 12;
+    *//*?} else if vanilla_title_y20 {*/
     /*private static final int TITLE_Y = 20;
     *//*?} else {*/
     private static final int TITLE_Y = 15;
