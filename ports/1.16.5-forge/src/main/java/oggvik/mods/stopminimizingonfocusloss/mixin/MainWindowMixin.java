@@ -62,6 +62,7 @@ public class MainWindowMixin {
             boolean updateVsync,
             CallbackInfo info
     ) {
+        StartupWindowController.reapplyLoadingState((MainWindow) (Object) this);
         stopMinimizingOnFocusLoss$applySettings();
     }
 

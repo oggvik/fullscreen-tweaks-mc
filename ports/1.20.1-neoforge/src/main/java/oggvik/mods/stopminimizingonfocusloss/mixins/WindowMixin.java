@@ -57,6 +57,7 @@ public class WindowMixin {
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$applySettingsAfterModeChange(CallbackInfo info) {
+        StartupWindowController.reapplyLoadingState((Window) (Object) this);
         GlfwWindowController.apply(stopMinimizingOnFocusLoss$windowHandle(), this.fullscreen);
     }
 

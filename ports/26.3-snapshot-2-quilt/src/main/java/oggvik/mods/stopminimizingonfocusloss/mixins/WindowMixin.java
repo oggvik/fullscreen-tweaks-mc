@@ -75,12 +75,22 @@ public class WindowMixin {
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void stopMinimizingOnFocusLoss$applySettingsAfterModeChange(CallbackInfo info) {
+        StartupWindowController.reapplyLoadingState((Window) (Object) this);
         /*? if !template_noop {*/
         GlfwWindowController.apply(stopMinimizingOnFocusLoss$windowHandle(), this.fullscreen);
         /*?}*/
     }
 
-    /*? if template_noop {*/
+    /*? if template_noop && exclusive_fullscreen_query {*/
+    /*@Inject(method = "onFocus", at = @At("TAIL"))
+    private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
+        Window window = (Window) (Object) this;
+        if (!focused && window.isExclusiveFullscreen()
+                && !SettingsManager.get().isPreventAutoIconify()) {
+            SDLVideo.SDL_MinimizeWindow(this.handle);
+        }
+    }
+    *//*?} else if template_noop {*/
     /*@Inject(method = "onFocus", at = @At("TAIL"))
     private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
         if (!focused && this.fullscreen && !SettingsManager.get().isPreventAutoIconify()) {

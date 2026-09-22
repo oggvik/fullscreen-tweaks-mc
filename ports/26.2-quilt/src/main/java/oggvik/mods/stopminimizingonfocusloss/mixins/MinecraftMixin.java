@@ -27,20 +27,6 @@ public class MinecraftMixin {
         StartupWindowController.reapplyLoadingState(this.window);
     }
 
-    /*? if !template_noop {*/
-    @Inject(
-            method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/Window;toggleFullScreen()V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void stopMinimizingOnFocusLoss$keepLoadingModeAfterFullscreenSync(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState(this.window);
-    }
-    /*?}*/
-
     /*? if new_set_screen && !template_noop {*/
     @Inject(
             method = "<init>",

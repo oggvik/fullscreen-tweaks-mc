@@ -25,18 +25,6 @@ public class MinecraftMixin {
         StartupWindowController.reapplyLoadingState(this.window);
     }
 
-    @Inject(
-            method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/Window;toggleFullScreen()V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void stopMinimizingOnFocusLoss$keepLoadingModeAfterFullscreenSync(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState(this.window);
-    }
-
     @Inject(method = "setOverlay", at = @At("HEAD"))
     private void stopMinimizingOnFocusLoss$restoreModeAfterLoading(
             Overlay overlay, CallbackInfo info
