@@ -2,7 +2,7 @@
   "modmenu.nameTranslation.fullscreen_tweaks": "Fullskjermjusteringer",
   "fullscreen_tweaks.settings.button": "Fullskjerminnstillinger...",
   "fullscreen_tweaks.settings.title": "Fullskjermjusteringer",
-  "fullscreen_tweaks.settings.subtitle": "Vindusoppførsel under spilling og oppstart",
+  "fullscreen_tweaks.settings.subtitle": "Vindusoppførsel etter innlasting",
   "fullscreen_tweaks.option.prevent_auto_iconify": "Hindre at eksklusiv fullskjerm minimeres ved fokustap",
   "fullscreen_tweaks.option.fullscreen_mode": "Fullskjermstil",
   "fullscreen_tweaks.option.loading_screen_mode": "Lasteskjermvindu",

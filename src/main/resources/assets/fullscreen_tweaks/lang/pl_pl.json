@@ -2,7 +2,7 @@
   "modmenu.nameTranslation.fullscreen_tweaks": "Ulepszenia pełnego ekranu",
   "fullscreen_tweaks.settings.button": "Ustawienia pełnego ekranu...",
   "fullscreen_tweaks.settings.title": "Ulepszenia pełnego ekranu",
-  "fullscreen_tweaks.settings.subtitle": "Zachowanie okna podczas gry i uruchamiania",
+  "fullscreen_tweaks.settings.subtitle": "Zachowanie okna po zakończeniu ładowania",
   "fullscreen_tweaks.option.prevent_auto_iconify": "Nie minimalizuj natywnego pełnego ekranu po utracie fokusu",
   "fullscreen_tweaks.option.prevent_auto_iconify.sdl": "Nie minimalizuj pełnego ekranu po utracie fokusu",
   "fullscreen_tweaks.option.fullscreen_mode": "Styl pełnego ekranu",
