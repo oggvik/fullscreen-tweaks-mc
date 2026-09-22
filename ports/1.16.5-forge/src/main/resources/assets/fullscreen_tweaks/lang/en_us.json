@@ -8,7 +8,7 @@
   "fullscreen_tweaks.option.loading_screen_mode": "Loading screen window",
   "fullscreen_tweaks.option.start_minimized": "Minimize while loading",
   "fullscreen_tweaks.tooltip.minecraft_fullscreen": "Minecraft's regular fullscreen setting.",
-  "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Keeps native fullscreen visible when Minecraft loses focus. Borderless fullscreen is unaffected because it normally stays visible.",
+  "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Only affects native fullscreen; borderless normally stays visible when unfocused.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.native": "Uses Minecraft's monitor-attached fullscreen mode.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.borderless": "Fills the current monitor with an undecorated desktop-sized window.",
   "fullscreen_tweaks.tooltip.loading_screen_mode.same_as_game": "Uses the game's saved fullscreen setting while loading.",

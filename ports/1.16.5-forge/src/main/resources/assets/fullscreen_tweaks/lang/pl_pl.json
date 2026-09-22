@@ -8,7 +8,7 @@
   "fullscreen_tweaks.option.loading_screen_mode": "Okno ekranu ładowania",
   "fullscreen_tweaks.option.start_minimized": "Minimalizuj podczas ładowania",
   "fullscreen_tweaks.tooltip.minecraft_fullscreen": "Zwykłe ustawienie pełnego ekranu Minecrafta.",
-  "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Po utracie fokusu natywny pełny ekran pozostaje widoczny. Tryb bez ramek zwykle pozostaje widoczny bez tej opcji.",
+  "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Dotyczy tylko natywnego pełnoekranowego; bezramkowy zwykle pozostaje widoczny, gdy jest nieostry.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.native": "Używa pełnego ekranu Minecrafta przypisanego do monitora.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.borderless": "Wypełnia bieżący monitor oknem bez ramek o rozmiarze pulpitu.",
   "fullscreen_tweaks.tooltip.loading_screen_mode.same_as_game": "Podczas ładowania używa zapisanego ustawienia pełnego ekranu gry.",
