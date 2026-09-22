@@ -19,6 +19,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 /^?}^/
 *//*?} else if !legacy_string_button {*/
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 /*?}*/
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.Widget;
@@ -52,6 +53,7 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
+    private static final int TITLE_Y = 15;
     private static final boolean HAS_NATIVE_TOOLTIPS = false;
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
@@ -343,6 +345,14 @@ public final class FullscreenSettingsScreen extends Screen {
         }
     }
 
+    private void renderOptionsListBackground(MatrixStack poseStack) {
+        this.minecraft.getTextureManager().bind(Screen.BACKGROUND_LOCATION);
+        RenderSystem.color4f(0.125F, 0.125F, 0.125F, 1.0F);
+        blit(poseStack, 0, 32, 0.0F, 32.0F,
+                this.width, Math.max(0, this.height - 64), 32, 32);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
     /*? if legacy_string_button {*/
     /*@Override
     public void render(int mouseX, int mouseY, float partialTick) {
@@ -452,9 +462,10 @@ public final class FullscreenSettingsScreen extends Screen {
     @Override
     public void render(MatrixStack poseStack, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(poseStack);
+        renderOptionsListBackground(poseStack);
         drawCenteredString(poseStack, this.font,
                 new TranslationTextComponent("fullscreen_tweaks.settings.title"),
-                this.width / 2, 15, 0xFFFFFF);
+                this.width / 2, TITLE_Y, 0xFFFFFF);
         drawCenteredString(poseStack, this.font,
                 new TranslationTextComponent("fullscreen_tweaks.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);

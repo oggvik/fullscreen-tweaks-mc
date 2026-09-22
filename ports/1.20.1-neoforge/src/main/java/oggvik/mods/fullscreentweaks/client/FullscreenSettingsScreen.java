@@ -52,6 +52,7 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
+    private static final int TITLE_Y = 20;
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
             Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
@@ -399,7 +400,7 @@ public final class FullscreenSettingsScreen extends Screen {
     /*super.render(graphics, mouseX, mouseY, partialTick);
     graphics.drawCenteredString(this.font,
             Component.translatable("fullscreen_tweaks.settings.title"),
-            this.width / 2, 15, 0xFFFFFF);
+            this.width / 2, TITLE_Y, 0xFFFFFF);
     graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
             this.width / 2, subtitleY, 0xA0A0A0);
     if (!compactLayout) {
@@ -414,7 +415,7 @@ public final class FullscreenSettingsScreen extends Screen {
     renderBackground(graphics);
     graphics.drawCenteredString(this.font,
             Component.translatable("fullscreen_tweaks.settings.title"),
-            this.width / 2, 15, 0xFFFFFF);
+            this.width / 2, TITLE_Y, 0xFFFFFF);
     graphics.drawCenteredString(this.font, hint(mouseX, mouseY),
             this.width / 2, subtitleY, 0xA0A0A0);
     if (!compactLayout) {

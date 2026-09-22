@@ -176,9 +176,12 @@ stonecutter {
         put("gui_graphics", stonecutter.eval(mcVersion, ">=1.20") && stonecutter.eval(mcVersion, "<26.1"))
         put("resource_location_factory", stonecutter.eval(mcVersion, ">=1.21") && !stonecutter.current.project.startsWith("1.21.11"))
         put("identifier", stonecutter.current.project.startsWith("1.21.11"))
+        put("legacy_menu_list_background", stonecutter.eval(mcVersion, "<1.20"))
+        put("legacy_render_system", stonecutter.eval(mcVersion, "<=1.16.5"))
+        put("gl_state_manager", mcVersion == "1.14.4")
         put("modern_menu_list_background", stonecutter.eval(mcVersion, ">=1.20.2"))
         put("render_background_delta", stonecutter.eval(mcVersion, ">1.20.1"))
-        put("transparent_settings_background", stonecutter.current.project == "1.21.1-neoforge")
+        put("vanilla_title_y20", mcVersion == "1.20.1")
         put("options_screen_subpackage", stonecutter.eval(mcVersion, ">=1.21"))
         put("template_noop", resolveProp("templateNoop")?.toBoolean() == true)
     }

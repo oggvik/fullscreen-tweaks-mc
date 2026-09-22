@@ -20,6 +20,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 /*?} else if !legacy_string_button {*/
 /*import com.mojang.blaze3d.vertex.PoseStack;
 *//*?}*/
+/*? if gl_state_manager {*/
+/*import com.mojang.blaze3d.platform.GlStateManager;
+*//*?} else if legacy_menu_list_background {*/
+/*import com.mojang.blaze3d.systems.RenderSystem;
+*//*?}*/
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.AbstractWidget;
 /*? if !legacy_add_button {*/
@@ -53,6 +58,11 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
+    /*? if vanilla_title_y20 {*/
+    private static final int TITLE_Y = 20;
+    /*?} else {*/
+    /*private static final int TITLE_Y = 15;
+    *//*?}*/
     /*? if template_noop {*/
     /*private static final boolean SHOW_FULLSCREEN_MODE = false;
     *//*?} else {*/
@@ -142,7 +152,7 @@ public final class FullscreenSettingsScreen extends Screen {
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(
                 controlX, startY, controlWidth);
         lastFullscreen = MinecraftWindowBridge.fullscreenSetting();
-        /*? if gui_graphics && !transparent_settings_background {*/
+        /*? if gui_graphics {*/
         addRenderableOnly((graphics, mouseX, mouseY, partialTick) -> {
             /*? if modern_menu_list_background {*/
             /*/^? if !identifier {^/
@@ -415,12 +425,47 @@ public final class FullscreenSettingsScreen extends Screen {
         }
     }
 
+    /*? if gl_state_manager {*/
+    /*private void renderOptionsListBackground() {
+        this.minecraft.getTextureManager().bind(Screen.BACKGROUND_LOCATION);
+        GlStateManager.color4f(0.125F, 0.125F, 0.125F, 1.0F);
+        blit(0, 32, 0.0F, 32.0F,
+                this.width, Math.max(0, this.height - 64), 32, 32);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+    *//*?} else if legacy_string_button {*/
+    /*private void renderOptionsListBackground() {
+        this.minecraft.getTextureManager().bind(Screen.BACKGROUND_LOCATION);
+        RenderSystem.color4f(0.125F, 0.125F, 0.125F, 1.0F);
+        blit(0, 32, 0.0F, 32.0F,
+                this.width, Math.max(0, this.height - 64), 32, 32);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+    *//*?} else if legacy_render_system {*/
+    /*private void renderOptionsListBackground(PoseStack poseStack) {
+        this.minecraft.getTextureManager().bind(Screen.BACKGROUND_LOCATION);
+        RenderSystem.color4f(0.125F, 0.125F, 0.125F, 1.0F);
+        blit(poseStack, 0, 32, 0.0F, 32.0F,
+                this.width, Math.max(0, this.height - 64), 32, 32);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+    *//*?} else if legacy_menu_list_background {*/
+    /*private void renderOptionsListBackground(PoseStack poseStack) {
+        RenderSystem.setShaderTexture(0, Screen.BACKGROUND_LOCATION);
+        RenderSystem.setShaderColor(0.125F, 0.125F, 0.125F, 1.0F);
+        blit(poseStack, 0, 32, 0.0F, 32.0F,
+                this.width, Math.max(0, this.height - 64), 32, 32);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+    *//*?}*/
+
     /*? if legacy_string_button {*/
     /*@Override
     public void render(int mouseX, int mouseY, float partialTick) {
         this.renderBackground();
+        renderOptionsListBackground();
         this.drawCenteredString(this.font, translate("stop_minimizing_on_focus_loss.settings.title"),
-                this.width / 2, 15, 0xFFFFFF);
+                this.width / 2, TITLE_Y, 0xFFFFFF);
         this.drawCenteredString(this.font,
                 translate("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
@@ -460,7 +505,7 @@ public final class FullscreenSettingsScreen extends Screen {
                 0, Math.max(33, this.height - 33), 0.0F, 0.0F, this.width, 2, 32, 2);
         graphics.centeredText(this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
-                this.width / 2, 15, 0xFFFFFFFF);
+                this.width / 2, TITLE_Y, 0xFFFFFFFF);
         graphics.centeredText(this.font,
                 sectionHeading("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xFFFFFFFF);
@@ -489,7 +534,7 @@ public final class FullscreenSettingsScreen extends Screen {
     /*super.render(graphics, mouseX, mouseY, partialTick);
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
-            this.width / 2, 15, 0xFFFFFF);
+            this.width / 2, TITLE_Y, 0xFFFFFF);
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
@@ -512,7 +557,7 @@ public final class FullscreenSettingsScreen extends Screen {
     renderBackground(graphics);
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
-            this.width / 2, 15, 0xFFFFFF);
+            this.width / 2, TITLE_Y, 0xFFFFFF);
     graphics.drawCenteredString(this.font,
             Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
             this.width / 2, subtitleY, 0xA0A0A0);
@@ -538,9 +583,10 @@ public final class FullscreenSettingsScreen extends Screen {
     /*@Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(poseStack);
+        renderOptionsListBackground(poseStack);
         drawCenteredString(poseStack, this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.title"),
-                this.width / 2, 15, 0xFFFFFF);
+                this.width / 2, TITLE_Y, 0xFFFFFF);
         drawCenteredString(poseStack, this.font,
                 Component.translatable("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
@@ -565,9 +611,10 @@ public final class FullscreenSettingsScreen extends Screen {
     /*@Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(poseStack);
+        renderOptionsListBackground(poseStack);
         drawCenteredString(poseStack, this.font,
                 new TranslatableComponent("stop_minimizing_on_focus_loss.settings.title"),
-                this.width / 2, 15, 0xFFFFFF);
+                this.width / 2, TITLE_Y, 0xFFFFFF);
         drawCenteredString(poseStack, this.font,
                 new TranslatableComponent("stop_minimizing_on_focus_loss.settings.subtitle"),
                 this.width / 2, subtitleY, 0xA0A0A0);
