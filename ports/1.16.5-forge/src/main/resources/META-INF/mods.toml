@@ -7,7 +7,7 @@ issueTrackerURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/is
 license = "AGPL-3.0-or-later"
 
 [[mods]]
-modId = "stop_minimizing_on_focus_loss"
+modId = "fullscreen_tweaks"
 version = "${file.jarVersion}"
 displayName = "Fullscreen Tweaks"
 displayURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc"
@@ -17,14 +17,14 @@ description = '''
 Customizes Minecraft fullscreen and window behavior, including focus-loss and loading-screen controls where supported.
 '''
 
-[["dependencies.stop_minimizing_on_focus_loss"]]
+[["dependencies.fullscreen_tweaks"]]
 modId = "forge"
 mandatory = true
 versionRange = "[36,)"
 ordering = "NONE"
 side = "CLIENT"
 
-[["dependencies.stop_minimizing_on_focus_loss"]]
+[["dependencies.fullscreen_tweaks"]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.5]"

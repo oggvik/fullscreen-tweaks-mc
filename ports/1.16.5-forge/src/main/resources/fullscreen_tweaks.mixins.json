@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "oggvik.mods.fullscreentweaks.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "fullscreen_tweaks.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "OptionsScreenMixin",
+    "ScreenLayoutMixin",
+    "WidgetBoundsAccessor",
+    "MinecraftMixin",
+    "MainWindowModeAccessor",
+    "MainWindowMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

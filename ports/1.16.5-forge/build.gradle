@@ -18,8 +18,8 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
 
 version = '1.1.0+1.16.5-forge'
-group = 'oggvik.mods.stopminimizingonfocusloss'
-archivesBaseName = 'stop_minimizing_on_focus_loss'
+group = 'oggvik.mods.fullscreentweaks'
+archivesBaseName = 'fullscreen_tweaks'
 
 // Forge 1.16.5 userdev launches reliably on JDK 17, while the distributed mod
 // still needs Java 8 bytecode for normal 1.16.5 runtime compatibility.
@@ -57,7 +57,7 @@ minecraft {
                     '--add-opens=java.base/java.util.jar=ALL-UNNAMED'
 
             mods {
-                stop_minimizing_on_focus_loss {
+                fullscreen_tweaks {
                     source sourceSets.main
                 }
             }
@@ -89,7 +89,7 @@ jar {
     archiveClassifier = 'dev'
     manifest {
         attributes([
-                'Specification-Title'     : 'stop_minimizing_on_focus_loss',
+                'Specification-Title'     : 'fullscreen_tweaks',
                 'Specification-Vendor'    : 'Oggvik',
                 'Specification-Version'   : '1',
                 'Implementation-Title'    : project.name,

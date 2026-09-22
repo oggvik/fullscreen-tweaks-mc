@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "oggvik.mods.fullscreentweaks.mixins",
+  "minVersion": "0.8",
+  "__mixin_refmap_placeholder__": "",
+  "client": [
+    "__settings_mixin_placeholder__": "",
+    "MinecraftMixin",
+    "__gui_mixin_placeholder__": "",
+    "WindowModeAccessor",
+    "WindowMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

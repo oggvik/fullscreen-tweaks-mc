@@ -27,8 +27,8 @@ versions=(
 )
 
 for minecraft_version in "${versions[@]}"; do
-    generated_root="versions/${minecraft_version}-fabric/build/generated/stonecutter/main/java/oggvik/mods/stopminimizingonfocusloss"
-    generated_mixin="versions/${minecraft_version}-fabric/build/resources/main/stop_minimizing_on_focus_loss.mixins.json"
+    generated_root="versions/${minecraft_version}-fabric/build/generated/stonecutter/main/java/oggvik/mods/fullscreentweaks"
+    generated_mixin="versions/${minecraft_version}-fabric/build/resources/main/fullscreen_tweaks.mixins.json"
     port_root="ports/${minecraft_version}-quilt"
     target_root="${port_root}/src/main/java/oggvik/mods/stopminimizingonfocusloss"
 
@@ -48,5 +48,14 @@ for minecraft_version in "${versions[@]}"; do
         "$generated_root/mixins/MinecraftMixin.java" "$generated_root/mixins/OptionsScreenMixin.java" \
         "$generated_root/mixins/ScreenLayoutMixin.java" "$generated_root/mixins/WidgetBoundsAccessor.java" \
         "$target_root/mixins/"
+    # Quilt ports retain their released 0.1.1 identity; translate synchronized
+    # shared sources back to that namespace instead of changing their mod IDs.
+    find "$target_root" -type f -name '*.java' -exec sed -i \
+        -e 's/oggvik\.mods\.fullscreentweaks/oggvik.mods.stopminimizingonfocusloss/g' \
+        -e 's/fullscreen_tweaks/stop_minimizing_on_focus_loss/g' {} +
     cp "$generated_mixin" "$port_root/src/main/resources/stop_minimizing_on_focus_loss.mixins.json"
+    sed -i \
+        -e 's/oggvik\.mods\.fullscreentweaks/oggvik.mods.stopminimizingonfocusloss/g' \
+        -e 's/fullscreen_tweaks/stop_minimizing_on_focus_loss/g' \
+        "$port_root/src/main/resources/stop_minimizing_on_focus_loss.mixins.json"
 done

@@ -22,7 +22,7 @@
   },
   "entrypoints": {
     "client": [
-      "oggvik.mods.stopminimizingonfocusloss.platform.PlatformEntrypoint"
+      "oggvik.mods.fullscreentweaks.platform.PlatformEntrypoint"
     ]
   }
 }
