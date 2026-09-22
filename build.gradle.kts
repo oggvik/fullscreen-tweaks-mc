@@ -81,7 +81,6 @@ modstitch {
             "26.3-snapshot-1" to 89,
             "26.3-snapshot-2" to 90,
             "26.3-snapshot-3" to 91,
-            "26.3-snapshot-4" to 92,
             "26.3" to 97.1,
         )
         val resourcePackFormat = resourcePackFormats[mcVersion]
@@ -143,7 +142,6 @@ stonecutter {
         put("new_window_handle", stonecutter.eval(mcVersion, ">=1.21.11") || stonecutter.eval(mcVersion, ">=26.1"))
         put("new_set_screen", stonecutter.eval(mcVersion, ">=26.2"))
         put("new_gui_owner", stonecutter.eval(mcVersion, ">=26.2"))
-        put("window_show_method", stonecutter.current.project == "26.3-snapshot-4-fabric")
         put("old_minecraft_window_field", stonecutter.eval(mcVersion, "<=1.14.4"))
         put("legacy_string_button", stonecutter.eval(mcVersion, "<=1.15.2"))
         put("legacy_add_button", stonecutter.eval(mcVersion, "<=1.16.5"))

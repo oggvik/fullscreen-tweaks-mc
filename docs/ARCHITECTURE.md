@@ -17,7 +17,7 @@ Borderless mode detaches the window from native fullscreen, removes decorations,
 
 The controller reapplies the policy after window creation and fullscreen transitions. If Minecraft is windowed, it chooses the monitor with the greatest overlap and falls back to the primary monitor. Native handles, monitor choices, and video modes are never persisted.
 
-Minecraft `26.3-snapshot-4` and the `26.3` release use SDL3. Minecraft disables SDL's automatic focus-loss minimization, so the mod explicitly minimizes exclusive fullscreen when prevention is disabled. SDL versions use Minecraft's own exclusive-versus-borderless setting; the mod's GLFW-specific fullscreen-mode control is hidden there.
+Minecraft `26.3` uses SDL3. Minecraft disables SDL's automatic focus-loss minimization, so the mod explicitly minimizes exclusive fullscreen when prevention is disabled. SDL versions use Minecraft's own exclusive-versus-borderless setting; the mod's GLFW-specific fullscreen-mode control is hidden there.
 
 At startup, the loading-screen setting can preserve Minecraft's regular fullscreen choice or temporarily force the native window to be windowed or fullscreen. A constructor-argument mixin replaces Minecraft's initial fullscreen value before GLFW or SDL3 creates the native window. The controller records Minecraft's fullscreen option as well as the launch-time display value because modern Minecraft synchronizes those values later in its constructor. It reapplies the temporary mode after that synchronization and after Minecraft shows the window, which covers native-window handoff from NeoForge. When Minecraft clears its startup overlay, the controller restores the regular mode and restores the window from its minimized state.
 

@@ -41,20 +41,6 @@ public class MinecraftMixin {
     }
     *//*?}*/
 
-    /*? if template_noop && window_show_method {*/
-    /*@Inject(
-            method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/Window;show()V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void stopMinimizingOnFocusLoss$keepMinimizedAfterShow(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState(this.window);
-    }
-    *//*?}*/
-
     /*? if !new_gui_owner {*/
     @Inject(method = "setOverlay", at = @At("HEAD"))
     private void stopMinimizingOnFocusLoss$restoreModeAfterLoading(

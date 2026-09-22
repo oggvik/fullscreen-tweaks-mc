@@ -44,7 +44,6 @@ stonecutter {
         mc("26.3-snapshot-1", loaders = listOf("fabric"))
         mc("26.3-snapshot-2", loaders = listOf("fabric"))
         mc("26.3-snapshot-3", loaders = listOf("fabric"))
-        mc("26.3-snapshot-4", loaders = listOf("fabric"))
         mc("26.3", loaders = listOf("fabric", "neoforge"))
     }
 }
