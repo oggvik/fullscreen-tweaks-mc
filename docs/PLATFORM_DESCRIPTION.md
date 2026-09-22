@@ -43,3 +43,37 @@ Open **Options → Fullscreen Settings** in Minecraft. The page controls:
 **[SCREENSHOT PLACEHOLDER: Fullscreen Tweaks settings screen]**
 
 The Options entry searches for a free position without moving other mods' controls. On crowded screens it can shrink to `...` or hide until a slot becomes available.
+
+## Version Support
+
+Fullscreen Tweaks 2.0.x is actively supported only on the exact Minecraft and loader combinations listed below. Each jar is built for one specific combination; do not use a jar with a different Minecraft version or loader.
+
+| Minecraft version | Fabric | Forge | NeoForge | Support notes |
+| --- | --- | --- | --- | --- |
+| 1.14.4 | **2.0.x** | Not supported | Not supported | Fabric target for Minecraft 1.14.4 |
+| 1.15.2 | **2.0.x** | Not supported | Not supported | Fabric target for Minecraft 1.15.2 |
+| 1.16.5 | **2.0.x** | **2.0.x** | Not supported | Fabric and standalone Forge targets |
+| 1.17.1 | **2.0.x** | **2.0.x** | Not supported | Fabric and Forge targets |
+| 1.18.2 | **2.0.x** | **2.0.x** | Not supported | Fabric and Forge targets |
+| 1.19.2 | **2.0.x** | **2.0.x** | Not supported | Fabric and Forge targets |
+| 1.19.4 | **2.0.x** | **2.0.x** | Not supported | Fabric and Forge targets |
+| 1.20.1 | **2.0.x** | **2.0.x** | **2.0.x** | Fabric, Forge, and standalone NeoForge targets |
+| 1.20.6 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge targets |
+| 1.21.1 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge targets |
+| 1.21.11 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge targets |
+| 26.1.2 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge targets |
+| 26.2 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge targets |
+| 26.3 Snapshot 1 (`26.3-alpha.1`) | **2.0.x** | Not supported | Not supported | Exact Fabric snapshot target |
+| 26.3 Snapshot 2 (`26.3-alpha.2`) | **2.0.x** | Not supported | Not supported | Exact Fabric snapshot target |
+| 26.3 Snapshot 3 (`26.3-alpha.3`) | **2.0.x** | Not supported | Not supported | Exact Fabric snapshot target |
+| 26.3 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge SDL3 targets |
+
+All other Minecraft and loader combinations are legacy-only and are not supported beyond the 0.1.x release line. This includes the Quilt builds, the vanilla Beta 1.7.3 Babric build, Forge 1.7.10, Forge 1.8.9, Forge 1.12.2, and Forge 1.20.6. Existing 0.1.x files may remain available for those combinations, but they do not receive Fullscreen Tweaks 2.0.x features or ongoing compatibility updates.
+
+Better Than Adventure is the exception to that legacy policy. Its Babric targets remain supported independently of the Minecraft 2.0.x matrix and will receive updates whenever needed to support current Better Than Adventure releases.
+
+| Better Than Adventure version | Loader | Support status |
+| --- | --- | --- |
+| 7.3_04 | Babric | Supported legacy release |
+| 8.0.1 | Babric | Supported current release |
+| Future supported BTA releases | Babric | Compatibility updates will be added as needed |
