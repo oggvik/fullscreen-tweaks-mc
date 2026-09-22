@@ -81,21 +81,19 @@ public class WindowMixin {
         /*?}*/
     }
 
-    /*? if template_noop && exclusive_fullscreen_query {*/
+    /*? if template_noop {*/
     /*@Inject(method = "onFocus", at = @At("TAIL"))
     private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
-        Window window = (Window) (Object) this;
-        if (!focused && window.isExclusiveFullscreen()
+        if (!focused && stopMinimizingOnFocusLoss$isExclusiveFullscreen()
                 && !SettingsManager.get().isPreventAutoIconify()) {
             SDLVideo.SDL_MinimizeWindow(this.handle);
         }
     }
-    *//*?} else if template_noop {*/
-    /*@Inject(method = "onFocus", at = @At("TAIL"))
-    private void stopMinimizingOnFocusLoss$restoreAutoIconify(boolean focused, CallbackInfo info) {
-        if (!focused && this.fullscreen && !SettingsManager.get().isPreventAutoIconify()) {
-            SDLVideo.SDL_MinimizeWindow(this.handle);
-        }
+
+    @Unique
+    private boolean stopMinimizingOnFocusLoss$isExclusiveFullscreen() {
+        return (SDLVideo.SDL_GetWindowFlags(this.handle) & SDLVideo.SDL_WINDOW_FULLSCREEN) != 0L
+                && SDLVideo.nSDL_GetWindowFullscreenMode(this.handle) != 0L;
     }
     *//*?}*/
 
