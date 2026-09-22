@@ -134,7 +134,9 @@ public final class FullscreenSettingsScreen extends Screen {
         int startY = compactLayout
                 ? Math.max(32, Math.min(this.height / 3, this.height - 145))
                 : Math.max(44, Math.min(54, this.height - 176));
-        subtitleY = compactLayout ? 28 : startY - 11;
+        int sectionHeadingOffset = STYLE_SECTION_HEADINGS ? 18 : 11;
+        int controlRowStep = STYLE_SECTION_HEADINGS && !compactLayout ? 25 : 24;
+        subtitleY = compactLayout ? 28 : startY - sectionHeadingOffset;
         int controlWidth = Math.min(CONTROL_WIDTH, Math.max(100, this.width - 20));
         int controlX = (this.width - controlWidth) / 2;
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(
@@ -166,14 +168,14 @@ public final class FullscreenSettingsScreen extends Screen {
         addWidget(fullscreenButton);
         addTooltip(fullscreenButton, controlX, startY, controlWidth,
                 "fullscreen_tweaks.tooltip.minecraft_fullscreen");
-        int nextControlY = startY + 24;
+        int nextControlY = startY + controlRowStep;
         /*? if sdl_fullscreen_option {*/
         /*exclusiveFullscreenButton = MinecraftWindowBridge.createExclusiveFullscreenButton(
                 controlX, nextControlY, controlWidth);
         lastExclusiveFullscreen = MinecraftWindowBridge.exclusiveFullscreenSetting();
         updateExclusiveFullscreenTooltip();
         addWidget(exclusiveFullscreenButton);
-        nextControlY += 24;
+        nextControlY += controlRowStep;
         *//*?}*/
         addControl(controlX, nextControlY, controlWidth, preventionLabel(settings),
                 ignored -> togglePrevention(settings),
@@ -182,7 +184,7 @@ public final class FullscreenSettingsScreen extends Screen {
         int loadingModeY;
         if (SHOW_FULLSCREEN_MODE) {
             int fullscreenModeY = nextControlY + (compactLayout ? 24 : 37);
-            fullscreenModeLabelY = fullscreenModeY - 11;
+            fullscreenModeLabelY = fullscreenModeY - sectionHeadingOffset;
             int halfWidth = (controlWidth - CONTROL_GAP) / 2;
             addControl(controlX, fullscreenModeY, halfWidth,
                     radioLabel(settings.getFullscreenMode() == FullscreenMode.NATIVE,
@@ -197,9 +199,10 @@ public final class FullscreenSettingsScreen extends Screen {
                     "fullscreen_tweaks.tooltip.fullscreen_mode.borderless");
             loadingModeY = startY + (compactLayout ? 72 : 99);
         } else {
-            loadingModeY = nextControlY + (compactLayout ? 24 : 37);
+            loadingModeY = nextControlY + (compactLayout ? 24
+                    : STYLE_SECTION_HEADINGS ? 61 : 37);
         }
-        loadingModeLabelY = loadingModeY - 11;
+        loadingModeLabelY = loadingModeY - sectionHeadingOffset;
         int thirdWidth = (controlWidth - CONTROL_GAP * 2) / 3;
         addLoadingModeControl(settings, controlX, loadingModeY, thirdWidth,
                 LoadingScreenMode.SAME_AS_GAME,
@@ -215,7 +218,7 @@ public final class FullscreenSettingsScreen extends Screen {
                 "fullscreen_tweaks.value.fullscreen",
                 "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen");
 
-        int minimizedY = loadingModeY + 24;
+        int minimizedY = loadingModeY + controlRowStep;
         addControl(controlX, minimizedY, controlWidth, startMinimizedLabel(settings),
                 ignored -> toggleStartMinimized(settings),
                 "fullscreen_tweaks.tooltip.start_minimized");
