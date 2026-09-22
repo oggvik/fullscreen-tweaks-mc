@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.window.GameWindow;
 import net.minecraft.client.render.window.GameWindowGLFW;
 import net.minecraft.core.UnexpectedThrowable;
-import oggvik.mods.fullscreentweaks.client.FullscreenOptionsPage;
+import oggvik.mods.fullscreentweaks.client.FullscreenVideoOptions;
 import oggvik.mods.fullscreentweaks.window.StartupWindowController;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,8 +28,8 @@ public abstract class MinecraftMixin {
 			shift = At.Shift.AFTER
 		)
 	)
-	private void fullscreenTweaks$registerOptionsPage(CallbackInfo info) {
-		FullscreenOptionsPage.register();
+	private void fullscreenTweaks$registerVideoOptions(CallbackInfo info) {
+		FullscreenVideoOptions.register();
 	}
 
 	@Inject(

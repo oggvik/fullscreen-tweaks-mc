@@ -43,7 +43,7 @@ Choose a jar by Minecraft version and loader. The Java column is the class-file 
 | `26.3` | NeoForge | 25 | `[26.3,26.4)` | SDL3 loading-window controls after NeoForge window handoff; vanilla owns exclusive-versus-borderless mode |
 | `b1.7.3` | Babric standalone | 8 | exact `1.0.0-beta.7.3` | Experimental no-op; no supported GLFW hook |
 | BTA `7.3_04` | Babric standalone | 8 | `*` | GLFW controller and properties config; no injected GUI |
-| BTA `8.0.1` | Babric standalone | 17 | `*` | Full 2.0.0 focus-loss and loading-window controls on a native BTA options page; BTA owns native versus borderless selection; build runs on JDK 21 |
+| BTA `8.0.1` | Babric standalone | 17 | `*` | Full 2.0.0 focus-loss and loading-window controls integrated into BTA's Video page; BTA owns native versus borderless selection; build runs on JDK 21 |
 
 Fabric and Quilt artifacts use the LWJGL/GLFW libraries shipped by Minecraft. Forge and NeoForge do the same. The BTA ports explicitly depend on their BTA-compatible LWJGL artifacts.
 

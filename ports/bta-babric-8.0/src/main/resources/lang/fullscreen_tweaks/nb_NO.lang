@@ -1,12 +1,6 @@
-fullscreen_tweaks.options.page=Fullskjermjusteringer
-fullscreen_tweaks.options.category.after_loading=Vindusoppførsel etter innlasting
-fullscreen_tweaks.options.category.loading=Lasteskjerm
-options.fullscreen_tweaks.prevent_auto_iconify=Hindre at eksklusiv fullskjerm minimeres ved fokustap
-options.fullscreen_tweaks.loading_screen_mode=Lasteskjermvindu
+options.fullscreen_tweaks.prevent_auto_iconify=Behold fullskjerm ved fokustap
+options.fullscreen_tweaks.loading_screen_mode=Vindu under lasting
 options.fullscreen_tweaks.loading_screen_mode.same_as_game=Samme som spillet
 options.fullscreen_tweaks.loading_screen_mode.windowed=Vindu
 options.fullscreen_tweaks.loading_screen_mode.fullscreen=Fullskjerm
 options.fullscreen_tweaks.start_minimized=Minimer under lasting
-fullscreen_tweaks.tooltip.prevent_auto_iconify=Holder eksklusiv fullskjerm synlig når BTA mister fokus. Kantløs fullskjerm påvirkes ikke, siden den vanligvis forblir synlig.
-fullscreen_tweaks.tooltip.loading_screen_mode=Velger om lastingen følger spillets lagrede vindustilstand eller midlertidig bruker vindus- eller fullskjermmodus.
-fullscreen_tweaks.tooltip.start_minimized=Holder vinduet minimert til lastingen er ferdig.

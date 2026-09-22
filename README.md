@@ -33,7 +33,7 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 
 ## Configuration
 
-Open **Options → Fullscreen Settings** in Minecraft. BTA 8.0.1 exposes the same controls as a native **Fullscreen Tweaks** options page. The page controls:
+Open **Options → Fullscreen Settings** in Minecraft. BTA 8.0.1 places its Fullscreen Tweaks controls directly below BTA's fullscreen options on the native **Video** page. The settings control:
 
 - **Fullscreen:** Minecraft's normal fullscreen setting. F11 and other screens use the same value.
 - **Prevent native fullscreen minimization:** controls focus-loss minimization for native fullscreen; borderless fullscreen normally remains visible regardless.
