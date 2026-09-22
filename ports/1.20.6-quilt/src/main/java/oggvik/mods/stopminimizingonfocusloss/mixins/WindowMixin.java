@@ -79,6 +79,13 @@ public class WindowMixin {
         fullscreenTweaks$applyWindowPolicy();
     }
 
+    /*? if template_noop {*/
+    /*@Inject(method = "onFocus", at = @At("TAIL"))
+    private void fullscreenTweaks$applyFocusLossPolicy(boolean focused, CallbackInfo info) {
+        SdlWindowController.handleFocusChanged((Window) (Object) this, focused);
+    }
+    *//*?}*/
+
     @Unique
     private void fullscreenTweaks$applyWindowPolicy() {
         /*? if template_noop {*/
