@@ -3,6 +3,9 @@
 
 package oggvik.mods.fullscreentweaks;
 
+import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.fml.ModLoadingContext;
+import oggvik.mods.fullscreentweaks.client.FullscreenSettingsScreen;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
 
 public final class FullscreenTweaks {
@@ -14,5 +17,9 @@ public final class FullscreenTweaks {
 
     public static void init() {
         SettingsManager.initialize();
+        ModLoadingContext.get().registerExtensionPoint(
+                ConfigScreenHandler.ConfigScreenFactory.class,
+                () -> new ConfigScreenHandler.ConfigScreenFactory(
+                        (minecraft, parent) -> new FullscreenSettingsScreen(parent)));
     }
 }
