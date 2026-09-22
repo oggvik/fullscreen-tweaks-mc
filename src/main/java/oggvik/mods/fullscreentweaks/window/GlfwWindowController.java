@@ -8,7 +8,6 @@ import oggvik.mods.fullscreentweaks.config.FullscreenSettings;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
 /*? if template_noop {*/
 /*import org.lwjgl.sdl.SDLHints;
-import org.lwjgl.sdl.SDLVideo;
 *//*?} else {*/
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -26,7 +25,7 @@ public final class GlfwWindowController {
     public static void apply(long window, boolean minecraftFullscreen) {
         /*? if template_noop {*/
         /*boolean minimizeOnFocusLoss = !SettingsManager.get().isPreventAutoIconify()
-                && isExclusiveFullscreen(window);
+                && minecraftFullscreen;
         SDLHints.SDL_SetHint(
                 SDLHints.SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS,
                 minimizeOnFocusLoss ? "1" : "0"
@@ -67,14 +66,6 @@ public final class GlfwWindowController {
         }
         /*?}*/
     }
-
-    /*? if template_noop {*/
-    /*private static boolean isExclusiveFullscreen(long window) {
-        return window != 0L
-                && (SDLVideo.SDL_GetWindowFlags(window) & SDLVideo.SDL_WINDOW_FULLSCREEN) != 0L
-                && SDLVideo.nSDL_GetWindowFullscreenMode(window) != 0L;
-    }
-    *//*?}*/
 
     public static void reapply(long window, boolean minecraftFullscreen) {
         apply(window, minecraftFullscreen);

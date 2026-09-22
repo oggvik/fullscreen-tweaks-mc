@@ -64,13 +64,24 @@ public class WindowMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
+        GlfwWindowController.apply(
+                fullscreenTweaks$windowHandle(), fullscreenTweaks$policyFullscreen());
     }
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
-        GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
+        GlfwWindowController.apply(
+                fullscreenTweaks$windowHandle(), fullscreenTweaks$policyFullscreen());
+    }
+
+    @Unique
+    private boolean fullscreenTweaks$policyFullscreen() {
+        /*? if template_noop {*/
+        /*return ((Window) (Object) this).isExclusiveFullscreen();
+        *//*?} else {*/
+        return this.fullscreen;
+        /*?}*/
     }
 
     @Unique

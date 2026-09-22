@@ -66,7 +66,7 @@ public final class MinecraftWindowBridge {
         if (window != null) {
             GlfwWindowController.reapply(handle(window),
                     /*? if template_noop {*/
-                    /*false
+                    /*window.isExclusiveFullscreen()
                     *//*?} else {*/
                     window.isFullscreen()
                     /*?}*/
