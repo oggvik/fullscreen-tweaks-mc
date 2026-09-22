@@ -134,7 +134,7 @@ public final class FullscreenSettingsScreen extends Screen {
         int startY = compactLayout
                 ? Math.max(32, Math.min(this.height / 3, this.height - 145))
                 : Math.max(44, Math.min(54, this.height - 176));
-        int sectionHeadingOffset = STYLE_SECTION_HEADINGS ? 18 : 11;
+        int sectionHeadingOffset = STYLE_SECTION_HEADINGS ? 14 : 11;
         int controlRowStep = STYLE_SECTION_HEADINGS && !compactLayout ? 25 : 24;
         subtitleY = compactLayout ? 28 : startY - sectionHeadingOffset;
         int controlWidth = Math.min(CONTROL_WIDTH, Math.max(100, this.width - 20));
