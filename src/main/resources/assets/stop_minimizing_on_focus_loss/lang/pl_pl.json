@@ -8,6 +8,7 @@
   "stop_minimizing_on_focus_loss.option.loading_screen_mode": "Okno ekranu ładowania",
   "stop_minimizing_on_focus_loss.option.start_minimized": "Minimalizuj podczas ładowania",
   "stop_minimizing_on_focus_loss.tooltip.minecraft_fullscreen": "Zwykłe ustawienie pełnego ekranu Minecrafta.",
+  "stop_minimizing_on_focus_loss.tooltip.minecraft_exclusive_fullscreen": "To zwykłe ustawienie ekskluzywnego pełnego ekranu Minecrafta.",
   "stop_minimizing_on_focus_loss.tooltip.prevent_auto_iconify": "Dotyczy tylko natywnego pełnego ekranu; tryb bez ramek zwykle pozostaje widoczny po utracie fokusu.",
   "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode.native": "Używa pełnego ekranu Minecrafta przypisanego do monitora.",
   "stop_minimizing_on_focus_loss.tooltip.fullscreen_mode.borderless": "Wypełnia bieżący monitor oknem bez ramek o rozmiarze pulpitu.",
