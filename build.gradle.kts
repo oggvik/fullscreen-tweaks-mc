@@ -191,7 +191,9 @@ dependencies {
 
     if (isFabric) {
         modMenuVersion?.let {
-            add("modstitchModImplementation", "maven.modrinth:modmenu:$it")
+            val modMenu = "maven.modrinth:modmenu:$it"
+            add("modstitchModCompileOnly", modMenu)
+            add("modstitchModRuntimeOnly", modMenu)
         }
         resolveProp("deps.fabricApiBase")?.let { apiBaseVersion ->
             val apiBase = "net.fabricmc.fabric-api:fabric-api-base:$apiBaseVersion"
