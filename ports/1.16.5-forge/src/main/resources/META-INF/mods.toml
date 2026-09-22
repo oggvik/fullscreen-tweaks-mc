@@ -3,14 +3,14 @@
 
 modLoader = "javafml"
 loaderVersion = "[36,)"
-issueTrackerURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/issues"
+issueTrackerURL = "https://github.com/oggvik/fullscreen-tweaks-mc/issues"
 license = "AGPL-3.0-or-later"
 
 [[mods]]
 modId = "fullscreen_tweaks"
 version = "${file.jarVersion}"
 displayName = "Fullscreen Tweaks"
-displayURL = "https://github.com/oggvik/stop-minimizing-on-focus-loss-mc"
+displayURL = "https://github.com/oggvik/fullscreen-tweaks-mc"
 authors = "Oggvik"
 logoFile = "icon.png"
 description = '''

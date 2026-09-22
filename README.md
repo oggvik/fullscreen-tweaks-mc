@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Fullscreen Tweaks
 
-[![Gradle CI](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml/badge.svg)](https://github.com/oggvik/stop-minimizing-on-focus-loss-mc/actions/workflows/build.yml)
+[![Gradle CI](https://github.com/oggvik/fullscreen-tweaks-mc/actions/workflows/build.yml/badge.svg)](https://github.com/oggvik/fullscreen-tweaks-mc/actions/workflows/build.yml)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE.md)
 
 A client-side Minecraft mod for controlling fullscreen style, focus-loss behavior, and the loading window independently from the rest of the game.
