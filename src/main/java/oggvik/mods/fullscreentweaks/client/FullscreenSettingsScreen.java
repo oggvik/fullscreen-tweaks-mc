@@ -86,10 +86,10 @@ public final class FullscreenSettingsScreen extends Screen {
             "fullscreen_tweaks.tooltip.prevent_auto_iconify";
     /*?}*/
     /*? if button_builder {*/
-    /*private static final boolean HAS_NATIVE_TOOLTIPS = true;
-    *//*?} else {*/
-    private static final boolean HAS_NATIVE_TOOLTIPS = false;
-    /*?}*/
+    private static final boolean HAS_NATIVE_TOOLTIPS = true;
+    /*?} else {*/
+    /*private static final boolean HAS_NATIVE_TOOLTIPS = false;
+    *//*?}*/
     /*? if render_extractor {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
             Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
