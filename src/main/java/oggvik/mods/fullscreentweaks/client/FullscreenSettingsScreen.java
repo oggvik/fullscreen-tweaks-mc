@@ -63,6 +63,7 @@ public final class FullscreenSettingsScreen extends Screen {
     private static final int CONTROL_WIDTH = 300;
     private static final int CONTROL_HEIGHT = 20;
     private static final int CONTROL_GAP = 4;
+    private static final int SCROLLABLE_SECTION_GAP = 20;
     /*? if sdl_fullscreen_option {*/
     /*private static final int TITLE_Y = 12;
     *//*?} else if vanilla_title_y20 {*/
@@ -300,8 +301,7 @@ public final class FullscreenSettingsScreen extends Screen {
         LinearLayout content = LinearLayout.vertical();
         content.defaultCellSetting().alignHorizontallyCenter();
         content.addChild(SpacerElement.height(2));
-        content.addChild(new StringWidget(
-                sectionHeading("fullscreen_tweaks.settings.subtitle"), this.font));
+        addScrollableSectionHeading(content, "fullscreen_tweaks.settings.subtitle");
         content.addChild(SpacerElement.height(4));
 
         fullscreenButton = MinecraftWindowBridge.createFullscreenButton(0, 0, CONTROL_WIDTH);
@@ -313,9 +313,8 @@ public final class FullscreenSettingsScreen extends Screen {
         content.addChild(createScrollableControl(CONTROL_WIDTH, preventionLabel(settings),
                 ignored -> togglePrevention(settings), PREVENTION_TOOLTIP_KEY));
 
-        content.addChild(SpacerElement.height(23));
-        content.addChild(new StringWidget(
-                sectionHeading("fullscreen_tweaks.option.fullscreen_mode"), this.font));
+        content.addChild(SpacerElement.height(SCROLLABLE_SECTION_GAP));
+        addScrollableSectionHeading(content, "fullscreen_tweaks.option.fullscreen_mode");
         content.addChild(SpacerElement.height(4));
         int halfWidth = (CONTROL_WIDTH - CONTROL_GAP) / 2;
         LinearLayout fullscreenModes = LinearLayout.horizontal().spacing(CONTROL_GAP);
@@ -332,9 +331,8 @@ public final class FullscreenSettingsScreen extends Screen {
                 "fullscreen_tweaks.tooltip.fullscreen_mode.borderless"));
         content.addChild(fullscreenModes);
 
-        content.addChild(SpacerElement.height(23));
-        content.addChild(new StringWidget(
-                sectionHeading("fullscreen_tweaks.option.loading_screen_mode"), this.font));
+        content.addChild(SpacerElement.height(SCROLLABLE_SECTION_GAP));
+        addScrollableSectionHeading(content, "fullscreen_tweaks.option.loading_screen_mode");
         content.addChild(SpacerElement.height(4));
         int thirdWidth = (CONTROL_WIDTH - CONTROL_GAP * 2) / 3;
         LinearLayout loadingModes = LinearLayout.horizontal().spacing(CONTROL_GAP);
@@ -377,6 +375,12 @@ public final class FullscreenSettingsScreen extends Screen {
                 translate("gui.done"), ignored -> onClose(), null);
         doneButton.setPosition((this.width - doneButton.getWidth()) / 2, this.height - 26);
         addWidget(doneButton);
+    }
+
+    private void addScrollableSectionHeading(LinearLayout content, String translationKey) {
+        content.addChild(
+                new StringWidget(sectionHeading(translationKey), this.font),
+                content.newCellSettings().alignHorizontallyLeft());
     }
 
     private AbstractWidget createScrollableLoadingModeControl(
@@ -568,9 +572,12 @@ public final class FullscreenSettingsScreen extends Screen {
     /*? if component_factory {*/
     private static Component sectionHeading(String translationKey) {
         Component heading = Component.translatable(translationKey);
-        return STYLE_SECTION_HEADINGS
+        if (!STYLE_SECTION_HEADINGS) {
+            return heading;
+        }
+        return SHOW_EXCLUSIVE_FULLSCREEN
                 ? heading.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.UNDERLINE)
-                : heading;
+                : heading.copy().withStyle(ChatFormatting.WHITE);
     }
     /*?}*/
 
