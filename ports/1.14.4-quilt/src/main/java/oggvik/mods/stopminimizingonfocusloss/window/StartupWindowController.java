@@ -36,13 +36,20 @@ public final class StartupWindowController {
         if (!startupActive || window == null) {
             return;
         }
+        reapplyLoadingMode(window);
+        if (SettingsManager.get().isStartMinimized()) {
+            minimize(window);
+        }
+    }
+
+    public static void reapplyLoadingMode(Window window) {
+        if (!startupActive || window == null) {
+            return;
+        }
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
         if (accessor.fullscreenTweaks$isFullscreenRequested() != loadingFullscreen) {
             accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
             accessor.fullscreenTweaks$setMode();
-        }
-        if (SettingsManager.get().isStartMinimized()) {
-            minimize(window);
         }
     }
 

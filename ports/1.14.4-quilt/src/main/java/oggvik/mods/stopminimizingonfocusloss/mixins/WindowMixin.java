@@ -83,13 +83,13 @@ public class WindowMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState((Window) (Object) this);
+        StartupWindowController.reapplyLoadingMode((Window) (Object) this);
         fullscreenTweaks$applyWindowPolicy();
     }
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
-        StartupWindowController.reapplyLoadingState((Window) (Object) this);
+        StartupWindowController.reapplyLoadingMode((Window) (Object) this);
         fullscreenTweaks$applyWindowPolicy();
     }
 

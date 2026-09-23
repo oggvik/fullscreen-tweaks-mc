@@ -25,7 +25,11 @@ public class MinecraftMixin {
     @Final
     private Window window;
 
+    /*? if deferred_startup_minimize {*/
+    /*@Inject(method = "init", at = @At("RETURN"))
+    *//*?} else {*/
     @Inject(method = "<init>", at = @At("RETURN"))
+    /*?}*/
     private void fullscreenTweaks$applyLoadingWindowSettings(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState(this.window);
     }

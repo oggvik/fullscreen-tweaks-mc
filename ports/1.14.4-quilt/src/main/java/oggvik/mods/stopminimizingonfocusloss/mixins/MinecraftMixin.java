@@ -22,7 +22,7 @@ public class MinecraftMixin {
     @Final
     private Window window;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "init", at = @At("RETURN"))
     private void fullscreenTweaks$applyLoadingWindowSettings(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState(this.window);
     }
