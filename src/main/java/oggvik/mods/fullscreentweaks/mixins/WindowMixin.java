@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Window.class)
@@ -80,16 +81,16 @@ public class WindowMixin {
     }
 
     /*? if !template_noop {*/
-    @Inject(
+    @Redirect(
             method = "<init>",
             at = @At(
                     value = "INVOKE",
-                    target = "Lorg/lwjgl/glfw/GLFW;glfwCreateWindow(IILjava/lang/CharSequence;JJ)J",
+                    target = "Lorg/lwjgl/glfw/GLFW;glfwDefaultWindowHints()V",
                     remap = false
             )
     )
-    private void fullscreenTweaks$configureInitialGlfwHints(CallbackInfo info) {
-        GlfwWindowController.configureInitialWindowHints();
+    private void fullscreenTweaks$configureInitialGlfwHints() {
+        GlfwWindowController.resetAndConfigureInitialWindowHints();
     }
     /*?}*/
 

@@ -19,7 +19,8 @@ public final class GlfwWindowController {
     private GlfwWindowController() {
     }
 
-    public static void configureInitialWindowHints() {
+    public static void resetAndConfigureInitialWindowHints() {
+        GLFW.glfwDefaultWindowHints();
         GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY,
                 SettingsManager.get().isPreventAutoIconify() ? GLFW.GLFW_FALSE : GLFW.GLFW_TRUE);
     }
