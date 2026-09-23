@@ -3,6 +3,7 @@
 
 package oggvik.mods.fullscreentweaks.config;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -22,7 +23,14 @@ public final class FullscreenSettings {
 	}
 
 	public static FullscreenSettings defaults() {
-		return new FullscreenSettings(true, LoadingScreenMode.SAME_AS_GAME, false);
+		String osName = System.getProperty("os.name", "");
+		boolean preventAutoIconify =
+			!osName.toLowerCase(Locale.ROOT).startsWith("windows");
+		return new FullscreenSettings(
+			preventAutoIconify,
+			LoadingScreenMode.WINDOWED,
+			false
+		);
 	}
 
 	static FullscreenSettings load(Properties properties) {
