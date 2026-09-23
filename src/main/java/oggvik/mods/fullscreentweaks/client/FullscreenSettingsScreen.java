@@ -573,26 +573,26 @@ public final class FullscreenSettingsScreen extends Screen {
     super.render(graphics, mouseX, mouseY, partialTick);
     graphics.drawCenteredString(this.font,
             Component.translatable("fullscreen_tweaks.settings.title"),
-            this.width / 2, TITLE_Y, 0xFFFFFF);
+            this.width / 2, TITLE_Y, 0xFFFFFFFF);
     graphics.drawCenteredString(this.font,
             sectionHeading("fullscreen_tweaks.settings.subtitle"),
-            this.width / 2, subtitleY, STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
+            this.width / 2, subtitleY, STYLE_SECTION_HEADINGS ? 0xFFFFFFFF : 0xFFA0A0A0);
     String tooltip = fallbackTooltip(mouseX, mouseY);
     if (tooltip != null) {
         graphics.drawCenteredString(this.font, tooltip,
-                this.width / 2, this.height - 38, 0xFFD070);
+                this.width / 2, this.height - 38, 0xFFFFD070);
     }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
                     sectionHeading("fullscreen_tweaks.option.fullscreen_mode"),
                     this.width / 2, fullscreenModeLabelY,
-                    STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
+                    STYLE_SECTION_HEADINGS ? 0xFFFFFFFF : 0xFFA0A0A0);
         }
         graphics.drawCenteredString(this.font,
                 sectionHeading("fullscreen_tweaks.option.loading_screen_mode"),
                 this.width / 2, loadingModeLabelY,
-                STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
+                STYLE_SECTION_HEADINGS ? 0xFFFFFFFF : 0xFFA0A0A0);
     }
     /*?} else {*/
     /*renderBackground(graphics);
