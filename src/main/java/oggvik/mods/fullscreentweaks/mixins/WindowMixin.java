@@ -123,7 +123,7 @@ public class WindowMixin {
             at = @At("RETURN")
     )
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
-        /*? if deferred_startup_minimize {*/
+        /*? if defer_minimize_after_window_create {*/
         /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
         *//*?} else {*/
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
@@ -133,7 +133,7 @@ public class WindowMixin {
 
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
-        /*? if deferred_startup_minimize {*/
+        /*? if defer_minimize_after_window_create {*/
         /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
         *//*?} else {*/
         StartupWindowController.reapplyLoadingState((Window) (Object) this);

@@ -189,6 +189,8 @@ stonecutter {
         put("styled_section_headings", stonecutter.current.project.startsWith("1.21.11")
                 || stonecutter.current.project == "26.3-fabric"
                 || stonecutter.current.project == "26.3-neoforge")
+        put("defer_minimize_after_window_create",
+                isFabric && stonecutter.eval(mcVersion, "<=1.15.2"))
         put("deferred_startup_minimize", stonecutter.current.project == "1.14.4-fabric")
         put("gui_graphics", stonecutter.eval(mcVersion, ">=1.20") && stonecutter.eval(mcVersion, "<26.1"))
         put("resource_location_factory", stonecutter.eval(mcVersion, ">=1.21") && !stonecutter.current.project.startsWith("1.21.11"))
