@@ -11,6 +11,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.client.gui.GuiGraphics;
 /*? if identifier {*/
 /*import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.RenderPipelines;
 *//*?} else {*/
 import net.minecraft.resources.ResourceLocation;
 /*?}*/
@@ -72,18 +73,21 @@ public final class FullscreenSettingsScreen extends Screen {
     /*?}*/
     /*? if sdl_fullscreen_option {*/
     /*private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = true;
-    private static final boolean STYLE_SECTION_HEADINGS = true;
     private static final String PREVENTION_LABEL_KEY =
             "fullscreen_tweaks.option.prevent_auto_iconify.sdl";
     private static final String PREVENTION_TOOLTIP_KEY =
             "fullscreen_tweaks.tooltip.prevent_auto_iconify.sdl";
     *//*?} else {*/
     private static final boolean SHOW_EXCLUSIVE_FULLSCREEN = false;
-    private static final boolean STYLE_SECTION_HEADINGS = false;
     private static final String PREVENTION_LABEL_KEY =
             "fullscreen_tweaks.option.prevent_auto_iconify";
     private static final String PREVENTION_TOOLTIP_KEY =
             "fullscreen_tweaks.tooltip.prevent_auto_iconify";
+    /*?}*/
+    /*? if styled_section_headings {*/
+    /*private static final boolean STYLE_SECTION_HEADINGS = true;
+    *//*?} else {*/
+    private static final boolean STYLE_SECTION_HEADINGS = false;
     /*?}*/
     /*? if button_builder {*/
     private static final boolean HAS_NATIVE_TOOLTIPS = true;
@@ -100,10 +104,8 @@ public final class FullscreenSettingsScreen extends Screen {
     /*? if identifier {*/
     /*private static final Identifier MENU_LIST_BACKGROUND =
             Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
-    private static final Identifier HEADER_SEPARATOR =
-            Identifier.withDefaultNamespace("textures/gui/header_separator.png");
-    private static final Identifier FOOTER_SEPARATOR =
-            Identifier.withDefaultNamespace("textures/gui/footer_separator.png");
+    private static final Identifier INWORLD_MENU_LIST_BACKGROUND =
+            Identifier.withDefaultNamespace("textures/gui/inworld_menu_list_background.png");
     *//*?} else {*/
     private static final ResourceLocation MENU_LIST_BACKGROUND =
             /*? if resource_location_factory {*/
@@ -165,16 +167,30 @@ public final class FullscreenSettingsScreen extends Screen {
         /*? if gui_graphics {*/
         addRenderableOnly((graphics, mouseX, mouseY, partialTick) -> {
             /*? if modern_menu_list_background {*/
-            /*? if !identifier {*/
+            /*? if identifier {*/
+            /*Identifier menuListBackground = this.minecraft.level == null
+                    ? MENU_LIST_BACKGROUND
+                    : INWORLD_MENU_LIST_BACKGROUND;
+            Identifier headerSeparator = this.minecraft.level == null
+                    ? Screen.HEADER_SEPARATOR
+                    : Screen.INWORLD_HEADER_SEPARATOR;
+            Identifier footerSeparator = this.minecraft.level == null
+                    ? Screen.FOOTER_SEPARATOR
+                    : Screen.INWORLD_FOOTER_SEPARATOR;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, headerSeparator,
+                    0, 31, 0.0F, 0.0F, this.width, 2, 32, 2);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, menuListBackground,
+                    0, 33, 0.0F, 0.0F, this.width, Math.max(0, this.height - 66), 32, 32);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, footerSeparator,
+                    0, Math.max(33, this.height - 33), 0.0F, 0.0F, this.width, 2, 32, 2);
+            *//*?} else {*/
             RenderSystem.enableBlend();
-            /*?}*/
             graphics.blit(HEADER_SEPARATOR,
                     0, 31, 0, 0, this.width, 2, 32, 2);
             graphics.blit(MENU_LIST_BACKGROUND,
                     0, 33, 0, 0, this.width, Math.max(0, this.height - 66), 32, 32);
             graphics.blit(FOOTER_SEPARATOR,
                     0, Math.max(33, this.height - 33), 0, 0, this.width, 2, 32, 2);
-            /*? if !identifier {*/
             RenderSystem.disableBlend();
             /*?}*/
             /*?} else {*/
@@ -559,8 +575,8 @@ public final class FullscreenSettingsScreen extends Screen {
             Component.translatable("fullscreen_tweaks.settings.title"),
             this.width / 2, TITLE_Y, 0xFFFFFF);
     graphics.drawCenteredString(this.font,
-            Component.translatable("fullscreen_tweaks.settings.subtitle"),
-            this.width / 2, subtitleY, 0xA0A0A0);
+            sectionHeading("fullscreen_tweaks.settings.subtitle"),
+            this.width / 2, subtitleY, STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
     String tooltip = fallbackTooltip(mouseX, mouseY);
     if (tooltip != null) {
         graphics.drawCenteredString(this.font, tooltip,
@@ -569,12 +585,14 @@ public final class FullscreenSettingsScreen extends Screen {
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
-                    Component.translatable("fullscreen_tweaks.option.fullscreen_mode"),
-                    this.width / 2, fullscreenModeLabelY, 0xA0A0A0);
+                    sectionHeading("fullscreen_tweaks.option.fullscreen_mode"),
+                    this.width / 2, fullscreenModeLabelY,
+                    STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
         }
         graphics.drawCenteredString(this.font,
-                Component.translatable("fullscreen_tweaks.option.loading_screen_mode"),
-                this.width / 2, loadingModeLabelY, 0xA0A0A0);
+                sectionHeading("fullscreen_tweaks.option.loading_screen_mode"),
+                this.width / 2, loadingModeLabelY,
+                STYLE_SECTION_HEADINGS ? 0xFFFFFF : 0xA0A0A0);
     }
     /*?} else {*/
     /*renderBackground(graphics);
