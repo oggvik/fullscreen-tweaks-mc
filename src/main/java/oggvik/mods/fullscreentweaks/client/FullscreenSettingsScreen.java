@@ -12,6 +12,10 @@ import net.minecraft.client.gui.GuiGraphics;
 /*? if identifier {*/
 /*import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.components.ScrollableLayout;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.layouts.SpacerElement;
 *//*?} else {*/
 import net.minecraft.resources.ResourceLocation;
 /*?}*/
@@ -152,6 +156,9 @@ public final class FullscreenSettingsScreen extends Screen {
     protected void init() {
         FullscreenSettings settings = SettingsManager.get();
         tooltipAreas.clear();
+        /*? if identifier {*/
+        /*initScrollableOptions(settings);
+        *//*?} else {*/
         compactLayout = this.height < (SHOW_FULLSCREEN_MODE || SHOW_EXCLUSIVE_FULLSCREEN ? 220 : 180);
         int startY = compactLayout
                 ? Math.max(32, Math.min(this.height / 3, this.height - 145))
@@ -267,7 +274,132 @@ public final class FullscreenSettingsScreen extends Screen {
         addControl((this.width - Math.min(200, Math.max(100, this.width - 20))) / 2,
                 this.height - 26, Math.min(200, Math.max(100, this.width - 20)),
                 translate("gui.done"), ignored -> onClose(), null);
+        /*?}*/
     }
+
+    /*? if identifier {*/
+    /*private void initScrollableOptions(FullscreenSettings settings) {
+        addRenderableOnly((graphics, mouseX, mouseY, partialTick) -> {
+            Identifier menuListBackground = this.minecraft.level == null
+                    ? MENU_LIST_BACKGROUND
+                    : INWORLD_MENU_LIST_BACKGROUND;
+            Identifier headerSeparator = this.minecraft.level == null
+                    ? Screen.HEADER_SEPARATOR
+                    : Screen.INWORLD_HEADER_SEPARATOR;
+            Identifier footerSeparator = this.minecraft.level == null
+                    ? Screen.FOOTER_SEPARATOR
+                    : Screen.INWORLD_FOOTER_SEPARATOR;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, headerSeparator,
+                    0, 31, 0.0F, 0.0F, this.width, 2, 32, 2);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, menuListBackground,
+                    0, 33, 0.0F, 0.0F, this.width, Math.max(0, this.height - 66), 32, 32);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, footerSeparator,
+                    0, Math.max(33, this.height - 33), 0.0F, 0.0F, this.width, 2, 32, 2);
+        });
+
+        LinearLayout content = LinearLayout.vertical();
+        content.defaultCellSetting().alignHorizontallyCenter();
+        content.addChild(SpacerElement.height(2));
+        content.addChild(new StringWidget(
+                sectionHeading("fullscreen_tweaks.settings.subtitle"), this.font));
+        content.addChild(SpacerElement.height(4));
+
+        fullscreenButton = MinecraftWindowBridge.createFullscreenButton(0, 0, CONTROL_WIDTH);
+        fullscreenButton.setTooltip(Tooltip.create(Component.translatable(
+                "fullscreen_tweaks.tooltip.minecraft_fullscreen")));
+        lastFullscreen = MinecraftWindowBridge.fullscreenSetting();
+        content.addChild(fullscreenButton);
+        content.addChild(SpacerElement.height(5));
+        content.addChild(createScrollableControl(CONTROL_WIDTH, preventionLabel(settings),
+                ignored -> togglePrevention(settings), PREVENTION_TOOLTIP_KEY));
+
+        content.addChild(SpacerElement.height(23));
+        content.addChild(new StringWidget(
+                sectionHeading("fullscreen_tweaks.option.fullscreen_mode"), this.font));
+        content.addChild(SpacerElement.height(4));
+        int halfWidth = (CONTROL_WIDTH - CONTROL_GAP) / 2;
+        LinearLayout fullscreenModes = LinearLayout.horizontal().spacing(CONTROL_GAP);
+        fullscreenModes.addChild(createScrollableControl(halfWidth,
+                radioLabel(settings.getFullscreenMode() == FullscreenMode.NATIVE,
+                        "fullscreen_tweaks.value.native"),
+                ignored -> selectFullscreenMode(settings, FullscreenMode.NATIVE),
+                "fullscreen_tweaks.tooltip.fullscreen_mode.native"));
+        fullscreenModes.addChild(createScrollableControl(
+                CONTROL_WIDTH - halfWidth - CONTROL_GAP,
+                radioLabel(settings.getFullscreenMode() == FullscreenMode.BORDERLESS,
+                        "fullscreen_tweaks.value.borderless"),
+                ignored -> selectFullscreenMode(settings, FullscreenMode.BORDERLESS),
+                "fullscreen_tweaks.tooltip.fullscreen_mode.borderless"));
+        content.addChild(fullscreenModes);
+
+        content.addChild(SpacerElement.height(23));
+        content.addChild(new StringWidget(
+                sectionHeading("fullscreen_tweaks.option.loading_screen_mode"), this.font));
+        content.addChild(SpacerElement.height(4));
+        int thirdWidth = (CONTROL_WIDTH - CONTROL_GAP * 2) / 3;
+        LinearLayout loadingModes = LinearLayout.horizontal().spacing(CONTROL_GAP);
+        loadingModes.addChild(createScrollableLoadingModeControl(settings, thirdWidth,
+                LoadingScreenMode.SAME_AS_GAME,
+                "fullscreen_tweaks.value.same_as_game",
+                "fullscreen_tweaks.tooltip.loading_screen_mode.same_as_game"));
+        loadingModes.addChild(createScrollableLoadingModeControl(settings, thirdWidth,
+                LoadingScreenMode.WINDOWED,
+                "fullscreen_tweaks.value.windowed",
+                "fullscreen_tweaks.tooltip.loading_screen_mode.windowed"));
+        loadingModes.addChild(createScrollableLoadingModeControl(settings,
+                CONTROL_WIDTH - thirdWidth * 2 - CONTROL_GAP * 2,
+                LoadingScreenMode.FULLSCREEN,
+                "fullscreen_tweaks.value.fullscreen",
+                "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen"));
+        content.addChild(loadingModes);
+        content.addChild(SpacerElement.height(5));
+
+        boolean startMinimizedSupported = MinecraftWindowBridge.startMinimizedSupported();
+        AbstractWidget startMinimizedButton = createScrollableControl(
+                CONTROL_WIDTH,
+                startMinimizedLabel(settings, startMinimizedSupported),
+                ignored -> toggleStartMinimized(settings),
+                startMinimizedSupported
+                        ? "fullscreen_tweaks.tooltip.start_minimized"
+                        : "fullscreen_tweaks.tooltip.start_minimized.wayland_unavailable");
+        startMinimizedButton.active = startMinimizedSupported;
+        content.addChild(startMinimizedButton);
+
+        ScrollableLayout scrollable = new ScrollableLayout(
+                this.minecraft, content, Math.max(0, this.height - 66));
+        scrollable.setMaxHeight(Math.max(0, this.height - 66));
+        scrollable.arrangeElements();
+        scrollable.setPosition((this.width - scrollable.getWidth()) / 2, 33);
+        scrollable.visitWidgets(this::addWidget);
+
+        AbstractWidget doneButton = createScrollableControl(
+                Math.min(200, Math.max(100, this.width - 20)),
+                translate("gui.done"), ignored -> onClose(), null);
+        doneButton.setPosition((this.width - doneButton.getWidth()) / 2, this.height - 26);
+        addWidget(doneButton);
+    }
+
+    private AbstractWidget createScrollableLoadingModeControl(
+            FullscreenSettings settings, int width, LoadingScreenMode mode,
+            String valueKey, String tooltipKey
+    ) {
+        return createScrollableControl(width,
+                radioLabel(settings.getLoadingScreenMode() == mode, valueKey),
+                ignored -> selectLoadingMode(settings, mode), tooltipKey);
+    }
+
+    private AbstractWidget createScrollableControl(
+            int width, String label, Button.OnPress action, String tooltipKey
+    ) {
+        AbstractWidget button = Button.builder(Component.literal(label), action)
+                .bounds(0, 0, width, CONTROL_HEIGHT)
+                .build();
+        if (tooltipKey != null) {
+            button.setTooltip(Tooltip.create(Component.translatable(tooltipKey)));
+        }
+        return button;
+    }
+    *//*?}*/
 
     @Override
     public void tick() {
@@ -574,14 +706,17 @@ public final class FullscreenSettingsScreen extends Screen {
     graphics.drawCenteredString(this.font,
             Component.translatable("fullscreen_tweaks.settings.title"),
             this.width / 2, TITLE_Y, 0xFFFFFFFF);
+    /*? if !identifier {*/
     graphics.drawCenteredString(this.font,
             sectionHeading("fullscreen_tweaks.settings.subtitle"),
             this.width / 2, subtitleY, STYLE_SECTION_HEADINGS ? 0xFFFFFFFF : 0xFFA0A0A0);
+    /*?}*/
     String tooltip = fallbackTooltip(mouseX, mouseY);
     if (tooltip != null) {
         graphics.drawCenteredString(this.font, tooltip,
                 this.width / 2, this.height - 38, 0xFFFFD070);
     }
+    /*? if !identifier {*/
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
             graphics.drawCenteredString(this.font,
@@ -594,6 +729,7 @@ public final class FullscreenSettingsScreen extends Screen {
                 this.width / 2, loadingModeLabelY,
                 STYLE_SECTION_HEADINGS ? 0xFFFFFFFF : 0xFFA0A0A0);
     }
+    /*?}*/
     /*?} else {*/
     /*renderBackground(graphics);
     graphics.drawCenteredString(this.font,
