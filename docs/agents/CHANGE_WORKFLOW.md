@@ -29,7 +29,6 @@ For shared code, identify every Stonecutter constant that affects the edited reg
 | Shared Java | Relevant unit tests plus representative affected Stonecutter builds |
 | Stonecutter condition | Builds immediately on both sides of the condition |
 | Shared metadata template | At least one Fabric target and each affected Forge-like template family; inspect the built descriptor |
-| Quilt synchronization | Build changed Quilt ports after synchronization |
 | Build scripts or target matrix | `bash -n` on scripts, coverage audit, then affected JVM group or the full matrix |
 
 Use the commands in `docs/commands/TARGETS.md`. Use the grouped scripts in `docs/commands/JVM_BUILDS.md` for broad validation.

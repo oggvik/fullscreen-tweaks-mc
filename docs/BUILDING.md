@@ -50,14 +50,11 @@ scripts/build-all-targets.sh --no-daemon --stacktrace
 
 ## Shared and generated sources
 
-Edit shared Modstitch/Stonecutter code under `src/main`. The `versions/` projects receive processed sources during their Gradle build. After a shared-source change, rebuild and then synchronize those processed sources into Quilt ports:
+Edit shared Modstitch/Stonecutter code under `src/main`. The `versions/` projects receive processed sources during their Gradle build. After a shared-source change, rebuild the affected generated targets:
 
 ```bash
 ./gradlew build
-scripts/sync-quilt-sources.sh
 ```
-
-Quilt ports are checked-in standalone projects, so include their synchronized changes in the same commit.
 
 ## Running a client
 

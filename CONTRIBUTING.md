@@ -18,7 +18,7 @@ For display bugs, describe whether Minecraft was windowed, native fullscreen, or
 1. Choose the smallest target that reproduces the issue from the [supported-target matrix](docs/SUPPORTED_TARGETS.md).
 2. Edit shared code under `src/main` when the behavior applies to generated targets. Edit a project under `ports/` when the behavior is specific to that standalone port.
 3. Keep version branches in Stonecutter directives and avoid copying generated code back into shared sources.
-4. Build and test the affected target. For shared changes, run the complete Stonecutter test suite and synchronize Quilt sources as described in [the build guide](docs/BUILDING.md).
+4. Build and test the affected target. For shared changes, run the complete Stonecutter test suite as described in [the build guide](docs/BUILDING.md).
 5. Keep unrelated formatting and generated runtime files out of the change.
 
 Pull requests should explain the user-visible problem, the resulting behavior, and the commands used for validation. Small focused commits are easier to review and backport.

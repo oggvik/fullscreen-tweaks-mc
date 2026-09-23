@@ -18,7 +18,7 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 
 - Keeps native fullscreen visible when Minecraft loses focus, such as while alt-tabbing, clicking another monitor, or using another application. (**Added in 0.1.0**)
 - Reapplies the focus-loss policy after Minecraft creates its window and whenever it changes window mode, so the behavior remains reliable across fullscreen transitions. (**Added in 0.1.0**)
-- Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Quilt, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
+- Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
 - Provides a dedicated **Fullscreen Settings** screen directly from Minecraft's main Options screen on supported GUI targets. (**Added in 1.0.0**)
 - Lets minimization prevention be enabled or disabled independently from the selected fullscreen style. (**Added in 1.0.0**)
 - Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode where vanilla lacks that choice. Minecraft 26.3 and BTA 8.0.1 use their own built-in fullscreen-style settings instead. (**Added in 1.0.0**)
@@ -55,7 +55,7 @@ NeoForge's earliest loading window is created before regular mods are discovered
 
 ## Development
 
-The main project uses [Stonecutter](https://stonecutter.kikugie.dev/) and [Modstitch](https://modstitch.dev/) to generate Fabric, Forge, and NeoForge targets from shared sources. Quilt and legacy/Babric builds live under `ports/` as standalone Gradle projects.
+The main project uses [Stonecutter](https://stonecutter.kikugie.dev/) and [Modstitch](https://modstitch.dev/) to generate Fabric, Forge, and NeoForge targets from shared sources. Legacy, standalone NeoForge, and Babric builds live under `ports/` as standalone Gradle projects.
 
 ```bash
 ./gradlew build

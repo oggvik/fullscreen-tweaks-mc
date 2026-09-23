@@ -14,7 +14,6 @@ The repository has two source models:
 | `src/main/java/` | Shared Stonecutter Java source | Edit for behavior shared by generated Fabric, Forge, and NeoForge targets |
 | `src/main/templates/` | Shared loader metadata templates | Edit for generated metadata changes |
 | `versions/` | Stonecutter target projects and generated build output | Edit target properties when required; never edit generated files under `build/` |
-| `ports/*-quilt/` | Standalone Quilt projects with synchronized Java | Regenerate with `scripts/sync-quilt-sources.sh` after shared changes |
 | Other `ports/` projects | Standalone legacy, Forge, NeoForge, and Babric implementations | Edit directly for port-specific behavior |
 
 Root `settings.gradle.kts` declares all Stonecutter projects. Root `build.gradle.kts` owns Modstitch setup, Java targets, loader selection, metadata replacement, dependencies, and Stonecutter constants. Per-target dependency and metadata values live in `versions/*/gradle.properties`.
@@ -33,7 +32,6 @@ See `docs/ARCHITECTURE.md` for behavioral details and `docs/SUPPORTED_TARGETS.md
 
 - `scripts/build-jvm-*.sh` build disjoint Gradle-runtime groups.
 - `scripts/build-all-targets.sh` invokes every JVM group.
-- `scripts/sync-quilt-sources.sh` copies processed shared sources into Quilt ports.
 - `scripts/collect-release-jars.sh` groups built artifacts by base mod version.
 - `.github/workflows/build.yml` performs routine CI.
 - `.github/workflows/publish.yml` defines the public release matrix; keep it aligned with supported targets.

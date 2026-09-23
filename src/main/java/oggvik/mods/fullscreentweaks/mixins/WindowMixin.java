@@ -66,6 +66,9 @@ public class WindowMixin {
         /*gameFullscreen = gameFullscreen || minecraft.options.fullscreen;
         *//*?}*/
         boolean loadingFullscreen = StartupWindowController.prepareLoading(gameFullscreen);
+        /*? if defer_loading_fullscreen_attach {*/
+        /*loadingFullscreen = false;
+        *//*?}*/
         if (loadingFullscreen == gameFullscreen) {
             return displayData;
         }

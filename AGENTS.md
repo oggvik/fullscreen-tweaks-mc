@@ -23,7 +23,6 @@ Inspect the worktree before editing. Preserve user changes and keep unrelated ch
 - Treat `src/main/` as the source of truth for Stonecutter targets under `versions/`.
 - Do not edit `versions/*/build/`, `build/`, `run/`, `.gradle/`, or generated IDE files.
 - Projects under `ports/` are standalone. Edit a port directly when behavior is specific to it.
-- Quilt ports contain checked-in synchronized sources. After a shared change, build the Stonecutter targets and run `scripts/sync-quilt-sources.sh`; review the resulting Quilt diffs.
 - Keep version differences inside existing Stonecutter directives. Do not replace conditional source with copied per-version implementations unless the architecture requires a standalone port.
 
 ## Build and runtime rules
@@ -38,7 +37,7 @@ Inspect the worktree before editing. Preserve user changes and keep unrelated ch
 
 - The release version comes from root `gradle.properties` for Stonecutter targets and the corresponding standalone port property or build script under `ports/`.
 - Preserve the `+<minecraft>-<loader>` artifact suffix. The base mod version is shared.
-- Keep homepage, issue, and source metadata aligned across Fabric, Quilt, Forge, NeoForge, Babric, and legacy `mcmod.info` descriptors.
+- Keep homepage, issue, and source metadata aligned across Fabric, Forge, NeoForge, Babric, and legacy `mcmod.info` descriptors.
 - Do not broaden declared Minecraft ranges without runtime evidence for every newly claimed version.
 - Do not publish, tag, push, or modify a release unless the user explicitly asks.
 

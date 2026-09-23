@@ -17,7 +17,7 @@ Fullscreen Tweaks was previously known as **Stop Minimizing on Focus Loss** befo
 
 * Keeps native fullscreen visible when Minecraft loses focus, such as while alt-tabbing, clicking another monitor, or using another application. (**Added in 0.1.0**)
 * Reapplies the focus-loss policy after Minecraft creates its window and whenever it changes window mode, so the behavior remains reliable across fullscreen transitions. (**Added in 0.1.0**)
-* Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Quilt, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
+* Supports a wide range of Minecraft versions and loaders, including Fabric, Forge, NeoForge, Babric, and Better Than Adventure targets. (**Added in 0.1.1**)
 * Provides a dedicated **Fullscreen Settings** screen directly from Minecraft's main Options screen on supported GUI targets. (**Added in 1.0.0**)
 * Lets minimization prevention be enabled or disabled independently from the selected fullscreen style. (**Added in 1.0.0**)
 * Offers both Minecraft's native fullscreen mode and a borderless fullscreen mode where vanilla lacks that choice. Minecraft 26.3 and BTA 8.0.1 use their own built-in fullscreen-style settings instead. (**Added in 1.0.0**)
@@ -68,7 +68,7 @@ Fullscreen Tweaks 2.0.x is actively supported only on the exact Minecraft and lo
 | 26.3 Snapshot 3 (`26.3-alpha.3`) | **2.0.x** | Not supported | Not supported | Exact Fabric snapshot target |
 | 26.3 | **2.0.x** | Not supported | **2.0.x** | Fabric and NeoForge SDL3 targets |
 
-All other Minecraft and loader combinations are legacy-only and are not supported beyond the 0.1.x release line. This includes the Quilt builds, the vanilla Beta 1.7.3 Babric build, Forge 1.7.10, Forge 1.8.9, Forge 1.12.2, and Forge 1.20.6. Existing 0.1.x files may remain available for those combinations, but they do not receive Fullscreen Tweaks 2.0.x features or ongoing compatibility updates.
+All other Minecraft and loader combinations are legacy-only and are not supported beyond the 0.1.x release line. This includes the vanilla Beta 1.7.3 Babric build and Forge 1.7.10, Forge 1.8.9, and Forge 1.12.2. Existing 0.1.x files may remain available for those combinations, but they do not receive Fullscreen Tweaks 2.0.x features or ongoing compatibility updates.
 
 Better Than Adventure is the exception to that legacy policy. Its Babric targets remain supported independently of the Minecraft 2.0.x matrix and will receive updates whenever needed to support current Better Than Adventure releases.
 

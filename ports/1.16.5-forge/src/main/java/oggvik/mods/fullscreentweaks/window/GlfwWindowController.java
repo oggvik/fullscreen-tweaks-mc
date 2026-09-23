@@ -156,10 +156,10 @@ public final class GlfwWindowController {
     }
 
     private static void restoreWindowDecorations(long window) {
-        if (managedWindow == window && managedBorderless) {
+        if (GLFW.glfwGetWindowAttrib(window, GLFW.GLFW_DECORATED) == GLFW.GLFW_FALSE) {
             GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
-            managedBorderless = false;
         }
+        managedBorderless = false;
     }
     /*?}*/
 }

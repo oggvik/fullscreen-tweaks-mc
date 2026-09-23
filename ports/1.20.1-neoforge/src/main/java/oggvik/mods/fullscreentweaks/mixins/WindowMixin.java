@@ -37,8 +37,8 @@ public class WindowMixin {
     private static DisplayData fullscreenTweaks$selectLoadingWindowMode(DisplayData displayData) {
         boolean gameFullscreen = displayData.isFullscreen
                 || Minecraft.getInstance().options.fullscreen().get();
-        boolean loadingFullscreen = StartupWindowController.prepareLoading(gameFullscreen);
-        if (loadingFullscreen == gameFullscreen) {
+        StartupWindowController.prepareLoading(gameFullscreen);
+        if (!displayData.isFullscreen) {
             return displayData;
         }
         return new DisplayData(
@@ -46,7 +46,7 @@ public class WindowMixin {
                 displayData.height,
                 displayData.fullscreenWidth,
                 displayData.fullscreenHeight,
-                loadingFullscreen);
+                false);
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

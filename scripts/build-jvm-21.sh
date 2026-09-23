@@ -7,5 +7,4 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/java-build.sh"
 
 use_build_jvm 21
 
-build_port 1.20.6-forge "$@"
 build_port bta-babric-8.0 "$@"

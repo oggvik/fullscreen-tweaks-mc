@@ -13,8 +13,8 @@ Set either the matching GitHub Actions-style variable or `JAVA_HOME`, then run t
 | ---: | --- | --- | --- |
 | 8 | `JAVA_HOME_8_X64` | `scripts/build-jvm-8.sh` | Forge 1.7.10, 1.8.9, and 1.12.2 |
 | 17 | `JAVA_HOME_17_X64` | `scripts/build-jvm-17.sh` | Forge 1.16.5 and Babric b1.7.3 |
-| 21 | `JAVA_HOME_21_X64` | `scripts/build-jvm-21.sh` | Forge 1.20.6 and BTA 8.0.1 |
-| 25 | `JAVA_HOME_25_X64` | `scripts/build-jvm-25.sh` | Stonecutter, Quilt, NeoForge 1.20.1, and BTA 7.3 builds |
+| 21 | `JAVA_HOME_21_X64` | `scripts/build-jvm-21.sh` | BTA 8.0.1 |
+| 25 | `JAVA_HOME_25_X64` | `scripts/build-jvm-25.sh` | Stonecutter, NeoForge 1.20.1, and BTA 7.3 builds |
 
 For example:
 
