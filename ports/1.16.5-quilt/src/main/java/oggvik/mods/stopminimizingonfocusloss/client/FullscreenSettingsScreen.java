@@ -481,7 +481,7 @@ public final class FullscreenSettingsScreen extends Screen {
                 this.width / 2, subtitleY, 0xA0A0A0);
         String tooltip = fallbackTooltip(mouseX, mouseY);
         if (tooltip != null) {
-            this.drawCenteredString(this.font, tooltip, this.width / 2, this.height - 40, 0xFFD070);
+            this.drawCenteredString(this.font, tooltip, this.width / 2, this.height - 41, 0xFFD070);
         }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
@@ -522,7 +522,7 @@ public final class FullscreenSettingsScreen extends Screen {
         String tooltip = fallbackTooltip(mouseX, mouseY);
         if (tooltip != null) {
             graphics.centeredText(this.font, Component.literal(tooltip),
-                    this.width / 2, this.height - 40, 0xFFFFD070);
+                    this.width / 2, this.height - 41, 0xFFFFD070);
         }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
@@ -551,7 +551,7 @@ public final class FullscreenSettingsScreen extends Screen {
     String tooltip = fallbackTooltip(mouseX, mouseY);
     if (tooltip != null) {
         graphics.drawCenteredString(this.font, tooltip,
-                this.width / 2, this.height - 40, 0xFFD070);
+                this.width / 2, this.height - 41, 0xFFD070);
     }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
@@ -574,7 +574,7 @@ public final class FullscreenSettingsScreen extends Screen {
     String tooltip = fallbackTooltip(mouseX, mouseY);
     if (tooltip != null) {
         graphics.drawCenteredString(this.font, tooltip,
-                this.width / 2, this.height - 40, 0xFFD070);
+                this.width / 2, this.height - 41, 0xFFD070);
     }
     if (!compactLayout) {
         if (SHOW_FULLSCREEN_MODE) {
@@ -603,7 +603,7 @@ public final class FullscreenSettingsScreen extends Screen {
         String tooltip = fallbackTooltip(mouseX, mouseY);
         if (tooltip != null) {
             drawCenteredString(poseStack, this.font, Component.literal(tooltip),
-                    this.width / 2, this.height - 40, 0xFFD070);
+                    this.width / 2, this.height - 41, 0xFFD070);
         }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
@@ -631,7 +631,7 @@ public final class FullscreenSettingsScreen extends Screen {
         String tooltip = fallbackTooltip(mouseX, mouseY);
         if (tooltip != null) {
             drawCenteredString(poseStack, this.font, new TextComponent(tooltip),
-                    this.width / 2, this.height - 40, 0xFFD070);
+                    this.width / 2, this.height - 41, 0xFFD070);
         }
         if (!compactLayout) {
             if (SHOW_FULLSCREEN_MODE) {
