@@ -8,26 +8,36 @@ import oggvik.mods.fullscreentweaks.config.LoadingScreenMode;
 import oggvik.mods.fullscreentweaks.config.SettingsManager;
 import oggvik.mods.fullscreentweaks.mixins.WindowModeAccessor;
 import oggvik.mods.fullscreentweaks.platform.MinecraftWindowBridge;
+/*? if template_noop {*/
+/*import org.lwjgl.sdl.SDLVideo;
+*//*?}*/
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
     private static boolean startupActive;
     private static boolean gameFullscreen;
     private static boolean loadingFullscreen;
+    private static boolean startupMinimized;
+    private static boolean loadingResourcesFinished;
 
     private StartupWindowController() {
     }
 
     public static boolean prepareLoading(boolean regularFullscreen) {
-        startupActive = true;
-        gameFullscreen = regularFullscreen;
+        // 26.3 delegates through two Window constructors, so preserve the original game mode.
+        if (!startupActive) {
+            startupActive = true;
+            gameFullscreen = regularFullscreen;
+            startupMinimized = false;
+            loadingResourcesFinished = false;
+        }
         LoadingScreenMode mode = SettingsManager.get().getLoadingScreenMode();
         if (mode == LoadingScreenMode.WINDOWED) {
             loadingFullscreen = false;
         } else if (mode == LoadingScreenMode.FULLSCREEN) {
             loadingFullscreen = true;
         } else {
-            loadingFullscreen = regularFullscreen;
+            loadingFullscreen = gameFullscreen;
         }
         return loadingFullscreen;
     }
@@ -41,8 +51,30 @@ public final class StartupWindowController {
             accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
             accessor.fullscreenTweaks$setMode();
         }
-        if (SettingsManager.get().isStartMinimized()) {
+        /*? if !template_noop {*/
+        if (SettingsManager.get().isStartMinimized() && !loadingResourcesFinished) {
+            startupMinimized = true;
             minimize(window);
+        }
+        /*?}*/
+    }
+
+    /*? if template_noop {*/
+    /*public static long configureInitialWindowFlags(long flags) {
+        if (startupActive && !loadingResourcesFinished
+                && SdlWindowController.supportsStartupMinimized()
+                && SettingsManager.get().isStartMinimized()) {
+            startupMinimized = true;
+            return flags | SDLVideo.SDL_WINDOW_MINIMIZED;
+        }
+        return flags;
+    }
+    *//*?}*/
+
+    public static void restoreAfterLoadingResources(Window window) {
+        loadingResourcesFinished = true;
+        if (startupActive && window != null) {
+            restoreStartupMinimized(window);
         }
     }
 
@@ -57,7 +89,12 @@ public final class StartupWindowController {
             accessor.fullscreenTweaks$setFullscreenRequested(gameFullscreen);
             accessor.fullscreenTweaks$setMode();
         }
-        if (SettingsManager.get().isStartMinimized()) {
+        restoreStartupMinimized(window);
+    }
+
+    private static void restoreStartupMinimized(Window window) {
+        if (startupMinimized) {
+            startupMinimized = false;
             restore(window);
         }
     }

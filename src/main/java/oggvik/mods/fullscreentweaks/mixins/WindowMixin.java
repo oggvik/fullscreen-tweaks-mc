@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -38,7 +39,18 @@ public class WindowMixin {
     /*?}*/
     /*?}*/
 
-    @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(
+            /*? if template_noop {*/
+            /*method = "<init>(Lcom/mojang/blaze3d/platform/WindowEventHandler;"
+                    + "Lcom/mojang/blaze3d/platform/DisplayData;Ljava/lang/String;ZLjava/lang/String;"
+                    + "Lcom/mojang/blaze3d/platform/MonitorManager;"
+                    + "Lcom/mojang/renderpearl/api/device/GpuBackend;I)V",
+            *//*?} else {*/
+            method = "<init>",
+            /*?}*/
+            at = @At("HEAD"),
+            argsOnly = true
+    )
     private static DisplayData fullscreenTweaks$selectLoadingWindowMode(DisplayData displayData) {
         /*? if new_window_handle {*/
         /*boolean gameFullscreen = displayData.isFullscreen();
@@ -67,7 +79,17 @@ public class WindowMixin {
         /*?}*/
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(
+            /*? if template_noop {*/
+            /*method = "<init>(Lcom/mojang/blaze3d/platform/WindowEventHandler;"
+                    + "Lcom/mojang/blaze3d/platform/DisplayData;Ljava/lang/String;ZLjava/lang/String;"
+                    + "Lcom/mojang/blaze3d/platform/MonitorManager;"
+                    + "Lcom/mojang/renderpearl/api/device/GpuBackend;I)V",
+            *//*?} else {*/
+            method = "<init>",
+            /*?}*/
+            at = @At("RETURN")
+    )
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
         fullscreenTweaks$applyWindowPolicy();
@@ -78,6 +100,21 @@ public class WindowMixin {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
         fullscreenTweaks$applyWindowPolicy();
     }
+
+    /*? if template_noop {*/
+    /*@ModifyArg(
+            method = "createWindow",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/mojang/renderpearl/api/device/GpuBackend;"
+                            + "createWindow(Ljava/lang/String;IIJ)J"
+            ),
+            index = 3
+    )
+    private long fullscreenTweaks$configureInitialWindowFlags(long flags) {
+        return StartupWindowController.configureInitialWindowFlags(flags);
+    }
+    *//*?}*/
 
     /*? if template_noop {*/
     /*@Inject(method = "onFocus", at = @At("TAIL"))

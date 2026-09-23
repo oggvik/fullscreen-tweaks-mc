@@ -49,6 +49,14 @@ public final class MinecraftWindowBridge {
         *//*?}*/
     }
 
+    public static boolean startMinimizedSupported() {
+        /*? if template_noop {*/
+        /*return SdlWindowController.supportsStartupMinimized();
+        *//*?} else {*/
+        return true;
+        /*?}*/
+    }
+
     public static void setFullscreenSetting(boolean fullscreen) {
         /*? if component_factory {*/
         Minecraft.getInstance().options.fullscreen().set(fullscreen);

@@ -18,9 +18,11 @@
   "fullscreen_tweaks.tooltip.loading_screen_mode.windowed": "Holder lasteskjermen i vindusmodus, uavhengig av spillinnstillingen.",
   "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen": "Viser lasteskjermen i fullskjerm, uavhengig av spillinnstillingen.",
   "fullscreen_tweaks.tooltip.start_minimized": "Holder vinduet minimert til lastingen er ferdig.",
+  "fullscreen_tweaks.tooltip.start_minimized.wayland_unavailable": "Ikke tilgjengelig med SDL på Wayland fordi vanlig minimering kan gjøre spillvinduet permanent låst.",
   "fullscreen_tweaks.value.native": "Eksklusiv",
   "fullscreen_tweaks.value.borderless": "Kantløs",
   "fullscreen_tweaks.value.same_as_game": "Samme som spillet",
   "fullscreen_tweaks.value.windowed": "Vindu",
-  "fullscreen_tweaks.value.fullscreen": "Fullskjerm"
+  "fullscreen_tweaks.value.fullscreen": "Fullskjerm",
+  "fullscreen_tweaks.value.unavailable": "Ikke tilgjengelig"
 }

@@ -15,6 +15,10 @@ public final class SdlWindowController {
     private SdlWindowController() {
     }
 
+    public static boolean supportsStartupMinimized() {
+        return !"wayland".equals(SDLVideo.SDL_GetCurrentVideoDriver());
+    }
+
     public static void apply(Window window) {
         boolean minimizeOnFocusLoss = shouldMinimizeOnFocusLoss(window);
         SDLHints.SDL_SetHint(

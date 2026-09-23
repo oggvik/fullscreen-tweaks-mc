@@ -239,9 +239,15 @@ public final class FullscreenSettingsScreen extends Screen {
                 "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen");
 
         int minimizedY = loadingModeY + controlRowStep;
-        addControl(controlX, minimizedY, controlWidth, startMinimizedLabel(settings),
+        boolean startMinimizedSupported = MinecraftWindowBridge.startMinimizedSupported();
+        AbstractWidget startMinimizedButton = addControl(
+                controlX, minimizedY, controlWidth,
+                startMinimizedLabel(settings, startMinimizedSupported),
                 ignored -> toggleStartMinimized(settings),
-                "fullscreen_tweaks.tooltip.start_minimized");
+                startMinimizedSupported
+                        ? "fullscreen_tweaks.tooltip.start_minimized"
+                        : "fullscreen_tweaks.tooltip.start_minimized.wayland_unavailable");
+        startMinimizedButton.active = startMinimizedSupported;
         addControl((this.width - Math.min(200, Math.max(100, this.width - 20))) / 2,
                 this.height - 26, Math.min(200, Math.max(100, this.width - 20)),
                 translate("gui.done"), ignored -> onClose(), null);
@@ -296,8 +302,8 @@ public final class FullscreenSettingsScreen extends Screen {
     }
     *//*?}*/
 
-    private void addControl(int x, int y, int width, String label,
-                            Button.OnPress action, String tooltipKey) {
+    private AbstractWidget addControl(int x, int y, int width, String label,
+                                      Button.OnPress action, String tooltipKey) {
         AbstractWidget button;
         /*? if button_builder {*/
         button = Button.builder(Component.literal(label), action)
@@ -312,6 +318,7 @@ public final class FullscreenSettingsScreen extends Screen {
         *//*?}*/
         addWidget(button);
         addTooltip(button, x, y, width, tooltipKey);
+        return button;
     }
 
     private void addLoadingModeControl(FullscreenSettings settings, int x, int y, int width,
@@ -371,7 +378,13 @@ public final class FullscreenSettingsScreen extends Screen {
         return translate(PREVENTION_LABEL_KEY) + ": " + value;
     }
 
-    private String startMinimizedLabel(FullscreenSettings settings) {
+    private String startMinimizedLabel(
+            FullscreenSettings settings, boolean startMinimizedSupported
+    ) {
+        if (!startMinimizedSupported) {
+            return translate("fullscreen_tweaks.option.start_minimized") + ": "
+                    + translate("fullscreen_tweaks.value.unavailable");
+        }
         String value = translate(settings.isStartMinimized() ? "options.on" : "options.off");
         return translate("fullscreen_tweaks.option.start_minimized") + ": " + value;
     }

@@ -4,6 +4,9 @@
 package oggvik.mods.fullscreentweaks.mixins;
 
 import com.mojang.blaze3d.platform.Window;
+/*? if template_noop {*/
+/*import net.minecraft.client.GameLoadCookie;
+*//*?}*/
 import net.minecraft.client.Minecraft;
 /*? if !new_gui_owner {*/
 import net.minecraft.client.gui.screens.Overlay;
@@ -26,6 +29,15 @@ public class MinecraftMixin {
     private void fullscreenTweaks$applyLoadingWindowSettings(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState(this.window);
     }
+
+    /*? if template_noop {*/
+    /*@Inject(method = "onGameLoadFinished", at = @At("RETURN"))
+    private void fullscreenTweaks$restoreAfterLoadingResources(
+            GameLoadCookie cookie, CallbackInfo info
+    ) {
+        StartupWindowController.restoreAfterLoadingResources(this.window);
+    }
+    *//*?}*/
 
     /*? if new_set_screen && !template_noop {*/
     /*@Inject(

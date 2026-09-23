@@ -18,9 +18,11 @@
   "fullscreen_tweaks.tooltip.loading_screen_mode.windowed": "Pozostawia ekran ładowania w oknie, niezależnie od ustawienia gry.",
   "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen": "Wyświetla ekran ładowania na pełnym ekranie, niezależnie od ustawienia gry.",
   "fullscreen_tweaks.tooltip.start_minimized": "Pozostawia okno zminimalizowane do zakończenia ładowania.",
+  "fullscreen_tweaks.tooltip.start_minimized.wayland_unavailable": "Niedostępne z SDL na Waylandzie, ponieważ natywna minimalizacja może trwale zablokować okno gry.",
   "fullscreen_tweaks.value.native": "Natywny",
   "fullscreen_tweaks.value.borderless": "Bez ramek",
   "fullscreen_tweaks.value.same_as_game": "Tak jak w grze",
   "fullscreen_tweaks.value.windowed": "Okno",
-  "fullscreen_tweaks.value.fullscreen": "Pełny ekran"
+  "fullscreen_tweaks.value.fullscreen": "Pełny ekran",
+  "fullscreen_tweaks.value.unavailable": "Niedostępne"
 }

@@ -18,9 +18,11 @@
   "fullscreen_tweaks.tooltip.loading_screen_mode.windowed": "Keeps the loading screen windowed, regardless of the game setting.",
   "fullscreen_tweaks.tooltip.loading_screen_mode.fullscreen": "Shows the loading screen fullscreen, regardless of the game setting.",
   "fullscreen_tweaks.tooltip.start_minimized": "Keep the window minimized until loading ends.",
+  "fullscreen_tweaks.tooltip.start_minimized.wayland_unavailable": "Unavailable with SDL on Wayland because native minimization can leave the game window permanently unresponsive.",
   "fullscreen_tweaks.value.native": "Native",
   "fullscreen_tweaks.value.borderless": "Borderless",
   "fullscreen_tweaks.value.same_as_game": "Same as game",
   "fullscreen_tweaks.value.windowed": "Windowed",
-  "fullscreen_tweaks.value.fullscreen": "Fullscreen"
+  "fullscreen_tweaks.value.fullscreen": "Fullscreen",
+  "fullscreen_tweaks.value.unavailable": "Unavailable"
 }
