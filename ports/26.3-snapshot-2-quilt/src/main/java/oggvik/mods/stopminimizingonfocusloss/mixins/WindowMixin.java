@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Window.class)
 public class WindowMixin {
@@ -68,19 +69,19 @@ public class WindowMixin {
         *//*?}*/
     }
 
-    /*? if !template_noop {*/
-    @Redirect(
-            method = "<init>",
+    @Inject(
+            method = "createGlfwWindow",
             at = @At(
                     value = "INVOKE",
-                    target = "Lorg/lwjgl/glfw/GLFW;glfwDefaultWindowHints()V",
-                    remap = false
+                    target = "Lcom/mojang/blaze3d/systems/GpuBackend;setWindowHints()V",
+                    shift = At.Shift.AFTER
             )
     )
-    private void fullscreenTweaks$configureInitialGlfwHints() {
-        GlfwWindowController.resetAndConfigureInitialWindowHints();
+    private static void fullscreenTweaks$configureInitialGlfwHints(
+            CallbackInfoReturnable<Long> info
+    ) {
+        GlfwWindowController.configureInitialWindowHints();
     }
-    /*?}*/
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
