@@ -477,7 +477,7 @@ public final class FullscreenSettingsScreen extends Screen {
         String tooltip = fallbackTooltip(mouseX, mouseY);
         if (tooltip != null) {
             drawCenteredString(poseStack, this.font, new StringTextComponent(tooltip),
-                    this.width / 2, this.height - 38, 0xFFD070);
+                    this.width / 2, this.height - 40, 0xFFD070);
         }
         if (!compactLayout) {
             drawCenteredString(poseStack, this.font,
