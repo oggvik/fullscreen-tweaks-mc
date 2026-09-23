@@ -68,7 +68,7 @@ Use the same project path and replace `build` with `runClient`:
 ports/1.8.9-forge/gradlew -p ports/1.8.9-forge runClient
 ```
 
-Fabric and Quilt development clients include Mod Menu where a compatible version exists. It remains a development-only dependency and is not bundled into release jars.
+Fabric development clients do not require or automatically load Mod Menu. Its API is compile-only, and release jars expose an optional Mod Menu entrypoint so the configuration button appears whenever users install a compatible Mod Menu version.
 
 ## Artifacts
 

@@ -5,62 +5,16 @@ package oggvik.mods.fullscreentweaks.platform;
 
 import oggvik.mods.fullscreentweaks.FullscreenTweaks;
 import oggvik.mods.fullscreentweaks.client.FullscreenSettingsScreen;
-/*? if fabric && !legacy_modmenu {*/
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
+/*? if fabric {*/
 import net.fabricmc.api.ClientModInitializer;
 
-public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
+public final class PlatformEntrypoint implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         FullscreenTweaks.init();
     }
-
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return FullscreenSettingsScreen::new;
-    }
 }
-/*?} else if modmenu_114 {*/
-/*import io.github.prospector.modmenu.api.ModMenuApi;
-import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.gui.screens.Screen;
-
-import java.util.function.Function;
-
-public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
-    @Override
-    public void onInitializeClient() {
-        FullscreenTweaks.init();
-    }
-
-    @Override
-    public String getModId() {
-        return FullscreenTweaks.MOD_ID;
-    }
-
-    @Override
-    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
-        return FullscreenSettingsScreen::new;
-    }
-}
-*//*?} else if legacy_modmenu {*/
-/*import io.github.prospector.modmenu.api.ConfigScreenFactory;
-import io.github.prospector.modmenu.api.ModMenuApi;
-import net.fabricmc.api.ClientModInitializer;
-
-public final class PlatformEntrypoint implements ClientModInitializer, ModMenuApi {
-    @Override
-    public void onInitializeClient() {
-        FullscreenTweaks.init();
-    }
-
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return FullscreenSettingsScreen::new;
-    }
-}
-*//*?} else if neoforge {*/
+/*?} else if neoforge {*/
 /*import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;

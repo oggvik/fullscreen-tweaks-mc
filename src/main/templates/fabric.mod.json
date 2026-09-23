@@ -20,12 +20,15 @@
     "minecraft": "${mc}",
     "java": ">=${java_version}"
   },
+  "suggests": {
+    "modmenu": "*"
+  },
   "entrypoints": {
     "client": [
       "oggvik.mods.fullscreentweaks.platform.PlatformEntrypoint"
     ],
     "modmenu": [
-      "oggvik.mods.fullscreentweaks.platform.PlatformEntrypoint"
+      "oggvik.mods.fullscreentweaks.platform.ModMenuEntrypoint"
     ]
   }
 }
