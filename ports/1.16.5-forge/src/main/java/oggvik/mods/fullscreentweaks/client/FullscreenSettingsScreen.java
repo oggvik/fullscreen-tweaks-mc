@@ -303,7 +303,12 @@ public final class FullscreenSettingsScreen extends Screen {
         if (!HAS_NATIVE_TOOLTIPS) {
             for (TooltipArea area : tooltipAreas) {
                 if (area.contains(mouseX, mouseY)) {
-                    return translate(area.translationKey);
+                    String translationKey =
+                            "fullscreen_tweaks.tooltip.prevent_auto_iconify"
+                                    .equals(area.translationKey)
+                            ? "fullscreen_tweaks.tooltip.prevent_auto_iconify.compact"
+                            : area.translationKey;
+                    return translate(translationKey);
                 }
             }
         }

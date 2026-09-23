@@ -11,6 +11,7 @@
   "fullscreen_tweaks.tooltip.minecraft_fullscreen": "Zwykłe ustawienie pełnego ekranu Minecrafta.",
   "fullscreen_tweaks.tooltip.minecraft_exclusive_fullscreen": "To zwykłe ustawienie ekskluzywnego pełnego ekranu Minecrafta.",
   "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Po utracie fokusu natywny pełny ekran pozostaje widoczny. Tryb bez ramek zwykle pozostaje widoczny bez tej opcji.",
+  "fullscreen_tweaks.tooltip.prevent_auto_iconify.compact": "Natywny pełny ekran pozostaje widoczny bez fokusu.",
   "fullscreen_tweaks.tooltip.prevent_auto_iconify.sdl": "Po utracie fokusu pełny ekran pozostaje widoczny.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.native": "Używa pełnego ekranu Minecrafta przypisanego do monitora.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.borderless": "Wypełnia bieżący monitor oknem bez ramek o rozmiarze pulpitu.",

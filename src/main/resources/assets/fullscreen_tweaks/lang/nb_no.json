@@ -11,6 +11,7 @@
   "fullscreen_tweaks.tooltip.minecraft_fullscreen": "Minecrafts vanlige fullskjerminnstilling.",
   "fullscreen_tweaks.tooltip.minecraft_exclusive_fullscreen": "Dette er Minecrafts vanlige innstilling for eksklusiv fullskjerm.",
   "fullscreen_tweaks.tooltip.prevent_auto_iconify": "Holder eksklusiv fullskjerm synlig når Minecraft mister fokus. Kantløs fullskjerm påvirkes ikke, siden den vanligvis forblir synlig.",
+  "fullscreen_tweaks.tooltip.prevent_auto_iconify.compact": "Holder eksklusiv fullskjerm synlig uten fokus.",
   "fullscreen_tweaks.tooltip.prevent_auto_iconify.sdl": "Holder fullskjerm synlig når Minecraft mister fokus.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.native": "Bruker Minecrafts skjermtilknyttede fullskjermmodus.",
   "fullscreen_tweaks.tooltip.fullscreen_mode.borderless": "Fyller gjeldende skjerm med et kantløst vindu i skrivebordsstørrelse.",

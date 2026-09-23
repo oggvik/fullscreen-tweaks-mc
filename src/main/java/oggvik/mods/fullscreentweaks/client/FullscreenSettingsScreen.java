@@ -544,10 +544,13 @@ public final class FullscreenSettingsScreen extends Screen {
     private String fallbackTooltip(int mouseX, int mouseY) {
         if (!HAS_NATIVE_TOOLTIPS) {
             for (TooltipArea area : tooltipAreas) {
-            if (area.contains(mouseX, mouseY)) {
-                return translate(area.translationKey);
+                if (area.contains(mouseX, mouseY)) {
+                    String translationKey = PREVENTION_TOOLTIP_KEY.equals(area.translationKey)
+                            ? "fullscreen_tweaks.tooltip.prevent_auto_iconify.compact"
+                            : area.translationKey;
+                    return translate(translationKey);
+                }
             }
-        }
         }
         return null;
     }
