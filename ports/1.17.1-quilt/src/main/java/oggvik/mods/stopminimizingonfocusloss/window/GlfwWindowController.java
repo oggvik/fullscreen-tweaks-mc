@@ -19,6 +19,11 @@ public final class GlfwWindowController {
     private GlfwWindowController() {
     }
 
+    public static void configureInitialWindowHints() {
+        GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY,
+                SettingsManager.get().isPreventAutoIconify() ? GLFW.GLFW_FALSE : GLFW.GLFW_TRUE);
+    }
+
     public static void apply(long window, boolean minecraftFullscreen) {
         if (window == 0L) {
             return;
@@ -29,17 +34,16 @@ public final class GlfwWindowController {
         }
 
         FullscreenSettings settings = SettingsManager.get();
-        GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_AUTO_ICONIFY,
-                settings.isPreventAutoIconify() ? GLFW.GLFW_FALSE : GLFW.GLFW_TRUE);
-
         if (!minecraftFullscreen) {
             restoreWindowDecorations(window);
+            applyAutoIconify(window, settings);
             return;
         }
 
         long monitor = findCurrentMonitor(window);
         GLFWVidMode desktopMode = monitor == 0L ? null : GLFW.glfwGetVideoMode(monitor);
         if (desktopMode == null) {
+            applyAutoIconify(window, settings);
             return;
         }
 
@@ -51,8 +55,9 @@ public final class GlfwWindowController {
             applyNative(window, monitor, desktopMode);
         } else {
             GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
-            managedBorderless = false;
+            clearBorderlessOwnershipIfDecorated(window);
         }
+        applyAutoIconify(window, settings);
     }
 
     public static void reapply(long window, boolean minecraftFullscreen) {
@@ -60,6 +65,7 @@ public final class GlfwWindowController {
     }
 
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
+        managedBorderless = true;
         int[] x = new int[1];
         int[] y = new int[1];
         GLFW.glfwGetMonitorPos(monitor, x, y);
@@ -82,14 +88,18 @@ public final class GlfwWindowController {
         if (windowWidth[0] != desktopMode.width() || windowHeight[0] != desktopMode.height()) {
             GLFW.glfwSetWindowSize(window, desktopMode.width(), desktopMode.height());
         }
-        managedBorderless = true;
     }
 
     private static void applyNative(long window, long monitor, GLFWVidMode desktopMode) {
         GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
         GLFW.glfwSetWindowMonitor(window, monitor, 0, 0,
                 desktopMode.width(), desktopMode.height(), desktopMode.refreshRate());
-        managedBorderless = false;
+        clearBorderlessOwnershipIfDecorated(window);
+    }
+
+    private static void applyAutoIconify(long window, FullscreenSettings settings) {
+        GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_AUTO_ICONIFY,
+                settings.isPreventAutoIconify() ? GLFW.GLFW_FALSE : GLFW.GLFW_TRUE);
     }
 
     private static long findCurrentMonitor(long window) {
@@ -151,7 +161,16 @@ public final class GlfwWindowController {
 
     private static void restoreWindowDecorations(long window) {
         if (managedWindow == window && managedBorderless) {
-            GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
+            if (GLFW.glfwGetWindowAttrib(window, GLFW.GLFW_DECORATED) == GLFW.GLFW_FALSE) {
+                GLFW.glfwSetWindowAttrib(window, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
+            }
+            clearBorderlessOwnershipIfDecorated(window);
+        }
+    }
+
+    private static void clearBorderlessOwnershipIfDecorated(long window) {
+        if (managedWindow == window
+                && GLFW.glfwGetWindowAttrib(window, GLFW.GLFW_DECORATED) == GLFW.GLFW_TRUE) {
             managedBorderless = false;
         }
     }

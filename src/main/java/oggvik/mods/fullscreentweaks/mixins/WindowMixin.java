@@ -79,6 +79,20 @@ public class WindowMixin {
         /*?}*/
     }
 
+    /*? if !template_noop {*/
+    @Inject(
+            method = "<init>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lorg/lwjgl/glfw/GLFW;glfwCreateWindow(IILjava/lang/CharSequence;JJ)J",
+                    remap = false
+            )
+    )
+    private void fullscreenTweaks$configureInitialGlfwHints(CallbackInfo info) {
+        GlfwWindowController.configureInitialWindowHints();
+    }
+    /*?}*/
+
     @Inject(
             /*? if template_noop {*/
             /*method = "<init>(Lcom/mojang/blaze3d/platform/WindowEventHandler;"
