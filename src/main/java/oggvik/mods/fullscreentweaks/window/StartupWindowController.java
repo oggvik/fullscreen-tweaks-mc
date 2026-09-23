@@ -46,17 +46,25 @@ public final class StartupWindowController {
         if (!startupActive || window == null) {
             return;
         }
-        WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
-        if (accessor.fullscreenTweaks$isFullscreenRequested() != loadingFullscreen) {
-            accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
-            accessor.fullscreenTweaks$setMode();
-        }
+        reapplyLoadingMode(window);
         /*? if !template_noop {*/
         if (SettingsManager.get().isStartMinimized() && !loadingResourcesFinished) {
             startupMinimized = true;
             minimize(window);
         }
         /*?}*/
+    }
+
+    /** Applies the loading mode without minimizing before legacy framebuffers are initialized. */
+    public static void reapplyLoadingMode(Window window) {
+        if (!startupActive || window == null) {
+            return;
+        }
+        WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
+        if (accessor.fullscreenTweaks$isFullscreenRequested() != loadingFullscreen) {
+            accessor.fullscreenTweaks$setFullscreenRequested(loadingFullscreen);
+            accessor.fullscreenTweaks$setMode();
+        }
     }
 
     /*? if template_noop {*/

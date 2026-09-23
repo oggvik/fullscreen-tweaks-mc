@@ -4,6 +4,7 @@
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.language.jvm.tasks.ProcessResources
+import net.neoforged.nfrtgradle.NeoFormRuntimeTask
 
 plugins {
     id("dev.kikugie.stonecutter")
@@ -60,6 +61,18 @@ val modMenuVersion = when (stonecutter.current.project) {
 repositories {
     maven("https://api.modrinth.com/maven") {
         name = "Modrinth"
+    }
+}
+
+val mcpConfigManifest = resolveProp("deps.mcpConfig")?.let { mcpConfigVersion ->
+    configurations.create("mcpConfigManifest") {
+        isCanBeConsumed = false
+        isCanBeResolved = true
+    }.also { configuration ->
+        dependencies.add(
+            configuration.name,
+            "de.oceanlabs.mcp:mcp_config:$mcpConfigVersion@zip"
+        )
     }
 }
 
@@ -176,6 +189,7 @@ stonecutter {
         put("styled_section_headings", stonecutter.current.project.startsWith("1.21.11")
                 || stonecutter.current.project == "26.3-fabric"
                 || stonecutter.current.project == "26.3-neoforge")
+        put("deferred_startup_minimize", stonecutter.current.project == "1.14.4-fabric")
         put("gui_graphics", stonecutter.eval(mcVersion, ">=1.20") && stonecutter.eval(mcVersion, "<26.1"))
         put("resource_location_factory", stonecutter.eval(mcVersion, ">=1.21") && !stonecutter.current.project.startsWith("1.21.11"))
         put("identifier", stonecutter.current.project.startsWith("1.21.11"))
@@ -217,6 +231,12 @@ dependencies {
 
 // ========== Tasks ==========
 tasks {
+    mcpConfigManifest?.let { configuration ->
+        withType<NeoFormRuntimeTask>().configureEach {
+            addArtifactsToManifest(configuration)
+        }
+    }
+
     withType<Test>().configureEach {
         useJUnitPlatform()
     }
