@@ -40,6 +40,18 @@ public class MainWindowMixin {
     @Shadow
     private int windowedHeight;
 
+    @Unique
+    private int fullscreenTweaks$startupWindowedX;
+
+    @Unique
+    private int fullscreenTweaks$startupWindowedY;
+
+    @Unique
+    private int fullscreenTweaks$startupWindowedWidth;
+
+    @Unique
+    private int fullscreenTweaks$startupWindowedHeight;
+
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
     private static ScreenSize fullscreenTweaks$selectLoadingWindowMode(ScreenSize screenSize) {
         boolean gameFullscreen = screenSize.isFullscreen
@@ -65,6 +77,10 @@ public class MainWindowMixin {
             String title,
             CallbackInfo info
     ) {
+        this.fullscreenTweaks$startupWindowedX = this.windowedX;
+        this.fullscreenTweaks$startupWindowedY = this.windowedY;
+        this.fullscreenTweaks$startupWindowedWidth = this.windowedWidth;
+        this.fullscreenTweaks$startupWindowedHeight = this.windowedHeight;
         GlfwWindowController.apply(this.window, this.fullscreen);
     }
 
@@ -75,6 +91,15 @@ public class MainWindowMixin {
     ) {
         if (this.fullscreen) {
             GlfwWindowController.prepareModeChange(this.window);
+            return;
+        }
+
+        if (StartupWindowController.requiresWindowsFullscreenExitRepair()) {
+            GlfwWindowController.prepareWindowedMode(this.window, null);
+            this.windowedX = this.fullscreenTweaks$startupWindowedX;
+            this.windowedY = this.fullscreenTweaks$startupWindowedY;
+            this.windowedWidth = this.fullscreenTweaks$startupWindowedWidth;
+            this.windowedHeight = this.fullscreenTweaks$startupWindowedHeight;
             return;
         }
 
@@ -94,6 +119,10 @@ public class MainWindowMixin {
     ) {
         StartupWindowController.reapplyLoadingState((MainWindow) (Object) this);
         fullscreenTweaks$applySettings();
+        if (!this.fullscreen
+                && StartupWindowController.requiresWindowsFullscreenExitRepair()) {
+            GlfwWindowController.refreshWindowedPresentation(this.window);
+        }
     }
 
     @Inject(method = "onFocus", at = @At("RETURN"))

@@ -9,12 +9,14 @@ import oggvik.mods.fullscreentweaks.config.SettingsManager;
 import oggvik.mods.fullscreentweaks.mixin.MainWindowModeAccessor;
 import oggvik.mods.fullscreentweaks.platform.MinecraftWindowBridge;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.Platform;
 
 /** Applies startup-only window choices and restores Minecraft's regular mode after loading. */
 public final class StartupWindowController {
     private static boolean startupActive;
     private static boolean gameFullscreen;
     private static boolean loadingFullscreen;
+    private static boolean windowsFullscreenExitRepair;
 
     private StartupWindowController() {
     }
@@ -22,6 +24,9 @@ public final class StartupWindowController {
     public static boolean prepareLoading(boolean regularFullscreen) {
         startupActive = true;
         gameFullscreen = regularFullscreen;
+        windowsFullscreenExitRepair = Platform.get() == Platform.WINDOWS
+                && regularFullscreen
+                && SettingsManager.get().isStartMinimized();
         LoadingScreenMode mode = SettingsManager.get().getLoadingScreenMode();
         if (mode == LoadingScreenMode.WINDOWED) {
             loadingFullscreen = false;
@@ -31,6 +36,10 @@ public final class StartupWindowController {
             loadingFullscreen = regularFullscreen;
         }
         return loadingFullscreen;
+    }
+
+    public static boolean requiresWindowsFullscreenExitRepair() {
+        return windowsFullscreenExitRepair;
     }
 
     public static void reapplyLoadingState(MainWindow window) {

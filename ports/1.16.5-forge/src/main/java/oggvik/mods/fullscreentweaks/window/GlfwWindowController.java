@@ -106,11 +106,15 @@ public final class GlfwWindowController {
     }
 
     public static boolean prepareWindowedMode(long window, int[] bounds) {
-        if (window == 0L || bounds == null || bounds.length < 4) {
+        if (window == 0L) {
             return false;
         }
         restoreWindowDecorations(window);
-        if (managedWindow != window || !managedFullscreen || !hasWindowedBounds) {
+        if (bounds == null) {
+            return false;
+        }
+        if (bounds.length < 4
+                || managedWindow != window || !managedFullscreen || !hasWindowedBounds) {
             return false;
         }
         bounds[0] = windowedX;
@@ -118,6 +122,16 @@ public final class GlfwWindowController {
         bounds[2] = windowedWidth;
         bounds[3] = windowedHeight;
         return true;
+    }
+
+    public static void refreshWindowedPresentation(long window) {
+        if (window == 0L) {
+            return;
+        }
+        restoreWindowDecorations(window);
+        GLFW.glfwRestoreWindow(window);
+        GLFW.glfwShowWindow(window);
+        GLFW.glfwFocusWindow(window);
     }
 
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
