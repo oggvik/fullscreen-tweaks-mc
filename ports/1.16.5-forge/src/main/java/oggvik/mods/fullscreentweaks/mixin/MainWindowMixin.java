@@ -28,6 +28,18 @@ public class MainWindowMixin {
     @Shadow
     private boolean fullscreen;
 
+    @Shadow
+    private int windowedX;
+
+    @Shadow
+    private int windowedY;
+
+    @Shadow
+    private int windowedWidth;
+
+    @Shadow
+    private int windowedHeight;
+
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
     private static ScreenSize fullscreenTweaks$selectLoadingWindowMode(ScreenSize screenSize) {
         boolean gameFullscreen = screenSize.isFullscreen
@@ -61,7 +73,18 @@ public class MainWindowMixin {
             boolean updateVsync,
             CallbackInfo info
     ) {
-        GlfwWindowController.prepareModeChange(this.window, this.fullscreen);
+        if (this.fullscreen) {
+            GlfwWindowController.prepareModeChange(this.window);
+            return;
+        }
+
+        int[] bounds = new int[4];
+        if (GlfwWindowController.prepareWindowedMode(this.window, bounds)) {
+            this.windowedX = bounds[0];
+            this.windowedY = bounds[1];
+            this.windowedWidth = bounds[2];
+            this.windowedHeight = bounds[3];
+        }
     }
 
     @Inject(method = "updateFullscreen", at = @At("RETURN"))

@@ -59,6 +59,8 @@ settings-screen polish across the supported Minecraft versions and loaders.
   rectangle with monitor-sized borderless bounds.
 - Applied the equivalent geometry fixes to the standalone Forge 1.16.5 and
   NeoForge 1.20.1 ports.
+- Fixed Forge 1.16.5 losing mouse interaction or returning to an undecorated,
+  nearly fullscreen window after leaving fullscreen on Windows.
 - Fixed a Minecraft 26.2-specific Windows issue where minimizing during
   borderless fullscreen loading could leave the game invisible while it still
   appeared focused. On 26.2 only, the final native-versus-borderless policy is

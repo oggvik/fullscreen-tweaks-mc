@@ -28,7 +28,7 @@ NeoForge's immediate window provider runs before ordinary mods are discovered an
 ## Version-specific hooks
 
 - Maintained Modstitch Fabric, Forge, and NeoForge builds replace the initial `DisplayData` argument at the head of `com.mojang.blaze3d.platform.Window`'s constructor, then inject after construction and fullscreen-mode changes.
-- Forge 1.16.5 uses the equivalent `ScreenSize` constructor argument on `net.minecraft.client.MainWindow`, but defers the loading fullscreen transition until `Minecraft` construction completes so framebuffer callbacks cannot observe partially initialized renderer state.
+- Forge 1.16.5 uses the equivalent `ScreenSize` constructor argument on `net.minecraft.client.MainWindow`, but defers the loading fullscreen transition until `Minecraft` construction completes so framebuffer callbacks cannot observe partially initialized renderer state. Before leaving fullscreen, its mixin copies the captured decorated rectangle into Minecraft's own windowed fields and lets `updateFullscreen()` perform the single native transition; this preserves Windows mouse and focus bookkeeping.
 - Forge 1.7.10, 1.8.9, and 1.12.2 use a client-tick controller around LWJGL2's `Display` API.
 - BTA 7.3 targets `net.minecraft.client.render.window.GameWindowGLFW` for its legacy focus-loss policy.
 - BTA 8.0.1 uses its native options-page registry and `GameWindowGLFW`. The mod records BTA's effective launch fullscreen state, temporarily applies the selected loading state after window creation, and restores the game state before BTA's final startup window update. BTA's built-in native-versus-borderless option remains authoritative.

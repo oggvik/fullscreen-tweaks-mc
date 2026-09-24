@@ -46,7 +46,8 @@ public final class GlfwWindowController {
 
         if (!minecraftFullscreen) {
             restoreWindowDecorations(window);
-            restoreWindowedBounds(window);
+            managedFullscreen = false;
+            managedBorderless = false;
             return;
         }
         managedFullscreen = true;
@@ -75,8 +76,8 @@ public final class GlfwWindowController {
         apply(window, minecraftFullscreen);
     }
 
-    public static void prepareModeChange(long window, boolean enteringFullscreen) {
-        if (window == 0L || !enteringFullscreen || GLFW.glfwGetWindowMonitor(window) != 0L) {
+    public static void prepareModeChange(long window) {
+        if (window == 0L || GLFW.glfwGetWindowMonitor(window) != 0L) {
             return;
         }
         if (managedWindow != window) {
@@ -104,16 +105,19 @@ public final class GlfwWindowController {
         }
     }
 
-    private static void restoreWindowedBounds(long window) {
-        if (managedWindow != window || !managedFullscreen) {
-            return;
+    public static boolean prepareWindowedMode(long window, int[] bounds) {
+        if (window == 0L || bounds == null || bounds.length < 4) {
+            return false;
         }
-        if (hasWindowedBounds) {
-            GLFW.glfwSetWindowMonitor(window, 0L,
-                    windowedX, windowedY, windowedWidth, windowedHeight, GLFW.GLFW_DONT_CARE);
+        restoreWindowDecorations(window);
+        if (managedWindow != window || !managedFullscreen || !hasWindowedBounds) {
+            return false;
         }
-        managedFullscreen = false;
-        managedBorderless = false;
+        bounds[0] = windowedX;
+        bounds[1] = windowedY;
+        bounds[2] = windowedWidth;
+        bounds[3] = windowedHeight;
+        return true;
     }
 
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
