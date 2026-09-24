@@ -47,6 +47,13 @@ public final class StartupWindowController {
             return;
         }
         reapplyLoadingMode(window);
+        reapplyLoadingMinimized(window);
+    }
+
+    public static void reapplyLoadingMinimized(Window window) {
+        if (!startupActive || window == null) {
+            return;
+        }
         /*? if !template_noop {*/
         if (SettingsManager.get().isStartMinimized() && !loadingResourcesFinished) {
             startupMinimized = true;

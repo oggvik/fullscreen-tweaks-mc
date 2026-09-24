@@ -128,10 +128,17 @@ public class WindowMixin {
     private void fullscreenTweaks$applySettingsAfterCreate(CallbackInfo info) {
         /*? if defer_minimize_after_window_create {*/
         /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
-        *//*?} else {*/
+        *//*?}*/
+        /*? if minimize_after_window_policy {*/
+        /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
+        *//*?}*/
+        /*? if reapply_loading_state_before_window_policy {*/
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
         /*?}*/
         fullscreenTweaks$applyWindowPolicy();
+        /*? if minimize_after_window_policy {*/
+        /*StartupWindowController.reapplyLoadingMinimized((Window) (Object) this);
+        *//*?}*/
     }
 
     /*? if defer_loading_fullscreen_attach && !template_noop {*/
@@ -146,10 +153,17 @@ public class WindowMixin {
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         /*? if defer_minimize_after_window_create {*/
         /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
-        *//*?} else {*/
+        *//*?}*/
+        /*? if minimize_after_window_policy {*/
+        /*StartupWindowController.reapplyLoadingMode((Window) (Object) this);
+        *//*?}*/
+        /*? if reapply_loading_state_before_window_policy {*/
         StartupWindowController.reapplyLoadingState((Window) (Object) this);
         /*?}*/
         fullscreenTweaks$applyWindowPolicy();
+        /*? if minimize_after_window_policy {*/
+        /*StartupWindowController.reapplyLoadingMinimized((Window) (Object) this);
+        *//*?}*/
     }
 
     /*? if template_noop {*/

@@ -193,6 +193,10 @@ stonecutter {
                 isFabric && stonecutter.eval(mcVersion, "<=1.16.5"))
         put("deferred_startup_minimize", stonecutter.current.project == "1.14.4-fabric")
         put("defer_loading_fullscreen_attach", stonecutter.eval(mcVersion, "<26.2"))
+        put("minimize_after_window_policy", mcVersion == "26.2")
+        put("reapply_loading_state_before_window_policy",
+                !(isFabric && stonecutter.eval(mcVersion, "<=1.16.5"))
+                        && mcVersion != "26.2")
         put("refresh_glfw_after_restore", mcVersion == "26.2")
         put("gui_graphics", stonecutter.eval(mcVersion, ">=1.20") && stonecutter.eval(mcVersion, "<26.1"))
         put("resource_location_factory", stonecutter.eval(mcVersion, ">=1.21") && !stonecutter.current.project.startsWith("1.21.11"))
