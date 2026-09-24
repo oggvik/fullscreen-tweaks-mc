@@ -119,7 +119,10 @@ public final class StartupWindowController {
         /*? if template_noop {*/
         /*SdlWindowController.restore(window);
         *//*?} else {*/
-        GlfwWindowController.restore(handle(window));
+        GlfwWindowController.restore(
+                handle(window),
+                ((WindowModeAccessor) (Object) window)
+                        .fullscreenTweaks$isFullscreenRequested());
         /*?}*/
     }
 

@@ -243,8 +243,12 @@ public final class GlfwWindowController {
         GLFW.glfwIconifyWindow(window);
     }
 
-    public static void restore(long window) {
+    public static void restore(long window, boolean minecraftFullscreen) {
         GLFW.glfwRestoreWindow(window);
+        /*? if refresh_glfw_after_restore {*/
+        /*GLFW.glfwShowWindow(window);
+        apply(window, minecraftFullscreen);
+        *//*?}*/
     }
 }
 /*?}*/
