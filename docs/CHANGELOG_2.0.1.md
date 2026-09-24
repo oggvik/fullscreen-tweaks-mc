@@ -46,7 +46,7 @@ settings-screen polish across the supported Minecraft versions and loaders.
 
 ## Windows Fullscreen Fixes
 
-- Fixed pre-26.2 GLFW targets restoring incorrect window geometry after
+- Fixed GLFW targets through 26.2 restoring incorrect window geometry after
   leaving fullscreen, particularly when the game launched fullscreen and used
   a different mode during loading.
 - The mod now records the real decorated window position and dimensions before
@@ -64,6 +64,10 @@ settings-screen polish across the supported Minecraft versions and loaders.
   appeared focused. On 26.2 only, the final native-versus-borderless policy is
   now established before the window is minimized, and the GLFW window is
   refreshed when restored.
+- Fixed minimized windowed loading states becoming invisible or failing to
+  change geometry after returning to native fullscreen. The affected GLFW
+  versions now restore the startup-iconified window before attaching it to the
+  monitor.
 
 ## Minecraft 26.3 and SDL3
 

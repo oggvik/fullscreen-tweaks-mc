@@ -53,12 +53,17 @@ public final class StartupWindowController {
         }
         startupActive = false;
         MinecraftWindowBridge.setFullscreenSetting(gameFullscreen);
+        boolean restoreBeforeFullscreenAttach =
+                SettingsManager.get().isStartMinimized() && !loadingFullscreen && gameFullscreen;
+        if (restoreBeforeFullscreenAttach) {
+            GLFW.glfwRestoreWindow(window.getWindow());
+        }
         WindowModeAccessor accessor = (WindowModeAccessor) (Object) window;
         if (accessor.fullscreenTweaks$isFullscreen() != gameFullscreen) {
             accessor.fullscreenTweaks$setFullscreen(gameFullscreen);
             accessor.fullscreenTweaks$setMode();
         }
-        if (SettingsManager.get().isStartMinimized()) {
+        if (SettingsManager.get().isStartMinimized() && !restoreBeforeFullscreenAttach) {
             GLFW.glfwRestoreWindow(window.getWindow());
         }
     }

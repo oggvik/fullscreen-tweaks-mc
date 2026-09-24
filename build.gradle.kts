@@ -192,7 +192,8 @@ stonecutter {
         put("defer_minimize_after_window_create",
                 isFabric && stonecutter.eval(mcVersion, "<=1.16.5"))
         put("deferred_startup_minimize", stonecutter.current.project == "1.14.4-fabric")
-        put("defer_loading_fullscreen_attach", stonecutter.eval(mcVersion, "<26.2"))
+        put("defer_loading_fullscreen_attach", stonecutter.eval(mcVersion, "<=26.2"))
+        put("restore_before_loading_fullscreen_attach", stonecutter.eval(mcVersion, "<=26.2"))
         put("minimize_after_window_policy", mcVersion == "26.2")
         put("reapply_loading_state_before_window_policy",
                 !(isFabric && stonecutter.eval(mcVersion, "<=1.16.5"))
