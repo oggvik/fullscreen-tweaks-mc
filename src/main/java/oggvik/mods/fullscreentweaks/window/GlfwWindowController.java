@@ -15,6 +15,14 @@ import org.lwjgl.glfw.GLFWVidMode;
 public final class GlfwWindowController {
     private static long managedWindow;
     private static boolean managedBorderless;
+    /*? if defer_loading_fullscreen_attach {*/
+    /*private static boolean managedFullscreen;
+    private static boolean hasWindowedBounds;
+    private static int windowedX;
+    private static int windowedY;
+    private static int windowedWidth;
+    private static int windowedHeight;
+    *//*?}*/
 
     private GlfwWindowController() {
     }
@@ -36,14 +44,24 @@ public final class GlfwWindowController {
         if (managedWindow != window) {
             managedWindow = window;
             managedBorderless = false;
+            /*? if defer_loading_fullscreen_attach {*/
+            /*managedFullscreen = false;
+            hasWindowedBounds = false;
+            *//*?}*/
         }
 
         FullscreenSettings settings = SettingsManager.get();
         if (!minecraftFullscreen) {
             restoreWindowDecorations(window);
+            /*? if defer_loading_fullscreen_attach {*/
+            /*restoreWindowedBounds(window);
+            *//*?}*/
             applyAutoIconify(window, settings);
             return;
         }
+        /*? if defer_loading_fullscreen_attach {*/
+        /*managedFullscreen = true;
+        *//*?}*/
 
         long monitor = findCurrentMonitor(window);
         GLFWVidMode desktopMode = monitor == 0L ? null : GLFW.glfwGetVideoMode(monitor);
@@ -68,6 +86,49 @@ public final class GlfwWindowController {
     public static void reapply(long window, boolean minecraftFullscreen) {
         apply(window, minecraftFullscreen);
     }
+
+    /*? if defer_loading_fullscreen_attach {*/
+    /*public static void prepareModeChange(long window, boolean enteringFullscreen) {
+        if (window == 0L || !enteringFullscreen || GLFW.glfwGetWindowMonitor(window) != 0L) {
+            return;
+        }
+        if (managedWindow != window) {
+            managedWindow = window;
+            managedBorderless = false;
+            managedFullscreen = false;
+            hasWindowedBounds = false;
+        }
+        if (managedFullscreen) {
+            return;
+        }
+
+        int[] x = new int[1];
+        int[] y = new int[1];
+        int[] width = new int[1];
+        int[] height = new int[1];
+        GLFW.glfwGetWindowPos(window, x, y);
+        GLFW.glfwGetWindowSize(window, width, height);
+        if (width[0] > 0 && height[0] > 0) {
+            windowedX = x[0];
+            windowedY = y[0];
+            windowedWidth = width[0];
+            windowedHeight = height[0];
+            hasWindowedBounds = true;
+        }
+    }
+
+    private static void restoreWindowedBounds(long window) {
+        if (managedWindow != window || !managedFullscreen) {
+            return;
+        }
+        if (hasWindowedBounds) {
+            GLFW.glfwSetWindowMonitor(window, 0L,
+                    windowedX, windowedY, windowedWidth, windowedHeight, GLFW.GLFW_DONT_CARE);
+        }
+        managedFullscreen = false;
+        managedBorderless = false;
+    }
+    *//*?}*/
 
     private static void applyBorderless(long window, long monitor, GLFWVidMode desktopMode) {
         managedBorderless = true;

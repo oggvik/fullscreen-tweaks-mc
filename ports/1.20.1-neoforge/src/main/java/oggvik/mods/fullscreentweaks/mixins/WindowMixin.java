@@ -55,6 +55,12 @@ public class WindowMixin {
         GlfwWindowController.apply(fullscreenTweaks$windowHandle(), this.fullscreen);
     }
 
+    @Inject(method = "setMode", at = @At("HEAD"))
+    private void fullscreenTweaks$prepareForModeChange(CallbackInfo info) {
+        GlfwWindowController.prepareModeChange(
+                fullscreenTweaks$windowHandle(), this.fullscreen);
+    }
+
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         StartupWindowController.reapplyLoadingState((Window) (Object) this);

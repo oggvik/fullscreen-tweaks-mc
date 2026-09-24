@@ -134,6 +134,14 @@ public class WindowMixin {
         fullscreenTweaks$applyWindowPolicy();
     }
 
+    /*? if defer_loading_fullscreen_attach && !template_noop {*/
+    /*@Inject(method = "setMode", at = @At("HEAD"))
+    private void fullscreenTweaks$prepareForModeChange(CallbackInfo info) {
+        GlfwWindowController.prepareModeChange(
+                fullscreenTweaks$windowHandle(), this.fullscreen);
+    }
+    *//*?}*/
+
     @Inject(method = "setMode", at = @At("RETURN"))
     private void fullscreenTweaks$applySettingsAfterModeChange(CallbackInfo info) {
         /*? if defer_minimize_after_window_create {*/
