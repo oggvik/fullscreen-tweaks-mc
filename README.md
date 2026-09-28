@@ -80,7 +80,7 @@ Each profile downloads its pinned Oculus and Rubidium or Embeddium versions
 and uses an isolated `build/oculus-run` directory, so it does not modify the
 normal development client.
 
-Read [Building and running](docs/BUILDING.md) for prerequisites, source synchronization, and artifact locations. The [target command catalog](docs/commands/TARGETS.md) contains every build and run command in Minecraft version order. [Architecture](docs/ARCHITECTURE.md) explains the window hooks, configuration model, and platform behavior.
+Read [Building and running](docs/BUILDING.md) for prerequisites, source synchronization, and artifact locations. The [target command catalog](docs/commands/TARGETS.md) contains every build and run command in Minecraft version order. [Architecture](docs/ARCHITECTURE.md) explains the window hooks, configuration model, and platform behavior. Compatibility investigations, including the [Oculus mixin conflict](docs/compatibility-fixes/OCULUS.md), are documented separately.
 
 ## Contributing
 
