@@ -70,6 +70,26 @@ after creation, so normal gameplay and later fullscreen transitions remain
 managed. The practical difference is limited to the interval while the native
 window is being created.
 
+#### Loading-screen controls remain available
+
+Installing Oculus does not disable the loading-screen settings:
+
+- **Loading screen window** is selected by changing the `DisplayData` constructor
+  argument and is reapplied to the created window. It does not depend on the
+  skipped GLFW redirect.
+- **Minimize while loading** minimizes the created window through
+  `StartupWindowController`. It also does not depend on the skipped redirect.
+- **Prevent native fullscreen from minimizing on focus loss** misses only its
+  earliest pre-creation GLFW hint. The same value is applied as a window
+  attribute immediately after creation and during later mode changes.
+
+The settings therefore remain functional and their controls should stay active
+in the UI. This differs from the SDL-on-Wayland case: that backend deliberately
+does not perform startup minimization because the native operation can leave the
+game window permanently stuck. There is no equivalent unavailable capability
+when Oculus is installed, so showing an unavailable value or disabling a button
+would incorrectly describe the runtime behavior.
+
 ### Target and binary scope
 
 The compatibility source change is compiled into every Stonecutter target
