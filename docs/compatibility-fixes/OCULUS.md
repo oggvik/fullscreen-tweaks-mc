@@ -42,6 +42,52 @@ its initial `GLFW_AUTO_ICONIFY` hint as before. With Oculus, Oculus controls the
 initial default-window-hint call and Fullscreen Tweaks yields that one startup
 hook to preserve both mods' remaining behavior.
 
+## Consequences
+
+### Without Oculus
+
+Fullscreen Tweaks still redirects `glfwDefaultWindowHints()` and immediately
+adds its `GLFW_AUTO_ICONIFY` hint. Making the redirect optional does not change
+the successful-injection path. Priority 900 only places `WindowMixin` after
+higher-priority mixins; in an otherwise unchanged installation, the resulting
+window behavior is the same as before this fix.
+
+The optional redirect also avoids a Fullscreen Tweaks startup failure if another
+higher-priority mod removes the invocation. In that case, the other mod owns the
+initial GLFW hints. Fullscreen Tweaks continues to apply the configured window
+policy after window creation and on later mode changes.
+
+### With Oculus
+
+Oculus's priority-1000 redirect runs first and Fullscreen Tweaks logs a warning
+that its priority-900 redirect was skipped. This warning is expected and is not
+a partial mixin failure. Oculus can install its OpenGL debug-context hints and
+startup continues.
+
+Fullscreen Tweaks does not set `GLFW_AUTO_ICONIFY` during the initial hint phase
+in this combination. It applies the configured auto-iconify state to the window
+after creation, so normal gameplay and later fullscreen transitions remain
+managed. The practical difference is limited to the interval while the native
+window is being created.
+
+### Target and binary scope
+
+The compatibility source change is compiled into every Stonecutter target
+because all of them share `WindowMixin`. Consequently, rebuilding any
+Stonecutter target produces a binary-different mixin class due to the priority
+annotation, even where the conflicting redirect is not compiled in.
+
+| Targets | Compiled behavior | Expected runtime consequence |
+| --- | --- | --- |
+| Minecraft 1.14.4 through 1.21.11 Stonecutter targets | Lower mixin priority and optional GLFW redirect | Behavior is unchanged without a competing redirect; Oculus or another higher-priority owner can take the initial hint call. |
+| Minecraft 26.1.2, 26.2, and 26.3 snapshot Stonecutter targets | Lower mixin priority; these targets use the render-extractor window-hint injection instead of the redirect | Binary changes because the annotation changes, but this Oculus redirect conflict does not apply. No runtime behavior change is expected because the relevant injections target different calls. |
+| Minecraft 26.3 release Stonecutter targets | Lower priority on the no-op template mixin | Binary metadata changes, but the no-op mixin has no window hook, so no runtime behavior changes. |
+| Standalone projects under `ports/` | No source change from this compatibility fix | Their production mod binaries are unaffected. The added Oculus run profiles affect development runs only. |
+
+The tested Oculus profiles cover the released Forge targets where Oculus is
+available. The priority change is intentionally shared so Fabric builds keep the
+same cooperative behavior if another mod redirects the same GLFW call.
+
 ## Reproduction profiles
 
 The repository provides isolated `runOculusClient` profiles for Forge 1.16.5,
