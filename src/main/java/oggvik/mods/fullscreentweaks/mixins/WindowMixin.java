@@ -24,7 +24,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Window.class)
+// Oculus requires its redirect of glfwDefaultWindowHints; let it apply before our optional hook.
+@Mixin(value = Window.class, priority = 900)
 public class WindowMixin {
     /*? if !template_noop {*/
     @Shadow
@@ -91,7 +92,8 @@ public class WindowMixin {
                     value = "INVOKE",
                     target = "Lorg/lwjgl/glfw/GLFW;glfwDefaultWindowHints()V",
                     remap = false
-            )
+            ),
+            require = 0
     )
     private void fullscreenTweaks$configureInitialGlfwHints() {
         GlfwWindowController.resetAndConfigureInitialWindowHints();
