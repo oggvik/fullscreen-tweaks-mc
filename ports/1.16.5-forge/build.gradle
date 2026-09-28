@@ -46,12 +46,25 @@ tasks.named('processResources').configure {
     }
 }
 
-minecraft {
-    mappings channel: 'official', version: '1.16.5'
+extensions.configure(net.minecraftforge.gradle.userdev.UserDevExtension) { minecraft ->
+    minecraft.mappings channel: 'official', version: '1.16.5'
 
-    runs {
+    minecraft.runs {
         client {
             workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            jvmArgs '--add-exports=java.base/sun.security.util=ALL-UNNAMED',
+                    '--add-opens=java.base/java.util.jar=ALL-UNNAMED'
+
+            mods {
+                fullscreen_tweaks {
+                    source sourceSets.main
+                }
+            }
+        }
+        oculusClient {
+            parent minecraft.runs.client
+            workingDirectory project.layout.buildDirectory.dir('oculus-run').get().asFile
             property 'forge.logging.console.level', 'debug'
             jvmArgs '--add-exports=java.base/sun.security.util=ALL-UNNAMED',
                     '--add-opens=java.base/java.util.jar=ALL-UNNAMED'
@@ -75,6 +88,14 @@ repositories {
         name = 'Sponge'
         url = 'https://repo.spongepowered.org/repository/maven-public/'
     }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
+}
+
+configurations {
+    oculusRuntime
 }
 
 dependencies {
@@ -82,6 +103,17 @@ dependencies {
 
     compileOnly 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    oculusRuntime fg.deobf('maven.modrinth:oculus:1.16.5-1.4.8')
+    oculusRuntime fg.deobf('maven.modrinth:rubidium:0.2.13')
+}
+
+tasks.register('prepareOculusRun', Sync) {
+    from configurations.oculusRuntime
+    into layout.buildDirectory.dir('oculus-run/mods')
+}
+
+tasks.matching { it.name == 'runOculusClient' }.configureEach {
+    dependsOn tasks.named('prepareOculusRun')
 }
 
 jar {

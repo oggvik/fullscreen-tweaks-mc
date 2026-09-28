@@ -4,6 +4,7 @@
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.language.jvm.tasks.ProcessResources
+import net.neoforged.moddevgradle.legacyforge.dsl.ObfuscationExtension
 import net.neoforged.nfrtgradle.NeoFormRuntimeTask
 
 plugins {
@@ -57,6 +58,13 @@ val modMenuVersion = when (stonecutter.current.project) {
     "26.3-fabric" -> "21.0.0-beta.1"
     else -> null
 }
+val oculusRuntimeVersions = when (stonecutter.current.project) {
+    "1.18.2-forge" -> "1.18.2-1.6.4" to "rubidium:0.5.6"
+    "1.19.2-forge" -> "1.19.2-1.6.9a" to "rubidium:0.6.2c"
+    "1.19.4-forge" -> "1.19.4-1.5.2" to "rubidium:0.6.4"
+    "1.20.1-forge" -> "1.20.1-1.8.0" to "embeddium:0.3.31+mc1.20.1"
+    else -> null
+}
 
 repositories {
     maven("https://api.modrinth.com/maven") {
@@ -74,6 +82,15 @@ val mcpConfigManifest = resolveProp("deps.mcpConfig")?.let { mcpConfigVersion ->
             "de.oceanlabs.mcp:mcp_config:$mcpConfigVersion@zip"
         )
     }
+}
+val oculusRuntime = oculusRuntimeVersions?.let {
+    val runtime = configurations.create("oculusRuntime") {
+        isCanBeConsumed = false
+        isCanBeResolved = true
+    }
+    val obfuscation = extensions.getByType<ObfuscationExtension>()
+    obfuscation.createRemappingConfiguration(runtime)
+    runtime
 }
 
 // ========== ModStitch Setup ==========
@@ -161,6 +178,22 @@ modstitch {
             side.set(CLIENT)
         }
     }
+
+    oculusRuntimeVersions?.let {
+        runs.register("oculusClient") {
+            client()
+            gameDirectory.set(layout.buildDirectory.dir("oculus-run"))
+            ideRunName.set("Forge Client with Oculus (${project.path})")
+        }
+    }
+}
+
+oculusRuntimeVersions?.let {
+    mcpConfigManifest?.let { configuration ->
+        extensions.getByType<ObfuscationExtension>().srgToNamedMappings.set(
+            layout.file(provider { configuration.singleFile })
+        )
+    }
 }
 
 // ========== Stonecutter ==========
@@ -236,10 +269,34 @@ dependencies {
             add("include", resourceLoader)
         }
     }
+
+    oculusRuntimeVersions?.let { (oculusVersion, renderer) ->
+        val (rendererProject, rendererVersion) = renderer.split(":", limit = 2)
+        val remappedRuntime = configurations.getByName("modOculusRuntime")
+        add(remappedRuntime.name, "maven.modrinth:oculus:$oculusVersion")
+        add(remappedRuntime.name, "maven.modrinth:$rendererProject:$rendererVersion")
+    }
 }
 
 // ========== Tasks ==========
 tasks {
+    oculusRuntimeVersions?.let {
+        val prepareOculusRun by registering {
+            val modsDirectory = layout.buildDirectory.dir("oculus-run/mods")
+            outputs.dir(modsDirectory)
+            doLast {
+                sync {
+                    from(oculusRuntime)
+                    into(modsDirectory)
+                }
+            }
+        }
+
+        matching { it.name == "runOculusClient" }.configureEach {
+            dependsOn(prepareOculusRun)
+        }
+    }
+
     mcpConfigManifest?.let { configuration ->
         withType<NeoFormRuntimeTask>().configureEach {
             addArtifactsToManifest(configuration)

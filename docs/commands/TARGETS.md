@@ -59,3 +59,20 @@ Better Than Adventure has its own release sequence, so these ports are listed se
 | 8.0.1 | Babric | `ports/bta-babric-8.0/gradlew -p ports/bta-babric-8.0 build` | `ports/bta-babric-8.0/gradlew -p ports/bta-babric-8.0 runClient` |
 
 See [JVM build groups](JVM_BUILDS.md) when building several targets together.
+
+## Oculus compatibility runs
+
+These isolated client profiles add Oculus and its required renderer to a
+separate run directory without changing the normal development client.
+Launch the Forge 1.16.5 wrapper with JDK 17. Launch the root Stonecutter
+wrapper and standalone NeoForge 1.20.1 wrapper with JDK 21 or newer. See
+[JVM build groups](JVM_BUILDS.md) for the corresponding environment variables.
+
+| Minecraft | Loader | Run client with Oculus |
+| --- | --- | --- |
+| 1.16.5 | Forge | `ports/1.16.5-forge/gradlew -p ports/1.16.5-forge runOculusClient` |
+| 1.18.2 | Forge | `./gradlew :1.18.2-forge:runOculusClient` |
+| 1.19.2 | Forge | `./gradlew :1.19.2-forge:runOculusClient` |
+| 1.19.4 | Forge | `./gradlew :1.19.4-forge:runOculusClient` |
+| 1.20.1 | Forge | `./gradlew :1.20.1-forge:runOculusClient` |
+| 1.20.1 | NeoForge | `ports/1.20.1-neoforge/gradlew -p ports/1.20.1-neoforge runOculusClient` |

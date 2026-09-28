@@ -40,6 +40,11 @@ legacyForge {
             gameDirectory = project.file('run')
             systemProperty 'forge.logging.console.level', 'debug'
         }
+        oculusClient {
+            client()
+            gameDirectory = project.layout.buildDirectory.dir('oculus-run')
+            systemProperty 'forge.logging.console.level', 'debug'
+        }
     }
 
     mods {
@@ -54,11 +59,32 @@ repositories {
         name = 'Sponge'
         url = 'https://repo.spongepowered.org/repository/maven-public/'
     }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
 }
+
+configurations {
+    oculusRuntime
+}
+
+obfuscation.createRemappingConfiguration(configurations.oculusRuntime)
 
 dependencies {
     compileOnly 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    modOculusRuntime 'maven.modrinth:oculus:1.20.1-1.8.0'
+    modOculusRuntime 'maven.modrinth:embeddium:0.3.31+mc1.20.1'
+}
+
+tasks.register('prepareOculusRun', Sync) {
+    from configurations.oculusRuntime
+    into layout.buildDirectory.dir('oculus-run/mods')
+}
+
+tasks.named('runOculusClient').configure {
+    dependsOn tasks.named('prepareOculusRun')
 }
 
 mixin {

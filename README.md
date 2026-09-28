@@ -62,6 +62,24 @@ The main project uses [Stonecutter](https://stonecutter.kikugie.dev/) and [Modst
 scripts/build-all-targets.sh
 ```
 
+To reproduce Oculus compatibility issues, run the matching profile from the
+repository root. The standalone Forge 1.16.5 wrapper requires JDK 17. The root
+Stonecutter wrapper and standalone NeoForge 1.20.1 wrapper require JDK 21 or
+newer as the Gradle runtime, regardless of the Java version used by Minecraft.
+
+```bash
+ports/1.16.5-forge/gradlew -p ports/1.16.5-forge runOculusClient
+./gradlew :1.18.2-forge:runOculusClient
+./gradlew :1.19.2-forge:runOculusClient
+./gradlew :1.19.4-forge:runOculusClient
+./gradlew :1.20.1-forge:runOculusClient
+ports/1.20.1-neoforge/gradlew -p ports/1.20.1-neoforge runOculusClient
+```
+
+Each profile downloads its pinned Oculus and Rubidium or Embeddium versions
+and uses an isolated `build/oculus-run` directory, so it does not modify the
+normal development client.
+
 Read [Building and running](docs/BUILDING.md) for prerequisites, source synchronization, and artifact locations. The [target command catalog](docs/commands/TARGETS.md) contains every build and run command in Minecraft version order. [Architecture](docs/ARCHITECTURE.md) explains the window hooks, configuration model, and platform behavior.
 
 ## Contributing
