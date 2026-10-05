@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 The JVM in these script names is the Java runtime that launches Gradle. It is distinct from the Java bytecode target of a mod jar. Gradle toolchains may compile a target with another installed JDK.
 
-Set either the matching GitHub Actions-style variable or `JAVA_HOME`, then run the group:
+Each script selects its matching `JAVA_HOME_<version>_X64` variable first. If unset, it uses `JAVA_HOME` when that points to the right major version, then searches installed JDKs under `~/.jdks`, `~/.gradle/jdks`, and `/usr/lib/jvm`.
 
 | Gradle JVM | Environment variable | Command | Contents |
 | ---: | --- | --- | --- |
@@ -15,6 +15,8 @@ Set either the matching GitHub Actions-style variable or `JAVA_HOME`, then run t
 | 17 | `JAVA_HOME_17_X64` | `scripts/build-jvm-17.sh` | Forge 1.16.5 and Babric b1.7.3 |
 | 21 | `JAVA_HOME_21_X64` | `scripts/build-jvm-21.sh` | BTA 8.0.1 |
 | 25 | `JAVA_HOME_25_X64` | `scripts/build-jvm-25.sh` | Stonecutter, NeoForge 1.20.1, and BTA 7.3 builds |
+
+The JDK 8 group skips the incomplete legacy Forge ports when their project directories are absent from the checkout.
 
 For example:
 
@@ -30,4 +32,4 @@ Build every group in the supported order:
 scripts/build-all-targets.sh --no-daemon
 ```
 
-The all-target script expects `JAVA_HOME_8_X64`, `JAVA_HOME_17_X64`, `JAVA_HOME_21_X64`, and `JAVA_HOME_25_X64`. Running the group scripts separately is useful for local troubleshooting and parallel CI jobs because a failure is isolated to one Gradle-runtime family.
+The all-target script uses the same selection for each group, so it works from a shell with all four JDKs installed without manually changing `JAVA_HOME` between builds. Set the version-specific variables when you need to override the detected paths. Running the group scripts separately is useful for local troubleshooting and parallel CI jobs because a failure is isolated to one Gradle-runtime family.
