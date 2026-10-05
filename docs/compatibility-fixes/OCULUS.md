@@ -20,10 +20,12 @@ that dependency combination.
 ## Cause
 
 Fullscreen Tweaks and Oculus both redirect the constructor call to
-`GLFW.glfwDefaultWindowHints()`. Both mixins originally used the default priority
-of 1000. Whichever redirect applied first removed the invocation targeted by the
-other redirect. When Fullscreen Tweaks won, Oculus found zero targets for a
-required injection and aborted class transformation.
+`GLFW.glfwDefaultWindowHints()`. Fullscreen Tweaks originally used the default
+mixin priority of 1000 and required its redirect to find one target. The first
+redirect to apply removes the invocation targeted by the second. If Fullscreen
+Tweaks applies first, Oculus's required injection can fail; if Oculus applies
+first, Fullscreen Tweaks' required injection can fail. Oculus's priority varies
+by release: the tested 1.20.1 Oculus 1.8.0 uses priority 1010.
 
 The development profiles must also remap the published Oculus and
 Rubidium/Embeddium jars from production SRG names to the named development
@@ -32,7 +34,7 @@ errors before the actual compatibility behavior can be tested.
 
 ## Resolution
 
-`WindowMixin` uses priority 900 so Oculus's priority-1000 redirect applies first.
+`WindowMixin` uses priority 900 so the known Oculus redirects apply first.
 The Fullscreen Tweaks redirect uses `require = 0`, allowing it to be skipped when
 another mod already owns that invocation. Fullscreen Tweaks still applies its
 window policy after creation and during later mode changes.
@@ -59,7 +61,7 @@ policy after window creation and on later mode changes.
 
 ### With Oculus
 
-Oculus's priority-1000 redirect runs first and Fullscreen Tweaks logs a warning
+Oculus's higher-priority redirect runs first and Fullscreen Tweaks logs a warning
 that its priority-900 redirect was skipped. This warning is expected and is not
 a partial mixin failure. Oculus can install its OpenGL debug-context hints and
 startup continues.
@@ -92,21 +94,31 @@ would incorrectly describe the runtime behavior.
 
 ### Target and binary scope
 
-The compatibility source change is compiled into every Stonecutter target
-because all of them share `WindowMixin`. Consequently, rebuilding any
-Stonecutter target produces a binary-different mixin class due to the priority
-annotation, even where the conflicting redirect is not compiled in.
+This table describes the Oculus compatibility change, separately from the
+subsequent 2.0.2 version bump. That bump changes artifact names and version
+metadata on maintained targets, but does not add another window compatibility
+change. All 28 Stonecutter targets compile the shared `WindowMixin`, so the
+priority annotation changes their mixin class even when the redirect is absent.
+Lowering the priority affects the whole mixin, not just its redirect.
 
-| Targets | Compiled behavior | Expected runtime consequence |
+| Targets | Change from the Oculus work | Effect |
 | --- | --- | --- |
-| Minecraft 1.14.4 through 1.21.11 Stonecutter targets | Lower mixin priority and optional GLFW redirect | Behavior is unchanged without a competing redirect; Oculus or another higher-priority owner can take the initial hint call. |
-| Minecraft 26.1.2, 26.2, and 26.3 snapshot Stonecutter targets | Lower mixin priority; these targets use the render-extractor window-hint injection instead of the redirect | Binary changes because the annotation changes, but this Oculus redirect conflict does not apply. No runtime behavior change is expected because the relevant injections target different calls. |
-| Minecraft 26.3 release Stonecutter targets | Lower priority on the no-op template mixin | Binary metadata changes, but the no-op mixin has no window hook, so no runtime behavior changes. |
-| Standalone projects under `ports/` | No source change from this compatibility fix | Their production mod binaries are unaffected. The added Oculus run profiles affect development runs only. |
+| **Forge 1.18.2, 1.19.2, 1.19.4, 1.20.1** (4 Stonecutter targets) | `WindowMixin` priority changes from 1000 to 900; its `glfwDefaultWindowHints()` redirect becomes optional with `require = 0`. Each target also gains an isolated Oculus client run profile. | Oculus can redirect the call first. Fullscreen Tweaks then skips only its initial hint redirect, logs an expected warning, and still applies the window policy after creation and on later mode changes. This avoids the documented startup failure mode; the same mechanism may help with another higher-priority redirect. |
+| **Forge 1.17.1** (1 Stonecutter target) | The same priority and optional redirect compile into the jar; no Oculus profile is configured. | Normal behavior is unchanged when the redirect applies. A higher-priority mod can own that call without causing Fullscreen Tweaks' optional injection to fail. There is no Oculus-specific benefit established for this target. |
+| **Fabric 1.14.4, 1.15.2, 1.16.5, 1.17.1, 1.18.2, 1.19.2, 1.19.4, 1.20.1, 1.20.6, 1.21.1, 1.21.11** (11 Stonecutter targets) | The same priority and optional redirect compile into each jar; no Oculus profile is configured. | This can help if another mod redirects the same GLFW call at higher priority. It does not establish an Iris regression or an Iris-specific fix; combinations that already worked should behave as before when this redirect still applies. |
+| **NeoForge 1.20.6, 1.21.1, 1.21.11** (3 Stonecutter targets) | The same priority and optional redirect compile into each jar; no Oculus profile is configured. | The potential benefit is limited to another mod taking the GLFW call first. Normal window behavior remains the same when there is no competing redirect. |
+| **Fabric and NeoForge 26.1.2 and 26.2; Fabric 26.3 snapshots 1–3** (7 Stonecutter targets) | Only `WindowMixin` priority changes. These targets inject their initial window hints after the rendering backend sets them; they do not compile the `glfwDefaultWindowHints()` redirect. | The jar's mixin class changes, and its injections may run after other mixins that retain priority 1000. The Oculus redirect conflict cannot occur through this hook, so no Oculus-specific runtime benefit is expected. |
+| **Fabric and NeoForge 26.3 release** (2 Stonecutter targets) | Only the priority of the template no-op `WindowMixin` changes; there is no GLFW redirect. | Mixin metadata differs, but the changed class has no active window hook. No runtime behavior change from this fix is expected. |
+| **Standalone Forge 1.16.5 and NeoForge 1.20.1** | Their production source does not use the shared redirect and is unchanged by this fix. Each build gains an isolated Oculus client run profile and pinned test dependencies. | The profiles make the combination reproducible in development. They do not add compatibility behavior to either distributed mod jar; an update to either port solely for this fix has no runtime benefit. |
+| **Standalone b1.7.3 Babric and BTA 7.3_04/8.0.1 Babric** | No production source or Oculus profile change. | No effect from the Oculus compatibility work. |
 
-The tested Oculus profiles cover the released Forge targets where Oculus is
-available. The priority change is intentionally shared so Fabric builds keep the
-same cooperative behavior if another mod redirects the same GLFW call.
+When a higher-priority mod takes the redirect on the first four groups,
+Fullscreen Tweaks does not set its earliest `GLFW_AUTO_ICONIFY` hint during
+native window creation.
+Fullscreen Tweaks still applies the configured value to the created window.
+The lower priority can also change ordering relative to other mods' mixins,
+so compatibility outside the tested Oculus combinations remains a potential
+benefit, not a verified fix for every mod.
 
 ## Reproduction profiles
 
